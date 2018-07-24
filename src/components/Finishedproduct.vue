@@ -191,7 +191,10 @@
                 tableData3: [],
               tableData4: [],
               multipleSelection: [],
+              multipleSelectionSet:"",
+              multipleSelectionListValue:[],
               multipleTableFishPrduct:[],
+              multipleSelectionListValuePrduct:[],
               sizeForm: {
                     name: '3.5G',
                     pim: '',
@@ -227,6 +230,8 @@
                 productInfo_row:"",
                 sortObj:{"order":"","order_column":""},
                 sortObjT:{"order":"","order_column":""},
+                upPag:1,
+                upPagDetal:1,
             }
             
         },
@@ -235,48 +240,59 @@
         },
         computed:{
             elTableBodyWrapperMaxHeight:function(){
-                console.log( this.screenHeight,this.screenHeight-60-50-40-72-40-60)
                 return this.screenHeight-60-50-40-72-40-60;
             }
         },
         methods: {
           handleSelectionChange(val) {
             this.multipleSelection = val;
-            console.log( this.multipleSelection)
           },
            handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
           },
           handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
-            if(val%2==0){
-                
-            }else{
-                
-            };
+            let lel=this.multipleSelection;
+            const self=this;
+            this.multipleSelectionListValue[this.upPag]=lel;
             this.obj.pagingParamEnyity.page_no=val-1;
+            this.upPag=val;
             this.searchList();
-            // console.log(this.multipleSelection)
-            // this.toggleSelection( this.multipleSelection)
+            setTimeout(function(){
+                if(self.multipleSelectionListValue[val]){
+                     self.multipleSelectionListValue[val].map((val)=>{
+                        self.tableData3.map((val3,index)=>{
+                           if(JSON.stringify(val) == JSON.stringify(val3)){
+                            //    self.toggleSelection([self.tableData3[index]]);
+                           } 
+                        });
+                });
+                }
+            },1000)
           },
           toggleSelection(rows) {
-             console.log(rows);
-                if (rows) {
-                rows.forEach(row => {
-                    this.$refs.multipleTable.toggleRowSelection(row);
-                });
+                if (rows) {               
+                    rows.forEach(row => {
+                        this.$refs.multipleTable.toggleRowSelection(row,true);
+                    });
                 } else {
-                this.$refs.multipleTable.clearSelection();
+                    this.$refs.multipleTable.clearSelection();
                 }
             },
           exportFile(){
-                console.log( this.multipleSelection);
                 const self=this;
+                 //type;//1.成品导出  2.部品导出  3.查看详情导出
+                const fileObj={"headList":[],"rowList":[],"export_all":true,
+                    "type":"1","productInfo":this.obj.productInfo,"search_context":this.obj.search_context,"ComponenteEmployInfo":""
+                    };
+                    if(this.searchedProcuct){
+                         fileObj.type=1;
+                    }else{
+                        fileObj.type=3;
+                    }
                 if((this.multipleSelection.length<=0&&this.searchedProcuct)||(this.multipleTableFishPrduct.length<=0&&!this.searchedProcuct) ){
                     // self.$message.error({message:'至少选择一个',duration:2000});
-                    console.log(this.searchedProcuct)
-                    const fileObj={"headList":[],"rowList":[],"export_all":true};
-                    console.log(this.searchedProcuct)
+                    fileObj.export_all=true;
                     this.$confirm('是否导出全部文件?', '提示', {
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',
@@ -294,13 +310,20 @@
                             }).catch(() => {
                                 this.$message({
                                     type: 'info',
-                                    message: '操作已删除'
+                                    message: '操作已取消'
                                 });          
                             });
                 }else{
-                    const fileObj={"headList":[],"rowList":[],"export_all":false};
+                    fileObj.export_all=false;
                     /* 例子 {"headList":["客户姓名", "证件类型", "日期"],"rowList":["张三","证件a","sss"]} */
-                    
+                   if(this.searchedProcuct){
+                        fileObj.rowList=this.multipleSelection;
+                    }else{
+                        fileObj.rowList=this.multipleTableFishPrduct
+                    }
+                    fileObj.rowList.map((val)=>{
+                         delete val["date_time_T"];
+                     });
                     api.exportFile_F_p(fileObj).then(function(res){
                         console.log(res)
                     }).catch(function(erro){
@@ -309,14 +332,15 @@
                 }
             },
           searchValue(){
+              this.obj=ObjInit;
                 if((this.inputSearch==""||this.inputSearch.replace(/\s+/g, "").length<=0)&&!this.showSearchList){
-                    this.$message.error('输入搜索内容');
+                    // this.$message.error('输入搜索内容');
+                     this.obj.productInfo=null;
                 }else{
-                    alert(this.inputSearch)
-                    this.obj=ObjInit;
-                    this.obj.search_context=this.inputSearch;
-                    this.getSearchValue()
+                    // alert(this.inputSearch)
                 };
+                this.obj.search_context=this.inputSearch;
+                    this.getSearchValue()
           },
           searchList(){
                 // this.searchedProcuct=!this.searchedProcuct;
@@ -329,7 +353,7 @@
                if(!this.obj.productInfo){
                    this.obj.productInfo=ObjInit.productInfo
                }
-               console.log(this.obj)
+        
                 this.obj.productInfo.item_id=this.sizeForm.name;//机种名
                 this.obj.productInfo.work_order_no=this.sizeForm.gd;//工单号
                 this.obj.productInfo.pim_id=this.sizeForm.no;
@@ -339,10 +363,13 @@
                 this.obj.productInfo.trace_no=this.sizeForm.trackNo;
                 this.obj.productInfo.product_serial_no=this.sizeForm.no;
                 this.obj.productInfo.product_batch_no=this.sizeForm.ph;
-                this.obj.pagingParamEnyity={"page_no":0,"order":"","order_column":""};
+                this.obj.pagingParamEnyity={"page_no":this.obj.pagingParamEnyity.page_no,"order":"","order_column":""};
                 // console.log(formatDate("2018-07-21","yyyy/MM/dd"))
-                this.obj.productInfo.date_time= [formatDate(this.sizeForm.date1,"yyyy/MM/dd"),formatDate(this.sizeForm.date2,"yyyy/MM/dd")];
-            //    api.postContentTest(this.obj).then(function(res){
+                this.obj.productInfo.date_time= formatDate(this.sizeForm.date1,"yyyy-MM-dd")+"@"+formatDate(this.sizeForm.date2,"yyyy-MM-dd");
+                if(this.obj.productInfo.date_time=="@"){
+                        this.obj.productInfo.date_time=null
+                    }
+          //    api.postContentTest(this.obj).then(function(res){
             //         // console.log(res)
             //         self.total=res.count_row;
             //     }).catch(function(erro){  
@@ -356,7 +383,7 @@
                 this.showSearchList=false;
                 this.productInfo_row=row;
                 this.sortObj={"order":"","order_column":""}
-                const obj={"productInfo":row,"detail_type":"1","pagingParamEnyity ":{"page_no":0,"order":"","order_column":""}}
+                const obj={"productInfo":row,"detail_type":"1","pagingParamEnyity":{"page_no":0,"order":"","order_column":""}}
                 const self=this;
             api.showModuleDetailForFin(obj).then(function(res){
                   self.total=res.count_row;
@@ -421,7 +448,7 @@
              this.getCBPM(val-1)
          },
          getCBPM(val){
-             const obj={"productInfo":this.productInfo_row,"detail_type":"","pagingParamEnyity ":{"page_no":val,"order":this.sortObjT.order,"order_column": this.sortObjT.order_column}}
+             const obj={"productInfo":this.productInfo_row,"detail_type":"","pagingParamEnyity":{"page_no":val,"order":this.sortObjT.order,"order_column": this.sortObjT.order_column}}
             const self=this;
               if(this.activeName2=="CB"){
                   obj.detail_type=1;
@@ -488,6 +515,7 @@
       created(){
           this.obj.search_context=null;
            this.obj.productInfo=null;
+           this.multipleSelectionSet=new Set();
          this.getSearchValue()
       }
 

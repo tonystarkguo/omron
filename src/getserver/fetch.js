@@ -17,7 +17,6 @@ axios.defaults.baseURL = baseUrl;  //配置接口地址
 // console.log(axios.defaults)
 axios.interceptors.request.use((config) => {
     //在发送请求之前做某件事
-    console.log(12345)
      loadingInstance = Loading.service({
           lock: true,
           text: 'Loading',

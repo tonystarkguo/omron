@@ -62,7 +62,7 @@
                 </el-table-column> -->
                  <el-table-column  type="index" width="50" label="序号"> </el-table-column>
                 <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column>                 -->
-               <el-table-column prop="item_id" align="left" label="机种名" width="120" sortable></el-table-column>                
+               <!-- <el-table-column prop="item_id" align="left" label="机种名" width="120" sortable></el-table-column>                 -->
                 <el-table-column prop="product_serial_no" align="left" label="序列号" width="120" sortable></el-table-column>
                 <el-table-column prop="cb_id" align="left" label="CB ID" width="120" sortable></el-table-column>
                 <el-table-column prop="pm_id" align="left" label="PM ID" width="120" sortable></el-table-column>
@@ -145,7 +145,7 @@
     //import someComponent from './someComponent'
     import {formatDate} from '../untils/dateUntil.js'
     import api from '../getserver/aip.js'
-     const ObjInit={"componenteEmployInfo":{"work_order_no":"","item_id":"","pim_id":"","cb_id":"","pm_id":"","ib_id":"","trace_no":"","product_serial_no":"","product_batch_no":"","date_time":""},
+     const ObjInit={"componenteEmployInfo":{"work_order_no":"","cb_id":"","pm_id":"","ib_id":"","trace_no":"","product_serial_no":"","product_batch_no":"","date_time":"","component_location":"","component_no":"","component_batch_no":"","component_count":"","start_time":"","remark":"","flow_no":"","product_process":"","pim_id":""},
                     "pagingParamEnyity":{"page_no":0,"order":"asc","order_column":""},
                     "search_context":""
                 };
@@ -176,7 +176,7 @@
                 radio2:1,
                 showSearchList:false,
                 searchedProcuct:true,
-                obj:{"componenteEmployInfo":{"work_order_no":"","item_id":"","pim_id":"","cb_id":"","pm_id":"","ib_id":"","trace_no":"","product_serial_no":"","product_batch_no":"","date_time":"","component_location":"","component_no":"","component_batch_no":"","component_count":"","start_time":"","remark":""},
+                obj:{"componenteEmployInfo":{"work_order_no":"","cb_id":"","pm_id":"","ib_id":"","trace_no":"","product_serial_no":"","product_batch_no":"","date_time":"","component_location":"","component_no":"","component_batch_no":"","component_count":"","start_time":"","remark":"","flow_no":"","product_process":"","pim_id":""},
                     "pagingParamEnyity":{"page_no":0,"order":"","order_column":""},
                     "search_context":""
                 },
@@ -232,10 +232,18 @@
             exportFile(){
                 console.log( this.multipleSelection);
                 const self=this;
+                 //type;//1.成品导出  2.部品导出  3.查看详情导出
+                const fileObj={"headList":[],"rowList":[],"export_all":true,
+                    "type":"1","componenteEmployInfo":"","search_context":this.obj.search_context,"ComponenteEmployInfo":this.obj.componenteEmployInfo
+                    };
+                    if(this.searchedProcuct){
+                         fileObj.type=2;
+                    }else{
+                        fileObj.type=3;
+                    }
                 if((this.multipleSelection.length<=0&&this.searchedProcuct)||(this.multipleTableFishPrduct.length<=0&&!this.searchedProcuct) ){
                     // self.$message.error({message:'至少选择一个',duration:2000});
-                    const fileObj={"headList":[],"rowList":[],"export_all":true};
-                    console.log(this.searchedProcuct)
+                  fileObj.export_all=true;
                     this.$confirm('是否导出全部文件?', '提示', {
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',
@@ -253,13 +261,21 @@
                             }).catch(() => {
                                 this.$message({
                                     type: 'info',
-                                    message: '操作已删除'
+                                    message: '操作已取消'
                                 });          
                             });
                 }else{
-                    const fileObj={"headList":[],"rowList":[],"export_all":false};
                     /* 例子 {"headList":["客户姓名", "证件类型", "日期"],"rowList":["张三","证件a","sss"]} */
+                    fileObj.export_all=false;
+                    if(this.searchedProcuct){
+                        fileObj.rowList=this.multipleSelection;
+                    }else{
+                        fileObj.rowList=this.multipleTableFishPrduct;
+                    }
                     
+                     fileObj.rowList.map((val)=>{
+                         delete val["date_time_T"];
+                     });
                     api.exportFile_F_p(fileObj).then(function(res){
                         console.log(res)
                     }).catch(function(erro){
@@ -268,14 +284,17 @@
                 }
             },
             searchValue(){
+                  this.obj=ObjInit;
                 if((this.inputSearch==""||this.inputSearch.replace(/\s+/g, "").length<=0)&&!this.showSearchList){
-                    this.$message.error('输入搜索内容');
+                    // this.$message.error('输入搜索内容');
+                    this.obj.componenteEmployInfo=null;
                 }else{
-                    alert(this.inputSearch)
-                    this.obj=ObjInit;
-                    this.obj.search_context=this.inputSearch;
-                    this.getSearchListValue()
+                  
+                  
+                    
                 }
+                this.obj.search_context=this.inputSearch;
+                this.getSearchListValue()
             },
             searchList(){
                 // this.searchedProcuct=false;
@@ -291,7 +310,10 @@
                     }
                     this.obj.componenteEmployInfo.product_batch_no=this.sizeForm.ph;
                     this.obj.componenteEmployInfo.pm_id=this.sizeForm.pimid;
-                    this.obj.componenteEmployInfo.date_time= [formatDate(this.sizeForm.date1,"yyyy/MM/dd"),formatDate(this.sizeForm.date2,"yyyy/MM/dd")];
+                    this.obj.componenteEmployInfo.date_time= formatDate(this.sizeForm.date1,"yyyy-MM-dd")+"@"+formatDate(this.sizeForm.date2,"yyyy-MM-dd");
+                    if(this.obj.componenteEmployInfo.date_time=="@"){
+                        this.obj.componenteEmployInfo.date_time=null
+                    }
                     this.getSearchListValue();
                 // }
                
@@ -304,7 +326,7 @@
                  this.sortObj={"order":"","order_column":""}
                 this.productInfo_row=row;
                 const self=this;
-                const obj={"productInfo":row,"detail_type":"1","pagingParamEnyity ":{"page_no":0,"order":"","order_column":""}}
+                const obj={"componenteEmployInfo":row,"detail_type":"1","pagingParamEnyity":{"page_no":0,"order":"","order_column":""}}
                  api.showModuleDetailForMin(obj).then(function(res){
                      console.log(res)
                     self.total=res.count_row;
@@ -331,7 +353,7 @@
                 console.log(res)
                 self.total=res.count_row;
                 res.componenteEmployInfo.map((val)=>{
-                    val.item_id="3.5G";
+                    // val.item_id="3.5G";
                     val.date_time_T=formatDate(new Date(parseInt(val.date_time)) ,"yyyy-MM-dd");
                     // console.log(new Date(parseInt(val.date_time)))
                 })
@@ -370,7 +392,7 @@
              this.getCBPM(val-1)
          },
          getCBPM(val){
-            const obj={"productInfo":this.productInfo_row,"detail_type":"","pagingParamEnyity ":{"page_no":val,"order":this.sortObjT.order,"order_column": this.sortObjT.order_column}}
+            const obj={"componenteEmployInfo":this.productInfo_row,"detail_type":"","pagingParamEnyity":{"page_no":val,"order":this.sortObjT.order,"order_column": this.sortObjT.order_column}}
             const self=this;
               if(this.activeName2=="CB"){
                 obj.detail_type=1
@@ -383,7 +405,7 @@
                  console.log(res)
                   self.totalForCb=res.count_row;//总页数
                 self.tableData4=res.componenteEmployInfo;
-                res.productInfo.map((val)=>{
+                res.componenteEmployInfo.map((val)=>{
                     val.date_time_T=formatDate(new Date(parseInt(val.date_time)) ,"yyyy-MM-dd");
                     // console.log(new Date(parseInt(val.date_time)))
                 })
