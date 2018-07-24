@@ -6,8 +6,8 @@
             <div slot="header" class="clearfix" style="min-height:36px;">
                 <el-button  size="medium" style="float: left;clear: both;" v-if="!searchedProcuct" @click="backUppag">返回</el-button>
               <el-button size="medium" style="float: left;" @click="exportFile">导出</el-button>
-              <el-input v-if="!showSearchList" placeholder="请输入内容" v-model="inputSearch" size="medium" prefix-icon="el-icon-search"  @keyup.enter.native="searchValue">              </el-input>
-              <el-button v-if="!showSearchList" @click="showSearchList=!showSearchList" size="medium" style="float: right;">高级搜索</el-button>
+              <el-input v-if="!showSearchList&&searchedProcuct" placeholder="请输入内容" v-model="inputSearch" size="medium" prefix-icon="el-icon-search"  @keyup.enter.native="searchValue">              </el-input>
+              <el-button v-if="!showSearchList&&searchedProcuct" @click="showSearchList=!showSearchList" size="medium" style="float: right;">高级搜索</el-button>
                 <el-button v-if="showSearchList" size="medium" style="float: right;" @click="searchList">搜索</el-button>
               <el-button v-if="showSearchList" size="medium" style="float: right;" @click="showSearchList=!showSearchList">收起</el-button>
             <span style="clear: both;"></span>
@@ -26,7 +26,7 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="6" :push="3">
-                            <el-form-item label="序列号">
+                            <el-form-item label="成品序列号">
                                 <el-input v-model="sizeForm.no"></el-input>
                             </el-form-item>
                         </el-col>
@@ -56,7 +56,7 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="6" :offset="3">
-                            <el-form-item label="批号">
+                            <el-form-item label="成品批号">
                                 <el-input v-model="sizeForm.ph"></el-input>
                             </el-form-item>
                         </el-col>
@@ -103,7 +103,7 @@
                 <!-- <el-table-column label="日期" width="120" align="left">
                   <template slot-scope="scope">{{ scope.row.date }}</template>
                 </el-table-column> -->
-                    <el-table-column  type="index" width="50" label="序号"> </el-table-column>
+                    <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
                     <el-table-column prop="work_order_no" align="left" label="工单号" sortable show-overflow-tooltip></el-table-column>                                   
                     <el-table-column prop="item_id" align="left" label="机种名" width="120" sortable></el-table-column>
@@ -112,7 +112,7 @@
                     <el-table-column prop="pm_id" align="left" label="PMID" width="120" sortable></el-table-column>
                     <el-table-column prop="trace_no" align="left" label="TRACE NO" width="120" sortable></el-table-column>
                     <el-table-column prop="product_serial_no" align="left" label="序列号" width="120" sortable></el-table-column>
-                    <el-table-column prop="product_batch_no" align="left" label="批号" width="120" sortable></el-table-column>
+                    <el-table-column prop="product_batch_no" align="left" label="部品批号" width="120" sortable></el-table-column>
                     <el-table-column prop="date_time_T" align="left" label="生产时间" width="120" sortable></el-table-column>
 
                  <el-table-column fixed="right" label="操作" width="100">
@@ -133,11 +133,11 @@
               <el-table v-if="!searchedProcuct" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
                     <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
-                    <el-table-column  type="index" width="50" label="序号" sortable> </el-table-column>
-                    <el-table-column prop="production_process" align="left" label="工序" width="120" sortable></el-table-column>
+                    <!-- <el-table-column  type="index" width="50" label="序号" sortable> </el-table-column> -->
+                    <el-table-column prop="production_process" align="left" label="生产工序" width="120" sortable></el-table-column>
                     <el-table-column prop="component_no" align="left" label="部品品番" width="120" sortable></el-table-column>
-                    <el-table-column prop="component_location" align="left" label="位置" width="120" sortable></el-table-column>
-                    <el-table-column prop="product_batch_no" align="left" label="批号" width="120" sortable></el-table-column>
+                    <el-table-column prop="component_location" align="left" label="部品位置" width="120" sortable></el-table-column>
+                    <el-table-column prop="product_batch_no" align="left" label="部品批号" width="120" sortable></el-table-column>
                     
                    
                </el-table>
@@ -356,7 +356,7 @@
         
                 this.obj.productInfo.item_id=this.sizeForm.name;//机种名
                 this.obj.productInfo.work_order_no=this.sizeForm.gd;//工单号
-                this.obj.productInfo.pim_id=this.sizeForm.no;
+                this.obj.productInfo.pim_id=this.sizeForm.pim;
                 this.obj.productInfo.cb_id=this.sizeForm.cbid;
                 this.obj.productInfo.pm_id=this.sizeForm.pimid;
                 // this.obj.ib_id=this.name;
@@ -385,6 +385,7 @@
                 this.sortObj={"order":"","order_column":""}
                 const obj={"productInfo":row,"detail_type":"1","pagingParamEnyity":{"page_no":0,"order":"","order_column":""}}
                 const self=this;
+                delete obj.productInfo.date_time_T;
             api.showModuleDetailForFin(obj).then(function(res){
                   self.total=res.count_row;
                 self.tableData4=res.productInfo;
@@ -456,6 +457,9 @@
                   obj.detail_type=2;
              }else{
                   obj.detail_type=2;
+             }
+              if(this.productInfo_row){
+                 delete  this.productInfo_row["date_time_T"];
              }
              api.showModuleDetailForFin(obj).then(function(res){
                   self.totalForCb=res.count_row;//总页数

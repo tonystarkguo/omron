@@ -5,8 +5,8 @@
           <div slot="header" class="clearfix" style="min-height:36px;">
                 <el-button  size="medium" style="float: left;clear: both;" v-if="!searchedProcuct" @click="backUppag">返回</el-button>
               <el-button size="medium" style="float: left;" @click="exportFile">导出</el-button>
-              <el-input v-if="!showSearchList" placeholder="请输入内容" v-model="inputSearch" size="medium" prefix-icon="el-icon-search"  @keyup.enter.native="searchValue">              </el-input>
-              <el-button v-if="!showSearchList" @click="showSearchList=!showSearchList" size="medium" style="float: right;">高级搜索</el-button>
+              <el-input v-if="!showSearchList&&searchedProcuct" placeholder="请输入内容" v-model="inputSearch" size="medium" prefix-icon="el-icon-search"  @keyup.enter.native="searchValue">              </el-input>
+              <el-button v-if="!showSearchList&&searchedProcuct" @click="showSearchList=!showSearchList" size="medium" style="float: right;">高级搜索</el-button>
                 <el-button v-if="showSearchList" size="medium" style="float: right;" @click="searchList">搜索</el-button>
               <el-button v-if="showSearchList" size="medium" style="float: right;" @click="showSearchList=!showSearchList">收起</el-button>
             <span style="clear: both;"></span>
@@ -60,7 +60,7 @@
                 <!-- <el-table-column label="日期" width="120" align="left">
                   <template slot-scope="scope">{{ scope.row.date }}</template>
                 </el-table-column> -->
-                 <el-table-column  type="index" width="50" label="序号"> </el-table-column>
+                 <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
                 <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column>                 -->
                <!-- <el-table-column prop="item_id" align="left" label="机种名" width="120" sortable></el-table-column>                 -->
                 <el-table-column prop="product_serial_no" align="left" label="序列号" width="120" sortable></el-table-column>
@@ -93,11 +93,11 @@
               <el-table v-if="!searchedProcuct" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :min-height="200"  :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChange">
                     <el-table-column  prop="date" type="selection" width="55" align="center" fixed> </el-table-column>
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
-                    <el-table-column  type="index" width="50" label="序号"> </el-table-column>
-                    <el-table-column prop="production_process" align="left" label="工序" width="120" sortable></el-table-column>
+                    <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
+                    <el-table-column prop="production_process" align="left" label="部品工序" width="120" sortable></el-table-column>
                     <el-table-column prop="component_no" align="left" label="部品品番" width="120" sortable></el-table-column>
-                    <el-table-column prop="component_location" align="left" label="位置" width="120" sortable></el-table-column>
-                    <el-table-column prop="component_batch_no" align="left" label="批号" width="120" sortable></el-table-column>
+                    <el-table-column prop="component_location" align="left" label="部品位置" width="120" sortable></el-table-column>
+                    <el-table-column prop="component_batch_no" align="left" label="部品批号" width="120" sortable></el-table-column>
                     
                    
                     <!-- <el-table-column prop="work_order_no" align="left" label="工单号"  show-overflow-tooltip></el-table-column>                
@@ -308,7 +308,8 @@
                     if(!this.obj.componenteEmployInfo){
                             this.obj.componenteEmployInfo=ObjInit.componenteEmployInfo;
                     }
-                    this.obj.componenteEmployInfo.product_batch_no=this.sizeForm.ph;
+                    this.obj.componenteEmployInfo.component_no=this.sizeForm.minsPro
+                    this.obj.componenteEmployInfo.component_batch_no=this.sizeForm.ph;
                     this.obj.componenteEmployInfo.pm_id=this.sizeForm.pimid;
                     this.obj.componenteEmployInfo.date_time= formatDate(this.sizeForm.date1,"yyyy-MM-dd")+"@"+formatDate(this.sizeForm.date2,"yyyy-MM-dd");
                     if(this.obj.componenteEmployInfo.date_time=="@"){
@@ -327,6 +328,7 @@
                 this.productInfo_row=row;
                 const self=this;
                 const obj={"componenteEmployInfo":row,"detail_type":"1","pagingParamEnyity":{"page_no":0,"order":"","order_column":""}}
+                 delete obj.componenteEmployInfo.date_time_T;
                  api.showModuleDetailForMin(obj).then(function(res){
                      console.log(res)
                     self.total=res.count_row;
@@ -401,6 +403,10 @@
              }else{
                   obj.detail_type=3
              }
+             if(this.productInfo_row){
+                 delete  this.productInfo_row["date_time_T"];
+             }
+            
              api.showModuleDetailForMin(obj).then(function(res){
                  console.log(res)
                   self.totalForCb=res.count_row;//总页数
