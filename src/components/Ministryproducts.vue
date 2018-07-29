@@ -67,7 +67,7 @@
                 <el-table-column prop="cb_id" align="left" label="CB ID" width="120" sortable></el-table-column>
                 <el-table-column prop="pm_id" align="left" label="PM ID" width="120" sortable></el-table-column>
                 <el-table-column prop="trace_no" align="left" label="TRACE NO" width="120" sortable></el-table-column>
-                <el-table-column prop="work_order_no" align="left" label="工单号"  show-overflow-tooltip></el-table-column>                
+                <el-table-column prop="work_order_no" align="left" label="工单号"  width="120" sortable></el-table-column>                
                 <el-table-column prop="component_batch_no" align="left" label="批号" width="120" sortable></el-table-column>
                 <el-table-column prop="date_time_T" align="left" label="生产时间" width="120" sortable></el-table-column>
                 
@@ -145,7 +145,7 @@
     //import someComponent from './someComponent'
     import {formatDate} from '../untils/dateUntil.js'
     import api from '../getserver/aip.js'
-     const ObjInit={"componenteEmployInfo":{"work_order_no":"","cb_id":"","pm_id":"","ib_id":"","trace_no":"","product_serial_no":"","product_batch_no":"","date_time":"","component_location":"","component_no":"","component_batch_no":"","component_count":"","start_time":"","remark":"","flow_no":"","product_process":"","pim_id":""},
+     const ObjInit={"componenteEmployInfo":{"work_order_no":"","cb_id":"","pm_id":"","ib_id":"","trace_no":"","product_serial_no":"","product_batch_no":"","date_time":"","component_location":"","component_no":"","component_batch_no":"","component_count":"","start_time":"","remark":"","flow_no":"","production_process":"","pim_id":""},
                     "pagingParamEnyity":{"page_no":0,"order":"asc","order_column":""},
                     "search_context":""
                 };
@@ -154,7 +154,7 @@
         data() {
             return {
                 msg: "Hello Vue.js",
-                total:100,
+                total:0,
                 pageSize:20,
                 currentPage:1,
                inputSearch:'',
@@ -176,7 +176,7 @@
                 radio2:1,
                 showSearchList:false,
                 searchedProcuct:true,
-                obj:{"componenteEmployInfo":{"work_order_no":"","cb_id":"","pm_id":"","ib_id":"","trace_no":"","product_serial_no":"","product_batch_no":"","date_time":"","component_location":"","component_no":"","component_batch_no":"","component_count":"","start_time":"","remark":"","flow_no":"","product_process":"","pim_id":""},
+                obj:{"componenteEmployInfo":{"work_order_no":"","cb_id":"","pm_id":"","ib_id":"","trace_no":"","product_serial_no":"","product_batch_no":"","date_time":"","component_location":"","component_no":"","component_batch_no":"","component_count":"","start_time":"","remark":"","flow_no":"","production_process":"","pim_id":""},
                     "pagingParamEnyity":{"page_no":0,"order":"","order_column":""},
                     "search_context":""
                 },
@@ -191,10 +191,10 @@
                 COVER_List:[],
                 currentPageForCb:1,//当前页码
                 pageSizeForCb:20,//单页显示数据
-                totalForCb:100,//总页数
-                productInfo_row:"",
-                sortObj:{"order":"","order_column":""},
-                sortObjT:{"order":"","order_column":""},
+                totalForCb:0,//总页数
+                productInfo_row:null,
+                sortObj:{"order":null,"order_column":null},
+                sortObjT:{"order":null,"order_column":null},
             }
         },
         component: {
@@ -233,13 +233,23 @@
                 console.log( this.multipleSelection);
                 const self=this;
                  //type;//1.成品导出  2.部品导出  3.查看详情导出
-                const fileObj={"headList":[],"rowList":[],"export_all":true,
-                    "type":"1","componenteEmployInfo":"","search_context":this.obj.search_context,"ComponenteEmployInfo":this.obj.componenteEmployInfo
+                const fileObj={"headList":[],"componenteEmployInfoList":null,"productInfoList":null,"export_all":true,
+                    "type":"1","search_context":this.obj.search_context,"componenteEmployInfo":this.productInfo_row,"productInfo":null,
+                    "detail_type":null,
                     };
                     if(this.searchedProcuct){
                          fileObj.type=2;
+                         fileObj.headList=["序列号","CB ID","PM ID","TRACE NO","工单号","批号","生产时间"]
                     }else{
                         fileObj.type=3;
+                        fileObj.headList=["部品工序","部品品番","部品位置","部品批号"];
+                         if(this.activeName2=="CB"){
+                            fileObj.detail_type=1;
+                        }else if(this.activeName2=="PM"){
+                            fileObj.detail_type=2;
+                        }else{
+                            fileObj.detail_type=3;
+                        }
                     }
                 if((this.multipleSelection.length<=0&&this.searchedProcuct)||(this.multipleTableFishPrduct.length<=0&&!this.searchedProcuct) ){
                     // self.$message.error({message:'至少选择一个',duration:2000});
@@ -268,14 +278,17 @@
                     /* 例子 {"headList":["客户姓名", "证件类型", "日期"],"rowList":["张三","证件a","sss"]} */
                     fileObj.export_all=false;
                     if(this.searchedProcuct){
-                        fileObj.rowList=this.multipleSelection;
-                    }else{
-                        fileObj.rowList=this.multipleTableFishPrduct;
-                    }
-                    
-                     fileObj.rowList.map((val)=>{
+                        fileObj.componenteEmployInfoList=this.multipleSelection;
+                         fileObj.componenteEmployInfoList.map((val)=>{
                          delete val["date_time_T"];
                      });
+                    }else{
+                        fileObj.componenteEmployInfoList=this.multipleTableFishPrduct;
+                        fileObj.componenteEmployInfoList.map((val)=>{
+                         delete val["date_time_T"];
+                     });
+                    }
+                    
                     api.exportFile_F_p(fileObj).then(function(res){
                         console.log(res)
                     }).catch(function(erro){
@@ -305,9 +318,11 @@
                 // }else{
                      this.showSearchList=false;
                     this.obj.search_context="";
-                    if(!this.obj.componenteEmployInfo){
-                            this.obj.componenteEmployInfo=ObjInit.componenteEmployInfo;
+                    if(this.obj.componenteEmployInfo==null){
+                            this.obj.componenteEmployInfo={"work_order_no":"","cb_id":"","pm_id":"","ib_id":"","trace_no":"","product_serial_no":"","product_batch_no":"","date_time":"","component_location":"","component_no":"","component_batch_no":"","component_count":"","start_time":"","remark":"","flow_no":"","production_process":"","pim_id":""}
                     }
+                    console.log()
+                    console.log(this.obj.componenteEmployInfo ==null)
                     this.obj.componenteEmployInfo.component_no=this.sizeForm.minsPro
                     this.obj.componenteEmployInfo.component_batch_no=this.sizeForm.ph;
                     this.obj.componenteEmployInfo.pm_id=this.sizeForm.pimid;
@@ -324,7 +339,7 @@
                 // this.radio2=2;
                 this.searchedProcuct=false;
                 this.showSearchList=false;
-                 this.sortObj={"order":"","order_column":""}
+                 this.sortObj={"order":null,"order_column":null}
                 this.productInfo_row=row;
                 const self=this;
                 const obj={"componenteEmployInfo":row,"detail_type":"1","pagingParamEnyity":{"page_no":0,"order":"","order_column":""}}
@@ -335,7 +350,8 @@
                     self.tableData4=res.componenteEmployInfo;
                     console.log(res.componenteEmployInfo)
                     res.componenteEmployInfo.map((val)=>{
-                        val.date_time_T=formatDate(new Date(parseInt(val.date_time)) ,"yyyy-MM-dd");
+                        console.log(val.date_time)
+                        val.date_time_T=formatDate(new Date(val.date_time).replace(/-/g, "/") ,"yyyy-MM-dd");
                         // console.log(new Date(parseInt(val.date_time)))
                     })
 
@@ -356,7 +372,7 @@
                 self.total=res.count_row;
                 res.componenteEmployInfo.map((val)=>{
                     // val.item_id="3.5G";
-                    val.date_time_T=formatDate(new Date(parseInt(val.date_time)) ,"yyyy-MM-dd");
+                    val.date_time_T=formatDate(new Date(val.date_time.replace(/-/g, "/")) ,"yyyy-MM-dd");
                     // console.log(new Date(parseInt(val.date_time)))
                 })
                 let set1=new Set(res.componenteEmployInfo);
@@ -412,7 +428,7 @@
                   self.totalForCb=res.count_row;//总页数
                 self.tableData4=res.componenteEmployInfo;
                 res.componenteEmployInfo.map((val)=>{
-                    val.date_time_T=formatDate(new Date(parseInt(val.date_time)) ,"yyyy-MM-dd");
+                    val.date_time_T=formatDate(new Date((val.date_time.replace(/-/g, "/"))) ,"yyyy-MM-dd");
                     // console.log(new Date(parseInt(val.date_time)))
                 })
 

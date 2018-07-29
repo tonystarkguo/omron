@@ -1,9 +1,14 @@
 let baseUrl="";
 import { Loading } from 'element-ui';
+function getRootPath() {
+        var pathName = window.location.pathname.substring(1);
+        var webName = pathName == '' ? '' : pathName.substring(0, pathName.indexOf('/'));
+        return window.location.protocol + '//' + window.location.host + '/' + webName
+} 
 if (process.env.NODE_ENV == 'development'){
     baseUrl ="/apis/extend/"
 } else if (process.env.NODE_ENV == 'production'){
-    baseUrl = "https://"+window.location.host+ "/extend/"
+    baseUrl = getRootPath();
 }
 export{
     baseUrl
