@@ -111,8 +111,8 @@
                     <el-table-column prop="cb_id" align="left" label="CBID" width="120" sortable></el-table-column>
                     <el-table-column prop="pm_id" align="left" label="PMID" width="120" sortable></el-table-column>
                     <el-table-column prop="trace_no" align="left" label="TRACE NO" width="120" sortable></el-table-column>
-                    <el-table-column prop="product_serial_no" align="left" label="序列号" width="120" sortable></el-table-column>
-                    <el-table-column prop="product_batch_no" align="left" label="部品批号" width="120" sortable></el-table-column>
+                    <el-table-column prop="product_serial_no" align="left" label="成品序列号" width="120" sortable></el-table-column>
+                    <el-table-column prop="product_batch_no" align="left" label="成品批号" width="120" sortable></el-table-column>
                     <el-table-column prop="date_time_T" align="left" label="生产时间" width="120" sortable></el-table-column>
 
                  <el-table-column fixed="right" label="操作" width="100">
@@ -289,7 +289,7 @@
                     };
                     if(this.searchedProcuct){
                          fileObj.type=1;
-                         fileObj.headList=["工单号","机种名","PIM 品番","CB ID ","PM ID","TRACE NO","序列号","部品批号","生产时间"]
+                         fileObj.headList=["工单号","机种名","PIM 品番","CB ID ","PM ID","TRACE NO","成品序列号","部品批号","生产时间"]
             
                     }else{
                         fileObj.type=3;

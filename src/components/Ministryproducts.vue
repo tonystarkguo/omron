@@ -63,12 +63,12 @@
                  <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
                 <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column>                 -->
                <!-- <el-table-column prop="item_id" align="left" label="机种名" width="120" sortable></el-table-column>                 -->
-                <el-table-column prop="product_serial_no" align="left" label="序列号" width="120" sortable></el-table-column>
+                <el-table-column prop="product_serial_no" align="left" label="成品序列号" width="120" sortable></el-table-column>
                 <el-table-column prop="cb_id" align="left" label="CB ID" width="120" sortable></el-table-column>
                 <el-table-column prop="pm_id" align="left" label="PM ID" width="120" sortable></el-table-column>
                 <el-table-column prop="trace_no" align="left" label="TRACE NO" width="120" sortable></el-table-column>
                 <el-table-column prop="work_order_no" align="left" label="工单号"  width="120" sortable></el-table-column>                
-                <el-table-column prop="component_batch_no" align="left" label="批号" width="120" sortable></el-table-column>
+                <el-table-column prop="component_batch_no" align="left" label="成品批号" width="120" sortable></el-table-column>
                 <el-table-column prop="date_time_T" align="left" label="生产时间" width="120" sortable></el-table-column>
                 
                 <!-- <el-table-column prop="" align="left" label="成品批号" width="120" sortable></el-table-column>
@@ -239,7 +239,7 @@
                     };
                     if(this.searchedProcuct){
                          fileObj.type=2;
-                         fileObj.headList=["序列号","CB ID","PM ID","TRACE NO","工单号","批号","生产时间"]
+                         fileObj.headList=["成品序列号","CB ID","PM ID","TRACE NO","工单号","成品批号","生产时间"]
                     }else{
                         fileObj.type=3;
                         fileObj.headList=["部品工序","部品品番","部品位置","部品批号"];
