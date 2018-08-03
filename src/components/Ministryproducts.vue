@@ -25,7 +25,7 @@
                             </el-form-item>
                         </el-col> -->
                         <el-col :span="6" :offset="3">
-                            <el-form-item label="批号">
+                            <el-form-item label="部品批号">
                                 <el-input v-model="sizeForm.ph"></el-input>
                             </el-form-item>
                         </el-col>
@@ -68,7 +68,7 @@
                 <el-table-column prop="pm_id" align="left" label="PM ID" width="120" sortable></el-table-column>
                 <el-table-column prop="trace_no" align="left" label="TRACE NO" width="120" sortable></el-table-column>
                 <el-table-column prop="work_order_no" align="left" label="工单号"  width="120" sortable></el-table-column>                
-                <el-table-column prop="component_batch_no" align="left" label="成品批号" width="120" sortable></el-table-column>
+                <el-table-column prop="product_batch_no" align="left" label="成品批号" width="120" sortable></el-table-column>
                 <el-table-column prop="date_time_T" align="left" label="生产时间" width="120" sortable></el-table-column>
                 
                 <!-- <el-table-column prop="" align="left" label="成品批号" width="120" sortable></el-table-column>
@@ -94,7 +94,7 @@
                     <el-table-column  prop="date" type="selection" width="55" align="center" fixed> </el-table-column>
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
-                    <el-table-column prop="production_process" align="left" label="部品工序" width="120" sortable></el-table-column>
+                    <el-table-column prop="process_name" align="left" label="生产工序" width="120" sortable></el-table-column>
                     <el-table-column prop="component_no" align="left" label="部品品番" width="120" sortable></el-table-column>
                     <el-table-column prop="component_location" align="left" label="部品位置" width="120" sortable></el-table-column>
                     <el-table-column prop="component_batch_no" align="left" label="部品批号" width="120" sortable></el-table-column>
@@ -116,7 +116,7 @@
                     <el-button @click="toggleSelection()">取消选择</el-button>
               </div> -->
             </div>
-            <div class="block"  v-if="searchedProcuct">
+            <div class="block"  v-show="searchedProcuct">
               <!-- <span class="demonstration">直接前往</span> -->
               <el-pagination
                 @size-change="handleSizeChange"
@@ -128,7 +128,7 @@
               </el-pagination>
             </div>
             <!-- 部品信息 cb mb cover -->
-             <div class="block" v-if="!searchedProcuct">
+             <div class="block" v-show="!searchedProcuct">
               <el-pagination
                 @current-change="handleCurrentChangeForCb"
                 :current-page.sync="currentPageForCb"
@@ -242,7 +242,7 @@
                          fileObj.headList=["成品序列号","CB ID","PM ID","TRACE NO","工单号","成品批号","生产时间"]
                     }else{
                         fileObj.type=3;
-                        fileObj.headList=["部品工序","部品品番","部品位置","部品批号"];
+                        fileObj.headList=["生产工序","部品品番","部品位置","部品批号"];
                          if(this.activeName2=="CB"){
                             fileObj.detail_type=1;
                         }else if(this.activeName2=="PM"){
@@ -260,10 +260,13 @@
                             type: 'warning'
                             }).then(() => {
                                  api.exportFile_F_p(fileObj).then(function(res){
-                                    console.log(res)
+                                   const obj={uuid:res.uuid}
+                                    api.exportFile_F_p_Ajax(obj)
                                 }).catch(function(erro){
                                     self.$message.error(erro);
                                 })
+                                console.log($)
+                                
                                 this.$message({
                                     type: 'success',
                                     message: '正在导出!'
@@ -290,7 +293,8 @@
                     }
                     
                     api.exportFile_F_p(fileObj).then(function(res){
-                        console.log(res)
+                       const obj={uuid:res.uuid}
+                         api.exportFile_F_p_Ajax(obj)
                     }).catch(function(erro){
                          self.$message.error(erro);
                     })
@@ -346,12 +350,12 @@
                  delete obj.componenteEmployInfo.date_time_T;
                  api.showModuleDetailForMin(obj).then(function(res){
                      console.log(res)
-                    self.total=res.count_row;
+                    self.totalForCb=res.count_row;
                     self.tableData4=res.componenteEmployInfo;
                     console.log(res.componenteEmployInfo)
                     res.componenteEmployInfo.map((val)=>{
                         console.log(val.date_time)
-                        val.date_time_T=formatDate(new Date(val.date_time).replace(/-/g, "/") ,"yyyy-MM-dd");
+                        // val.date_time_T=formatDate(new Date(val.date_time).replace(/-/g, "/") ,"yyyy-MM-dd");
                         // console.log(new Date(parseInt(val.date_time)))
                     })
 
@@ -428,7 +432,7 @@
                   self.totalForCb=res.count_row;//总页数
                 self.tableData4=res.componenteEmployInfo;
                 res.componenteEmployInfo.map((val)=>{
-                    val.date_time_T=formatDate(new Date((val.date_time.replace(/-/g, "/"))) ,"yyyy-MM-dd");
+                    // val.date_time_T=formatDate(new Date((val.date_time.replace(/-/g, "/"))) ,"yyyy-MM-dd");
                     // console.log(new Date(parseInt(val.date_time)))
                 })
 

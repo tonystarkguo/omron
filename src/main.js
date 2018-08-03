@@ -7,6 +7,7 @@ import ElementUI from 'element-ui';
 import "babel-polyfill"
 import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';
+import $ from 'jquery'
 // import axios from 'axios';
 // Vue.prototype.$ajax = axios;
 Vue.use(ElementUI);

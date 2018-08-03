@@ -14,6 +14,16 @@ export{
     baseUrl
 }
 import axios from 'axios'
+
+const downloadUrl = url => {
+    let iframe = document.createElement('iframe')
+    iframe.style.display = 'none'
+    iframe.src = url
+    iframe.onload = function () {
+        document.body.removeChild(iframe)
+    }
+    document.body.appendChild(iframe)
+}
 let loadingInstance ="";
 axios.defaults.timeout = 100000;            //响应时间
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';      //配置请求头
@@ -44,6 +54,7 @@ axios.interceptors.request.use((config) => {
 });
 //返回状态判断(添加响应拦截器)
 axios.interceptors.response.use((res) => {
+    /* 下载 */
     //对响应数据做些事
     if (!!res.data.erro) {
         // _.toast(res.data.msg);

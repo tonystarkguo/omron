@@ -134,10 +134,10 @@
                     <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号" sortable> </el-table-column> -->
-                    <el-table-column prop="production_process" align="left" label="生产工序" width="120" sortable></el-table-column>
+                    <el-table-column prop="process_name" align="left" label="生产工序" width="120" sortable></el-table-column>
                     <el-table-column prop="component_no" align="left" label="部品品番" width="120" sortable></el-table-column>
                     <el-table-column prop="component_location" align="left" label="部品位置" width="120" sortable></el-table-column>
-                    <el-table-column prop="product_batch_no" align="left" label="部品批号" width="120" sortable></el-table-column>
+                    <el-table-column prop="component_batch_no" align="left" label="部品批号" width="120" sortable></el-table-column>
                     
                    
                </el-table>
@@ -146,7 +146,7 @@
                     <el-button @click="toggleSelection()">取消选择</el-button>
               </div> -->
             </div>
-            <div class="block" v-if="searchedProcuct">
+            <div class="block" v-show="searchedProcuct">
               <!-- <span class="demonstration">直接前往</span> -->
               <el-pagination
                 @size-change="handleSizeChange"
@@ -158,7 +158,7 @@
               </el-pagination>
             </div> 
             <!-- 部品信息 cb mb cover -->
-             <div class="block" v-if="!searchedProcuct">
+             <div class="block" v-show="!searchedProcuct">
               <el-pagination
                 @current-change="handleCurrentChangeForCb"
                 :current-page.sync="currentPageForCb"
@@ -311,7 +311,8 @@
                             type: 'warning'
                             }).then(() => {
                                  api.exportFile_F_p(fileObj).then(function(res){
-                                    console.log(res)
+                                     const obj={uuid:res.uuid}
+                                    api.exportFile_F_p_Ajax(obj)
                                 }).catch(function(erro){
                                     self.$message.error(erro);
                                 })
@@ -342,10 +343,13 @@
                     }
                     
                     api.exportFile_F_p(fileObj).then(function(res){
-                        console.log(res)
+                          const obj={uuid:res.uuid}
+                         api.exportFile_F_p_Ajax(obj)
                     }).catch(function(erro){
                          self.$message.error(erro);
                     })
+                    
+                    
                 }
             },
           searchValue(){
@@ -404,10 +408,10 @@
                 const self=this;
                 delete obj.productInfo.date_time_T;
             api.showModuleDetailForFin(obj).then(function(res){
-                  self.total=res.count_row;
-                self.tableData4=res.productInfo;
+                  self.totalForCb=res.count_row;
+                self.tableData4=res.componenteEmployInfo;
                 res.productInfo.map((val)=>{
-                    val.date_time_T=formatDate(new Date(val.date_time.replace(/-/g, "/")) ,"yyyy-MM-dd");
+                    // val.date_time_T=formatDate(new Date(val.date_time.replace(/-/g, "/")) ,"yyyy-MM-dd");
                     // console.log(new Date(parseInt(val.date_time)))
                 })
 
@@ -473,18 +477,19 @@
              }else if(this.activeName2=="PM"){
                   obj.detail_type=2;
              }else{
-                  obj.detail_type=2;
+                  obj.detail_type=3;
              }
               if(this.productInfo_row){
                  delete  this.productInfo_row["date_time_T"];
              }
              api.showModuleDetailForFin(obj).then(function(res){
                   self.totalForCb=res.count_row;//总页数
-                self.tableData4=res.productInfo;
+                self.tableData4=res.componenteEmployInfo;
                 res.productInfo.map((val)=>{
-                    val.date_time_T=formatDate(new Date((val.date_time.replace(/-/g, "/"))) ,"yyyy-MM-dd");
+                // console.log(formatDate(new Date((val.date_time.replace(/-/g, "/"))) ,"yyyy-MM-dd"))
+                    // val.date_time_T=formatDate(new Date((val.date_time.replace(/-/g, "/"))) ,"yyyy-MM-dd");
                     // console.log(new Date(parseInt(val.date_time)))
-                })
+                });
 
             }).catch(function(erro){
                 self.$message.error(erro);
