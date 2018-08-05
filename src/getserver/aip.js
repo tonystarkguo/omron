@@ -76,5 +76,13 @@ export default {
         //         console.log(err)
         //     }
         // });
-    }
+    },
+    /**
+     * 
+     * 2018-08-05 修改
+     * 成品追溯和部品追朔
+     */
+    postContentAndFin(params) {
+        return fetch('/productInfo/productInfo.view', params,"post")
+    },
 }

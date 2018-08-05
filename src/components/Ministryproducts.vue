@@ -50,6 +50,9 @@
                             <!-- <el-form-item label="">
                                 <el-input v-model="sizeForm.name"></el-input>
                             </el-form-item> -->
+                                <el-form-item label="合计">
+                                    <el-input v-model="totalAll"  :disabled="true"></el-input>
+                                </el-form-item>
                         </el-col>
                     </el-row>
             </el-form>
@@ -172,7 +175,7 @@
                 type: [],
                 resource: '',
                 desc: ''
-                },
+              },
                 radio2:1,
                 showSearchList:false,
                 searchedProcuct:true,
@@ -195,6 +198,7 @@
                 productInfo_row:null,
                 sortObj:{"order":null,"order_column":null},
                 sortObjT:{"order":null,"order_column":null},
+                totalAll:0,
             }
         },
         component: {
@@ -467,6 +471,17 @@
               this.currentPageForCb=1;
               this.getCBPM(0)
          },
+         /* 只请求合计数 */
+         firstComin(){
+            const obj={"list_type":1}; 
+            const self=this;
+            api.postContentAndFin(obj).then(function(res){
+                console.log(res)
+                self.totalAll=res.count_row;
+            }).catch(function(erro){  
+                console.log(erro)
+            })
+         }
         },
         mounted(){
 
@@ -491,7 +506,8 @@
         created(){
             this.obj.search_context=null;
            this.obj.componenteEmployInfo=null;
-          this.getSearchListValue();
+        //   this.getSearchListValue();
+            this.firstComin();
       }
 
     }

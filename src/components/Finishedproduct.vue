@@ -6,10 +6,10 @@
             <div slot="header" class="clearfix" style="min-height:36px;">
                 <el-button  size="medium" style="float: left;clear: both;" v-if="!searchedProcuct" @click="backUppag">返回</el-button>
               <el-button size="medium" style="float: left;" @click="exportFile">导出</el-button>
-              <el-input v-if="!showSearchList&&searchedProcuct" placeholder="请输入内容" v-model="inputSearch" size="medium" prefix-icon="el-icon-search"  @keyup.enter.native="searchValue">              </el-input>
+              <!-- <el-input v-if="!showSearchList&&searchedProcuct" placeholder="请输入内容" v-model="inputSearch" size="medium" prefix-icon="el-icon-search"  @keyup.enter.native="searchValue">              </el-input> -->
               <el-button v-if="!showSearchList&&searchedProcuct" @click="showSearchList=!showSearchList" size="medium" style="float: right;">高级搜索</el-button>
                 <el-button v-if="showSearchList" size="medium" style="float: right;" @click="searchList">搜索</el-button>
-              <el-button v-if="showSearchList" size="medium" style="float: right;" @click="showSearchList=!showSearchList">收起</el-button>
+              <!-- <el-button v-if="showSearchList" size="medium" style="float: right;" @click="showSearchList=!showSearchList">收起</el-button> -->
             <span style="clear: both;"></span>
             </div>
             <div class="search-list" v-if="showSearchList">
@@ -61,7 +61,8 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="6" :push="3">
-                            <el-form-item label="">
+                             <el-form-item label="合计">
+                                <el-input v-model="totalAll"  :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -81,24 +82,24 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="6" :push="3">
-                            <!-- <el-form-item label="">
-                                <el-input v-model="sizeForm.name"></el-input>
+                            <!-- <el-form-item label="合计">
+                                <el-input v-model="totalAll"  :disabled="true"></el-input>
                             </el-form-item> -->
                         </el-col>
                     </el-row>
-                    <!-- <el-row>
-                        <el-col :span="6" style="text-align:left;padding-bottom:18px;">
-                            <el-radio-group v-model="radio2" >
+                    <el-row>
+                        <el-col :span="24" style="text-align:left;padding-bottom:18px;">
+                            <el-radio-group v-model="radio2" @change="radioChange">
                                 <el-radio :label="1" >成品列表</el-radio>
                                 <el-radio :label="2">部品列表</el-radio>
                             </el-radio-group>
                         </el-col>
-                    </el-row> -->
+                    </el-row>
 
             </el-form>
             </div>
             <div class="text-item">
-              <el-table  v-if="searchedProcuct" :cell-style="{'padding':'3px 0'}" :border='true' ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" :min-height="200" :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChange" @sort-change="sortChange">
+              <el-table  v-if="searchedProcuct&&radio2==1" :cell-style="{'padding':'3px 0'}" :border='true' ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" :min-height="200" :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChange" @sort-change="sortChange">
                 <el-table-column  type="selection" width="55" align="center" fixed> </el-table-column>
                 <!-- <el-table-column label="日期" width="120" align="left">
                   <template slot-scope="scope">{{ scope.row.date }}</template>
@@ -124,13 +125,13 @@
                  </el-table>
              </el-table>
                 <!-- 标签切换 -->
-                <el-tabs v-if="!searchedProcuct" v-model="activeName2" type="card" @tab-click="handleClickCard">
+                <el-tabs v-show="!searchedProcuct" v-model="activeName2" type="card" @tab-click="handleClickCard">
                         <el-tab-pane label="CB" name="CB"></el-tab-pane>
                         <el-tab-pane label="PM" name="PM"></el-tab-pane>
                         <el-tab-pane label="COVER组装" name="COVER"></el-tab-pane>
                 </el-tabs>
 
-              <el-table v-if="!searchedProcuct" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+              <el-table v-if="!searchedProcuct" :border='true' ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
                     <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号" sortable> </el-table-column> -->
@@ -140,6 +141,16 @@
                     <el-table-column prop="component_batch_no" align="left" label="部品批号" width="120" sortable></el-table-column>
                     
                    
+               </el-table>
+               <!-- 成品追术- 成品列表 -->
+               <el-table v-if="searchedProcuct&&radio2==2" :border='true' ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" :min-height="200" :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChange" @sort-change="sortChange">
+                    <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
+                    <el-table-column prop="product_serial_no" align="left" label="成品序列号" width="120" sortable></el-table-column>
+                    <el-table-column prop="production_process" align="left" label="生产工序" width="120" sortable></el-table-column>
+                    <el-table-column prop="component_location" align="left" label="部品位置" width="120" sortable></el-table-column>
+                    <el-table-column prop="component_no" align="left" label="部品品番" width="120" sortable></el-table-column>        
+                    <el-table-column prop="component_batch_no" align="left" label="部品批号" width="120" sortable></el-table-column>        
+                    
                </el-table>
               <!-- <div style="margin-top: 20px" v-if="searchedProcuct">
                   <el-button @click="toggleSelection([tableData3[1], tableData3[2]])">切换第二、第三行的选中状态</el-button>
@@ -212,12 +223,12 @@
                     desc: ''
                 },
                 radio2:1,
-                showSearchList:false,
+                showSearchList:true,
                 searchedProcuct:true,
                 screenHeight:"",
                 obj:{"productInfo":{"work_order_no":"","item_id":"","pim_id":"","cb_id":"","pm_id":"","ib_id":"","trace_no":"","product_serial_no":"","product_batch_no":"","date_time":""},
                     "pagingParamEnyity":{"page_no":0,"order":"","order_column":""},
-                    "search_context":""
+                    "list_type":2,
                 },
                 selectedlist:[],
                 activeName2:"CB",
@@ -232,6 +243,8 @@
                 sortObjT:{"order":null,"order_column":null},
                 upPag:1,
                 upPagDetal:1,
+                /* 合计数 */
+                totalAll:0,
             }
             
         },
@@ -354,6 +367,7 @@
             },
           searchValue(){
               this.obj=ObjInit;
+              
                 if((this.inputSearch==""||this.inputSearch.replace(/\s+/g, "").length<=0)&&!this.showSearchList){
                     // this.$message.error('输入搜索内容');
                      this.obj.productInfo=null;
@@ -369,7 +383,9 @@
                 //     "pagingParamEnyity":{"page_no":1,"order":"","order_column":""},
                 //     "search_context":""
                 // };
-               this.showSearchList=false;
+            //    this.showSearchList=false;
+                console.log(this.radio2)
+                
                this.obj.search_context="";
                if(!this.obj.productInfo){
                    this.obj.productInfo={"work_order_no":"","item_id":"","pim_id":"","cb_id":"","pm_id":"","ib_id":"","trace_no":"","product_serial_no":"","product_batch_no":"","date_time":""}
@@ -396,12 +412,41 @@
             //     }).catch(function(erro){  
             //         console.log(erro)
             //     })
-                this.getSearchValue()
+            if(this.radio2==2){
+                this.obj.list_type=3;
+                console.log(this.obj)
+                if(this.obj.productInfo.work_order_no==""&&this.obj.productInfo.pim_id==""&&this.obj.productInfo.cb_id==""&&this.obj.productInfo.trace_no==""&&this.obj.productInfo.product_serial_no==""&&this.obj.productInfo.product_batch_no==""&&this.obj.productInfo.date_time==null){
+                    this.$confirm('查询数据量过大，耗时过长，建议输入查询条件，是否继续查询?', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.$message({
+                            type: 'success',
+                            message: '操作成功!'
+                        });
+                        this.getSearchValue();
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消'
+                        });          
+                    });
+                }else{
+                    this.getSearchValue();
+                }
+                    
+    
+            }else{
+                this.obj.list_type=2;
+                this.getSearchValue();
+            }
+                
           },
           handleClick(row){
                 console.log(row);
                 this.searchedProcuct=false;
-                this.showSearchList=false;
+                this.showSearchList=true;
                 this.productInfo_row=row;
                 this.sortObj={"order":"","order_column":""}
                 const obj={"productInfo":row,"detail_type":"1","pagingParamEnyity":{"page_no":0,"order":"","order_column":""}}
@@ -523,6 +568,22 @@
               this.currentPageForCb=1;
               this.getCBPM(0)
          },
+         /* 只请求合计数 */
+         firstComin(){
+            const obj={"list_type":1}; 
+            const self=this;
+            api.postContentAndFin(obj).then(function(res){
+                console.log(res)
+                self.totalAll=res.count_row;
+            }).catch(function(erro){  
+                console.log(erro)
+            })
+         },
+         radioChange(e){
+             console.log(e);
+             this.searchedProcuct=true;
+             this.tableData3= this.tableData3.splice(0);
+         }
         },
         mounted(){
 
@@ -542,7 +603,8 @@
           this.obj.search_context=null;
            this.obj.productInfo=null;
            this.multipleSelectionSet=new Set();
-         this.getSearchValue()
+        //  this.getSearchValue()
+        this.firstComin();
       }
 
 
