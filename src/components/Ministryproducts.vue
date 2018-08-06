@@ -5,10 +5,11 @@
           <div slot="header" class="clearfix" style="min-height:36px;">
                 <el-button  size="medium" style="float: left;clear: both;" v-if="!searchedProcuct" @click="backUppag">返回</el-button>
               <el-button size="medium" style="float: left;" @click="exportFile">导出</el-button>
-              <el-input v-if="!showSearchList&&searchedProcuct" placeholder="请输入内容" v-model="inputSearch" size="medium" prefix-icon="el-icon-search"  @keyup.enter.native="searchValue">              </el-input>
-              <el-button v-if="!showSearchList&&searchedProcuct" @click="showSearchList=!showSearchList" size="medium" style="float: right;">高级搜索</el-button>
+              <!-- <el-input v-if="!showSearchList&&searchedProcuct" placeholder="请输入内容" v-model="inputSearch" size="medium" prefix-icon="el-icon-search"  @keyup.enter.native="searchValue">              </el-input> -->
+              <!-- <el-button v-if="!showSearchList&&searchedProcuct" @click="showSearchList=!showSearchList" size="medium" style="float: right;">高级搜索</el-button> -->
                 <el-button v-if="showSearchList" size="medium" style="float: right;" @click="searchList">搜索</el-button>
-              <el-button v-if="showSearchList" size="medium" style="float: right;" @click="showSearchList=!showSearchList">收起</el-button>
+                 <div v-if="searchedProcuct" class="tital-search"><span>合计:</span><span>{{totalAll}}</span></div>
+              <!-- <el-button v-if="showSearchList" size="medium" style="float: right;" @click="showSearchList=!showSearchList">收起</el-button> -->
             <span style="clear: both;"></span>
             </div>
             <div class="search-list" v-if="showSearchList">
@@ -50,9 +51,9 @@
                             <!-- <el-form-item label="">
                                 <el-input v-model="sizeForm.name"></el-input>
                             </el-form-item> -->
-                                <el-form-item label="合计">
+                                <!-- <el-form-item label="合计">
                                     <el-input v-model="totalAll"  :disabled="true"></el-input>
-                                </el-form-item>
+                                </el-form-item> -->
                         </el-col>
                     </el-row>
             </el-form>
@@ -90,7 +91,7 @@
                 <el-tabs v-if="!searchedProcuct" v-model="activeName2" type="card" @tab-click="handleClickCard">
                         <el-tab-pane label="CB" name="CB"></el-tab-pane>
                         <el-tab-pane label="PM" name="PM"></el-tab-pane>
-                        <el-tab-pane label="COVER组装" name="COVER"></el-tab-pane>
+                        <el-tab-pane label="FAT组装" name="COVER"></el-tab-pane>
                 </el-tabs>
 
               <el-table v-if="!searchedProcuct" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :min-height="200"  :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChange">
@@ -177,7 +178,7 @@
                 desc: ''
               },
                 radio2:1,
-                showSearchList:false,
+                showSearchList:true,
                 searchedProcuct:true,
                 obj:{"componenteEmployInfo":{"work_order_no":"","cb_id":"","pm_id":"","ib_id":"","trace_no":"","product_serial_no":"","product_batch_no":"","date_time":"","component_location":"","component_no":"","component_batch_no":"","component_count":"","start_time":"","remark":"","flow_no":"","production_process":"","pim_id":""},
                     "pagingParamEnyity":{"page_no":0,"order":"","order_column":""},
@@ -242,7 +243,7 @@
                     "detail_type":null,
                     };
                     if(this.searchedProcuct){
-                         fileObj.type=2;
+                         fileObj.type=1;
                          fileObj.headList=["成品序列号","CB ID","PM ID","TRACE NO","工单号","成品批号","生产时间"]
                     }else{
                         fileObj.type=3;
@@ -324,7 +325,7 @@
                 // if(this.sizeForm.minsPro==""||this.sizeForm.COMPONENT_pc==""){
                 //     self.$message.error("部品品番、部品批次必填");
                 // }else{
-                     this.showSearchList=false;
+                    //  this.showSearchList=false;
                     this.obj.search_context="";
                     if(this.obj.componenteEmployInfo==null){
                             this.obj.componenteEmployInfo={"work_order_no":"","cb_id":"","pm_id":"","ib_id":"","trace_no":"","product_serial_no":"","product_batch_no":"","date_time":"","component_location":"","component_no":"","component_batch_no":"","component_count":"","start_time":"","remark":"","flow_no":"","production_process":"","pim_id":""}
@@ -338,31 +339,39 @@
                     if(this.obj.componenteEmployInfo.date_time=="@"){
                         this.obj.componenteEmployInfo.date_time=null
                     }
+                
                     this.getSearchListValue();
                 // }
                
             },
             handleClick(row){
                 console.log(row)
-                // this.radio2=2;
+
+                // this.searchedProcuct=false;
+                // this.showSearchList=false;
+                // this.sortObj={"order":null,"order_column":null}
+                // this.productInfo_row=row;
+                // const self=this;
+                // const obj={"componenteEmployInfo":row,"detail_type":"1","pagingParamEnyity":{"page_no":0,"order":"","order_column":""}}
+                // delete obj.componenteEmployInfo.date_time_T;
+                // api.showModuleDetailForMin(obj).then(function(res){
+                //     self.totalForCb=res.count_row;
+                //     self.tableData4=res.componenteEmployInfo;
+                //     res.componenteEmployInfo.map((val)=>{
+                //     })
+                // }).catch(function(erro){
+                //     self.$message.error(erro);
+                // })
                 this.searchedProcuct=false;
                 this.showSearchList=false;
-                 this.sortObj={"order":null,"order_column":null}
                 this.productInfo_row=row;
+                this.sortObj={"order":"","order_column":""}
+                const obj={"productInfo":row,"detail_type":"1","pagingParamEnyity":{"page_no":0,"order":"","order_column":""}}
                 const self=this;
-                const obj={"componenteEmployInfo":row,"detail_type":"1","pagingParamEnyity":{"page_no":0,"order":"","order_column":""}}
-                 delete obj.componenteEmployInfo.date_time_T;
-                 api.showModuleDetailForMin(obj).then(function(res){
-                     console.log(res)
+                delete obj.productInfo.date_time_T;
+                api.showModuleDetailForFin(obj).then(function(res){
                     self.totalForCb=res.count_row;
                     self.tableData4=res.componenteEmployInfo;
-                    console.log(res.componenteEmployInfo)
-                    res.componenteEmployInfo.map((val)=>{
-                        console.log(val.date_time)
-                        // val.date_time_T=formatDate(new Date(val.date_time).replace(/-/g, "/") ,"yyyy-MM-dd");
-                        // console.log(new Date(parseInt(val.date_time)))
-                    })
-
                 }).catch(function(erro){
                     self.$message.error(erro);
                 })
@@ -378,12 +387,12 @@
               api.postMinistry(self.obj).then(function(res){
                 console.log(res)
                 self.total=res.count_row;
-                res.componenteEmployInfo.map((val)=>{
+                res.productInfo.map((val)=>{
                     // val.item_id="3.5G";
                     val.date_time_T=formatDate(new Date(val.date_time.replace(/-/g, "/")) ,"yyyy-MM-dd");
                     // console.log(new Date(parseInt(val.date_time)))
                 })
-                let set1=new Set(res.componenteEmployInfo);
+                let set1=new Set(res.productInfo);
                 // if(self.obj.pagingParamEnyity.page_no==1){
                 //     self.tableData3=[...set1];
                 // }else{
@@ -397,7 +406,9 @@
               })
             },
           backUppag(){
-            this.searchedProcuct=!this.searchedProcuct;
+            // this.searchedProcuct=!this.searchedProcuct;
+            this.showSearchList=true;
+             this.searchedProcuct=true;
          },
           handleClickCard(tab, event){
              console.log(tab.name,this.activeName2);
@@ -418,32 +429,49 @@
              this.getCBPM(val-1)
          },
          getCBPM(val){
-            const obj={"componenteEmployInfo":this.productInfo_row,"detail_type":"","pagingParamEnyity":{"page_no":val,"order":this.sortObjT.order,"order_column": this.sortObjT.order_column}}
+            // const obj={"componenteEmployInfo":this.productInfo_row,"detail_type":"","pagingParamEnyity":{"page_no":val,"order":this.sortObjT.order,"order_column": this.sortObjT.order_column}}
+            // const self=this;
+            //   if(this.activeName2=="CB"){
+            //     obj.detail_type=1
+            //  }else if(this.activeName2=="PM"){
+            //     obj.detail_type=2
+            //  }else{
+            //       obj.detail_type=3
+            //  }
+            //  if(this.productInfo_row){
+            //      delete  this.productInfo_row["date_time_T"];
+            //  }
+            //  api.showModuleDetailForMin(obj).then(function(res){
+            //      console.log(res)
+            //     self.totalForCb=res.count_row;//总页数
+            //     self.tableData4=res.componenteEmployInfo;
+            //     res.componenteEmployInfo.map((val)=>{
+            //     })
+
+            // }).catch(function(erro){
+            //     self.$message.error(erro);
+            // })
+             const obj={"productInfo":this.productInfo_row,"detail_type":null,"pagingParamEnyity":{"page_no":val,"order":this.sortObjT.order,"order_column": this.sortObjT.order_column}}
             const self=this;
               if(this.activeName2=="CB"){
-                obj.detail_type=1
+                  obj.detail_type=1;
              }else if(this.activeName2=="PM"){
-                obj.detail_type=2
+                  obj.detail_type=2;
              }else{
-                  obj.detail_type=3
+                  obj.detail_type=3;
              }
-             if(this.productInfo_row){
+              if(this.productInfo_row){
                  delete  this.productInfo_row["date_time_T"];
              }
-            
-             api.showModuleDetailForMin(obj).then(function(res){
-                 console.log(res)
+             api.showModuleDetailForFin(obj).then(function(res){
                   self.totalForCb=res.count_row;//总页数
                 self.tableData4=res.componenteEmployInfo;
-                res.componenteEmployInfo.map((val)=>{
-                    // val.date_time_T=formatDate(new Date((val.date_time.replace(/-/g, "/"))) ,"yyyy-MM-dd");
-                    // console.log(new Date(parseInt(val.date_time)))
-                })
+                res.productInfo.map((val)=>{
+                });
 
             }).catch(function(erro){
                 self.$message.error(erro);
             })
-             
          },
           sortChange({ column, prop, order }){
              console.log(column, prop, order);
@@ -477,7 +505,7 @@
             const self=this;
             api.postContentAndFin(obj).then(function(res){
                 console.log(res)
-                self.totalAll=res.count_row;
+                self.totalAll=res.count;
             }).catch(function(erro){  
                 console.log(erro)
             })
@@ -614,5 +642,12 @@
      padding: 10px 20px 10px 0;
     float: right;
     clear: both;
+  }
+  .tital-search{
+    display: inline-block;
+    float: right;
+    vertical-align: middle;
+    padding: 10px 20px;
+    font-size: 14px;
   }
 </style>
