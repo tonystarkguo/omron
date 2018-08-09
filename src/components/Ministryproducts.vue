@@ -67,14 +67,25 @@
                  <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
                 <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column>                 -->
                <!-- <el-table-column prop="item_id" align="left" label="机种名" width="120" sortable></el-table-column>                 -->
-                <el-table-column prop="product_serial_no" align="left" label="成品序列号" width="120" sortable></el-table-column>
+               <!--  -->
+                <!-- <el-table-column prop="product_serial_no" align="left" label="成品序列号" width="120" sortable></el-table-column>
                 <el-table-column prop="cb_id" align="left" label="CB ID" width="120" sortable></el-table-column>
                 <el-table-column prop="pm_id" align="left" label="PM ID" width="120" sortable></el-table-column>
                 <el-table-column prop="trace_no" align="left" label="TRACE NO" width="120" sortable></el-table-column>
                 <el-table-column prop="work_order_no" align="left" label="工单号"  width="120" sortable></el-table-column>                
                 <el-table-column prop="product_batch_no" align="left" label="成品批号" width="120" sortable></el-table-column>
+                <el-table-column prop="date_time_T" align="left" label="生产时间" width="120" sortable></el-table-column> -->
+               <!-- 8月7号修改 -->
+                <el-table-column prop="work_order_no" align="left" label="工单号" width="120" sortable show-overflow-tooltip></el-table-column>                                   
+                <el-table-column prop="item_id" align="left" label="机种名" width="120" sortable></el-table-column>
+                <el-table-column prop="pim_id" align="left" label="PIM品番" width="120" sortable></el-table-column>
+                <el-table-column prop="cb_id" align="left" label="CBID" width="120" sortable></el-table-column>
+                <el-table-column prop="pm_id" align="left" label="PMID" width="120" sortable></el-table-column>
+                <el-table-column prop="trace_no" align="left" label="TRACE NO" width="120" sortable></el-table-column>
+                <el-table-column prop="product_serial_no" align="left" label="成品序列号" width="120" sortable></el-table-column>
+                <el-table-column prop="product_batch_no" align="left" label="成品批号" width="120" sortable></el-table-column>
                 <el-table-column prop="date_time_T" align="left" label="生产时间" width="120" sortable></el-table-column>
-                
+
                 <!-- <el-table-column prop="" align="left" label="成品批号" width="120" sortable></el-table-column>
                 <el-table-column prop="" align="left" label="生产工序" width="120" sortable></el-table-column>
                 <el-table-column prop="" align="left" label="部品使用位置" width="120" sortable></el-table-column>
@@ -239,13 +250,14 @@
                 const self=this;
                  //type;//1.成品导出  2.部品导出  3.查看详情导出
                 const fileObj={"headList":[],"componenteEmployInfoList":null,"productInfoList":null,"export_all":true,
-                    "type":"1","search_context":this.obj.search_context,"componenteEmployInfo":this.productInfo_row,"productInfo":null,
+                    "type":"1","search_context":this.obj.search_context,"componenteEmployInfo":null,"productInfo":this.productInfo_row,
                     "detail_type":null,
                     };
                     if(this.searchedProcuct){
                          fileObj.type=1;
-                         fileObj.headList=["成品序列号","CB ID","PM ID","TRACE NO","工单号","成品批号","生产时间"]
-                    }else{
+                        //  fileObj.headList=["成品序列号","CB ID","PM ID","TRACE NO","工单号","成品批号","生产时间"]
+                        fileObj.headList=["工单号","机种名","PIM 品番","CB ID ","PM ID","TRACE NO","成品序列号","成品批号","生产时间"]
+                   }else{
                         fileObj.type=3;
                         fileObj.headList=["生产工序","部品品番","部品位置","部品批号"];
                          if(this.activeName2=="CB"){
@@ -291,8 +303,8 @@
                          delete val["date_time_T"];
                      });
                     }else{
-                        fileObj.componenteEmployInfoList=this.multipleTableFishPrduct;
-                        fileObj.componenteEmployInfoList.map((val)=>{
+                        fileObj.productInfo=this.multipleTableFishPrduct;
+                        fileObj.productInfo.map((val)=>{
                          delete val["date_time_T"];
                      });
                     }

@@ -306,7 +306,7 @@
                     };
                     if(this.searchedProcuct){
                          fileObj.type=1;
-                         fileObj.headList=["工单号","机种名","PIM 品番","CB ID ","PM ID","TRACE NO","成品序列号","部品批号","生产时间"]
+                         fileObj.headList=["工单号","机种名","PIM 品番","CB ID ","PM ID","TRACE NO","成品序列号","成品批号","生产时间"]
                          if(this.radio2==2){
                             fileObj.type=2;
                             fileObj.headList=["成品序列号","生产工序","部品位置","部品品番","部品批号"];
@@ -314,7 +314,8 @@
                          
                     }else{
                         fileObj.type=3;
-                        fileObj.headList=["部品工序","部品品番","部品位置","部品批号"]
+                        // fileObj.headList=["部品工序","部品品番","部品位置","部品批号"]
+                        ileObj.headList=["生产工序","部品品番","部品位置","部品批号"];
                         if(this.activeName2=="CB"){
                             fileObj.detail_type=1;
                         }else if(this.activeName2=="PM"){
