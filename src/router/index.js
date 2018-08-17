@@ -26,6 +26,7 @@ export default new Router({
       name: 'Home',
       component: Home,
       children:[
+        { path: "", component: Finishedproduct, name: "Product"},
         { path: '/Home/Product', component: Finishedproduct,name:"Product" },
         { path: '/Home/Ministry', component: Ministryproducts, name: "Ministry" },
       ]

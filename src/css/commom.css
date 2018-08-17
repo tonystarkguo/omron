@@ -3,4 +3,26 @@
 }
 .content .el-card__body{
       padding: 0;
+      min-height: 628px;
   }
+
+
+  .el-form-item--mini.el-form-item, .el-form-item--small.el-form-item{
+    margin-bottom:5px !important;
+  }
+  .el-card__header{
+    padding: 5px 10px !important;
+  }
+.el-table th{
+  padding: 4px 0 !important;
+}
+.el-input--small .el-input__inner{
+  height: 25px !important;
+  line-height: 25px !important;
+}
+.el-table .cell{
+  /* white-space: nowrap !important; */
+}
+/* .el-table__empty-block{
+      min-height: 350px !important;
+  } */

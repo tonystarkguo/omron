@@ -3,12 +3,12 @@
     <!-- <div>{{msg}}</div> -->
     <!--<someComponent></someComponent>-->
      <el-card class="box-card">
-            <div slot="header" class="clearfix" style="min-height:36px;">
-                <el-button  size="medium" style="float: left;clear: both;" v-if="!searchedProcuct" @click="backUppag">返回</el-button>
-              <el-button size="medium" style="float: left;" @click="exportFile">导出</el-button>
+            <div slot="header" class="clearfix" style="min-height:30px;">
+                <el-button  size="mini" style="float: left;clear: both;" v-if="!searchedProcuct" @click="backUppag">返回</el-button>
+              <el-button size="mini" style="float: left;" @click="exportFile">导出</el-button>
               <!-- <el-input v-if="!showSearchList&&searchedProcuct" placeholder="请输入内容" v-model="inputSearch" size="medium" prefix-icon="el-icon-search"  @keyup.enter.native="searchValue">              </el-input> -->
               <el-button v-if="!showSearchList&&searchedProcuct" @click="showSearchList=!showSearchList" size="medium" style="float: right;">高级搜索</el-button>
-                <el-button v-if="showSearchList" size="medium" style="float: right;" @click="searchList(0)">搜索</el-button>
+                <el-button v-if="showSearchList" size="mini" style="float: right;" @click="searchList(0)">搜索</el-button>
                 <div v-if="searchedProcuct" class="tital-search"><span>合计:</span><span>{{totalAll}}</span></div>
                 
               <!-- <el-button v-if="showSearchList" size="medium" style="float: right;" @click="showSearchList=!showSearchList">收起</el-button> -->
@@ -17,106 +17,107 @@
             <div class="search-list" v-if="showSearchList">
                 <el-form ref="form" :model="sizeForm" label-width="90px" size="small" label-position="left">
                     <el-row>
-                         <el-col :span="6">
+                         <el-col :span="5">
                             <el-form-item label="机种名">
                                 <el-input v-model="sizeForm.name" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="6" :offset="3">
+                        <el-col :span="5" :offset="1">
                             <el-form-item label="PIM品番">
                                 <el-input v-model="sizeForm.pim"></el-input>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="6" :push="3">
+                        <el-col :span="5"  :offset="1">
                             <el-form-item label="成品序列号">
                                 <el-input v-model="sizeForm.no"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="5" :offset="1">
+                            <el-form-item label="CB ID">
+                                <el-input v-model="sizeForm.cbid"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
 
                    <el-row>
-                         <el-col :span="6">
-                            <el-form-item label="CB ID">
-                                <el-input v-model="sizeForm.cbid"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="6" :offset="3">
+                        <el-col :span="5" >
                             <el-form-item label="PM ID">
                                 <el-input v-model="sizeForm.pimid"></el-input>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="6" :push="3">
+                        <el-col :span="5" :offset="1">
                             <el-form-item label="TRACE NO">
                                 <el-input v-model="sizeForm.trackNo"></el-input>
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row>
-                         <el-col :span="6">
+                        <el-col :span="5" :offset="1">
                             <el-form-item label="工单号">
                                 <el-input v-model="sizeForm.gd"></el-input>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="6" :offset="3">
+                        <el-col :span="5" :offset="1">
                             <el-form-item label="成品批号">
                                 <el-input v-model="sizeForm.ph"></el-input>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="6" :push="3">
-                             <!-- <el-form-item label="合计">
-                                <el-input v-model="totalAll"  :disabled="true"></el-input>
-                            </el-form-item> -->
-                        </el-col>
                     </el-row>
+                    
                     <el-row>
-                         <el-col :span="6">
+                         <el-col :span="5">
                             <el-form-item label="生产期间">
                                 <el-form-item prop="date1">
                                         <el-date-picker type="date" placeholder="请选择日期" v-model="sizeForm.date1" style="width: 100%;"></el-date-picker>
                                 </el-form-item>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="6" :offset="3">
+                        <el-col :span="5" :offset="1">
                             <el-form-item label="">
                                 <el-form-item prop="date1" style="margin-left:-90px">
                                         <el-date-picker type="date" placeholder="请选择日期" v-model="sizeForm.date2" style="width: 100%;"></el-date-picker>
                                 </el-form-item>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="6" :push="3">
-                            <!-- <el-form-item label="合计">
-                                <el-input v-model="totalAll"  :disabled="true"></el-input>
-                            </el-form-item> -->
+                        <el-col :span="12" :offset="1" style="text-align:left;">
+                            <el-radio-group v-model="radio2" @change="radioChange" style="width:100%;">
+                                 <el-col :span="6" :offset="4">
+                                        <el-radio :label="1" >成品列表</el-radio>
+                                 </el-col>
+                                 <el-col :span="6" :offset="6">
+                                         <el-radio :label="2">部品列表</el-radio>
+                                 </el-col>
+                                    <!-- <el-radio :label="1" >成品列表</el-radio> -->
+                                    <!-- <el-radio :label="2">部品列表</el-radio> -->
+                            </el-radio-group>
                         </el-col>
                     </el-row>
-                    <el-row>
-                        <el-col :span="24" style="text-align:left;padding-bottom:18px;">
+                    <!-- <el-row>
+                        <el-col :span="24" style="text-align:left;margin-top:10px;">
                             <el-radio-group v-model="radio2" @change="radioChange">
                                 <el-radio :label="1" >成品列表</el-radio>
                                 <el-radio :label="2">部品列表</el-radio>
                             </el-radio-group>
                         </el-col>
-                    </el-row>
+                    </el-row> -->
 
             </el-form>
             </div>
             <div class="text-item">
-              <el-table  v-if="searchedProcuct&&radio2==1" :cell-style="{'padding':'3px 0'}" :border='true' ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" :min-height="200" :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChange" @sort-change="sortChange">
+              <el-table  v-if="searchedProcuct&&radio2==1" :cell-style="{'padding':'3px 0'}" :border='true' ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" :min-height="400" :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChange" @sort-change="sortChange">
                 <el-table-column  type="selection" width="55" align="center" fixed> </el-table-column>
                 <!-- <el-table-column label="日期" width="120" align="left">
                   <template slot-scope="scope">{{ scope.row.date }}</template>
                 </el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
-                    <el-table-column prop="work_order_no" align="left" label="工单号" width="120" sortable show-overflow-tooltip></el-table-column>                                   
-                    <el-table-column prop="item_id" align="left" label="机种名" width="120" sortable></el-table-column>
-                    <el-table-column prop="pim_id" align="left" label="PIM品番" width="120" sortable></el-table-column>
-                    <el-table-column prop="cb_id" align="left" label="CBID" width="120" sortable></el-table-column>
-                    <el-table-column prop="pm_id" align="left" label="PMID" width="120" sortable></el-table-column>
-                    <el-table-column prop="trace_no" align="left" label="TRACE NO" width="120" sortable></el-table-column>
-                    <el-table-column prop="product_serial_no" align="left" label="成品序列号" width="120" sortable></el-table-column>
-                    <el-table-column prop="product_batch_no" align="left" label="成品批号" width="120" sortable></el-table-column>
-                    <el-table-column prop="date_time_T" align="left" label="生产时间" width="120" sortable></el-table-column>
+                    <el-table-column prop="work_order_no" align="left" label="工单号" min-width="120" sortable show-overflow-tooltip></el-table-column>                                   
+                    <el-table-column prop="item_id" align="left" label="机种名" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="pim_id" align="left" label="PIM品番" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="cb_id" align="left" label="CBID" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="pm_id" align="left" label="PMID" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="trace_no" align="left" label="TRACE NO" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="product_serial_no" align="left" label="成品序列号" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="product_batch_no" align="left" label="成品批号" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="date_time_T" align="left" label="生产时间" min-width="120" sortable></el-table-column>
 
                  <el-table-column fixed="right" label="操作" width="100">
                         <template slot-scope="scope">
@@ -137,21 +138,21 @@
                     <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号" sortable> </el-table-column> -->
-                    <el-table-column prop="process_name" align="left" label="生产工序" width="120" sortable></el-table-column>
-                    <el-table-column prop="component_no" align="left" label="部品品番" width="120" sortable></el-table-column>
-                    <el-table-column prop="component_location" align="left" label="部品位置" width="120" sortable></el-table-column>
-                    <el-table-column prop="component_batch_no" align="left" label="部品批号" width="120" sortable></el-table-column>
+                    <el-table-column prop="process_name" align="left" label="生产工序" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="component_no" align="left" label="部品品番" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="component_location" align="left" label="部品位置" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="component_batch_no" align="left" label="部品批号" min-width="120" sortable></el-table-column>
                     
                    
                </el-table>
                <!-- 成品追术- 成品列表 -->
                <el-table v-if="searchedProcuct&&radio2==2" :border='true' ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" :min-height="200" :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChange" @sort-change="sortChange">
                     <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
-                    <el-table-column prop="product_serial_no" align="left" label="成品序列号" width="120" sortable></el-table-column>
-                    <el-table-column prop="process_name" align="left" label="生产工序" width="120" sortable></el-table-column>
-                    <el-table-column prop="component_location" align="left" label="部品位置" width="120" sortable></el-table-column>
-                    <el-table-column prop="component_no" align="left" label="部品品番" width="120" sortable></el-table-column>        
-                    <el-table-column prop="component_batch_no" align="left" label="部品批号" width="120" sortable></el-table-column>        
+                    <el-table-column prop="product_serial_no" align="left" label="成品序列号" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="process_name" align="left" label="生产工序" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="component_location" align="left" label="部品位置" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="component_no" align="left" label="部品品番" min-width="120" sortable></el-table-column>        
+                    <el-table-column prop="component_batch_no" align="left" label="部品批号" min-width="120" sortable></el-table-column>        
                     
                </el-table>
               <!-- <div style="margin-top: 20px" v-if="searchedProcuct">
@@ -256,7 +257,10 @@
         },
         computed:{
             elTableBodyWrapperMaxHeight:function(){
-                return this.screenHeight-60-50-40-72-40-60;
+                // return this.screenHeight-60-50-40-72-40-60;
+                  const height=this.screenHeight-42-160-20-32;
+                 $(".el-table__empty-block").css({"min-height":height})
+                 return this.screenHeight-42-160-20-32;
             }
         },
         methods: {
@@ -705,6 +709,13 @@
         height: 40px;
         line-height: 40px;
       }
+      .el-card__body{
+          min-height: 628px;
+          .el-table__empty-block{
+            min-height: 350px ;
+        }
+      }
+      
     }
   }
   .menu-open{
@@ -742,10 +753,11 @@
       padding: 20px;
   }
   .text-item{
-      padding: 20px;
+      padding: 10px;
+    //   height: 100%;
   }
   .block{
-     padding: 10px 20px 10px 0;
+     padding: 0px 20px 0px 0;
     float: right;
     clear: both;
   }
@@ -753,7 +765,8 @@
     display: inline-block;
     float: right;
     vertical-align: middle;
-    padding: 10px 20px;
+    padding:5px 20px;
     font-size: 14px;
   }
+
 </style>

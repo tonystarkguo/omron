@@ -1,13 +1,13 @@
 <!--  -->
 <template>
-  <div>
+  <div class="minSt">
       <el-card class="box-card">
-          <div slot="header" class="clearfix" style="min-height:36px;">
-                <el-button  size="medium" style="float: left;clear: both;" v-if="!searchedProcuct" @click="backUppag">返回</el-button>
-              <el-button size="medium" style="float: left;" @click="exportFile">导出</el-button>
+          <div slot="header" class="clearfix" style="min-height:30px;">
+                <el-button  size="mini" style="float: left;clear: both;" v-if="!searchedProcuct" @click="backUppag">返回</el-button>
+              <el-button size="mini" style="float: left;" @click="exportFile">导出</el-button>
               <!-- <el-input v-if="!showSearchList&&searchedProcuct" placeholder="请输入内容" v-model="inputSearch" size="medium" prefix-icon="el-icon-search"  @keyup.enter.native="searchValue">              </el-input> -->
               <!-- <el-button v-if="!showSearchList&&searchedProcuct" @click="showSearchList=!showSearchList" size="medium" style="float: right;">高级搜索</el-button> -->
-                <el-button v-if="showSearchList" size="medium" style="float: right;" @click="searchList">搜索</el-button>
+                <el-button v-if="showSearchList" size="mini" style="float: right;" @click="searchList">搜索</el-button>
                  <div v-if="searchedProcuct" class="tital-search"><span>合计:</span><span>{{totalAll}}</span></div>
               <!-- <el-button v-if="showSearchList" size="medium" style="float: right;" @click="showSearchList=!showSearchList">收起</el-button> -->
             <span style="clear: both;"></span>
@@ -76,15 +76,15 @@
                 <el-table-column prop="product_batch_no" align="left" label="成品批号" width="120" sortable></el-table-column>
                 <el-table-column prop="date_time_T" align="left" label="生产时间" width="120" sortable></el-table-column> -->
                <!-- 8月7号修改 -->
-                <el-table-column prop="work_order_no" align="left" label="工单号" width="120" sortable show-overflow-tooltip></el-table-column>                                   
-                <el-table-column prop="item_id" align="left" label="机种名" width="120" sortable></el-table-column>
-                <el-table-column prop="pim_id" align="left" label="PIM品番" width="120" sortable></el-table-column>
-                <el-table-column prop="cb_id" align="left" label="CBID" width="120" sortable></el-table-column>
-                <el-table-column prop="pm_id" align="left" label="PMID" width="120" sortable></el-table-column>
-                <el-table-column prop="trace_no" align="left" label="TRACE NO" width="120" sortable></el-table-column>
-                <el-table-column prop="product_serial_no" align="left" label="成品序列号" width="120" sortable></el-table-column>
-                <el-table-column prop="product_batch_no" align="left" label="成品批号" width="120" sortable></el-table-column>
-                <el-table-column prop="date_time_T" align="left" label="生产时间" width="120" sortable></el-table-column>
+                <el-table-column prop="work_order_no" align="left" label="工单号" min-width="120" sortable show-overflow-tooltip></el-table-column>                                   
+                <el-table-column prop="item_id" align="left" label="机种名" min-width="120" sortable></el-table-column>
+                <el-table-column prop="pim_id" align="left" label="PIM品番" min-width="120" sortable></el-table-column>
+                <el-table-column prop="cb_id" align="left" label="CBID" min-width="120" sortable></el-table-column>
+                <el-table-column prop="pm_id" align="left" label="PMID" min-width="120" sortable></el-table-column>
+                <el-table-column prop="trace_no" align="left" label="TRACE NO" min-width="120" sortable></el-table-column>
+                <el-table-column prop="product_serial_no" align="left" label="成品序列号" min-width="120" sortable></el-table-column>
+                <el-table-column prop="product_batch_no" align="left" label="成品批号" min-width="120" sortable></el-table-column>
+                <el-table-column prop="date_time_T" align="left" label="生产时间" min-width="120" sortable></el-table-column>
 
                 <!-- <el-table-column prop="" align="left" label="成品批号" width="120" sortable></el-table-column>
                 <el-table-column prop="" align="left" label="生产工序" width="120" sortable></el-table-column>
@@ -109,10 +109,10 @@
                     <el-table-column  prop="date" type="selection" width="55" align="center" fixed> </el-table-column>
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
-                    <el-table-column prop="process_name" align="left" label="生产工序" width="120" sortable></el-table-column>
-                    <el-table-column prop="component_no" align="left" label="部品品番" width="120" sortable></el-table-column>
-                    <el-table-column prop="component_location" align="left" label="部品位置" width="120" sortable></el-table-column>
-                    <el-table-column prop="component_batch_no" align="left" label="部品批号" width="120" sortable></el-table-column>
+                    <el-table-column prop="process_name" align="left" label="生产工序" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="component_no" align="left" label="部品品番" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="component_location" align="left" label="部品位置" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="component_batch_no" align="left" label="部品批号" min-width="120" sortable></el-table-column>
                     
                    
                     <!-- <el-table-column prop="work_order_no" align="left" label="工单号"  show-overflow-tooltip></el-table-column>                
@@ -529,7 +529,7 @@
             that.screenHeight=document.documentElement.clientHeight||document.body.clientHeight;
             window.onresize =()=>{
                 that.screenHeight=document.documentElement.clientHeight||document.body.clientHeight;
-                 console.log(that.screenHeight)
+           
             }
         },
         watch:{
@@ -540,7 +540,9 @@
         computed:{
             elTableBodyWrapperMaxHeight:function(){
                 console.log( this.screenHeight,this.screenHeight-60-50-40-72-40-60)
-                return this.screenHeight-60-50-40-72-40-60;
+                const height=this.screenHeight-41-102-33-20;
+                $(".el-table__empty-block").css({"min-height":height})
+                return this.screenHeight-41-102-33-20;
             }
         },
         created(){
@@ -645,13 +647,13 @@
   }
   .search-list{
       background:rgba(246,248,250,1);
-      padding: 20px;
+      padding: 10px;
   }
   .text-item{
-      padding: 20px;
+      padding: 10px;
   }
    .block{
-     padding: 10px 20px 10px 0;
+     padding: 0px 20px 0px 0;
     float: right;
     clear: both;
   }
@@ -659,7 +661,10 @@
     display: inline-block;
     float: right;
     vertical-align: middle;
-    padding: 10px 20px;
+    padding: 5px 20px;
     font-size: 14px;
   }
+.minSt  .el-table__empty-block{
+  min-height: 400px !important;
+}
 </style>

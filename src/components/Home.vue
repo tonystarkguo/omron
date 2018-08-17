@@ -1,12 +1,11 @@
 <template>
   <el-container>
-    <el-header> <span class="title"><img :src="ormeHea" alt="" srcset=""></span>
-    <el-radio-group v-model="isCollapse" class="menu-open" >
-    <!-- <i class="el-icon-menu" @click="showLeftMenu">123</i> -->
-      <el-button class="showMinMenu" @click="changeLeftMenu" ></el-button>
-      <!-- <el-radio-button  v-if="!showLeftMenu" :label="!showLeftMenu" ><i class="el-icon-menu"></i></el-radio-button> -->
-    </el-radio-group>
-      <div class="header-right">
+    <!-- <el-header>  -->
+      <!-- <span class="title"><img :src="ormeHea" alt="" srcset=""></span> -->
+    <!-- <el-radio-group v-model="isCollapse" class="menu-open" > -->
+      <!-- <el-button class="showMinMenu" @click="changeLeftMenu" ></el-button> -->
+    <!-- </el-radio-group> -->
+      <!-- <div class="header-right">
         <el-badge is-dot class="item">
           <el-button class="share-button" icon="el-icon-message" type="primary"></el-button>
         </el-badge>
@@ -18,18 +17,16 @@
           </span>
           <el-dropdown-menu slot="dropdown"  >
             <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
-            <!-- <el-dropdown-item>狮子头</el-dropdown-item>
-            <el-dropdown-item>螺蛳粉</el-dropdown-item> -->
-            <!-- <el-dropdown-item disabled>双皮奶</el-dropdown-item>
-            <el-dropdown-item divided>蚵仔煎</el-dropdown-item> -->
           </el-dropdown-menu>
         </el-dropdown>
-      </div>
+      </div> -->
      
-    </el-header>
+    <!-- </el-header> -->
    
     <el-container>
+      
       <el-aside width="auto">
+        <span class="title"><img :src="ormeHea" alt="" srcset=""></span>
         <el-menu :router='true' :default-active="defaultActive" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
         <el-submenu index="1">
           <template slot="title">
@@ -66,13 +63,12 @@
       <el-main>
         <div class="main-header">
           <el-breadcrumb separator="/">
-              <el-breadcrumb-item :to="{ path: '/Home/Product' }">首页</el-breadcrumb-item>
-              <el-breadcrumb-item :to="{ path: '/Home/Product' }" v-if="routeName">成品追溯</el-breadcrumb-item>
-              <el-breadcrumb-item :to="{ path: '/Home/Ministry' }" v-if="!routeName">部品追溯</el-breadcrumb-item>
+              <!-- <el-breadcrumb-item :to="{ path: '/Home/Product' }" >首页</el-breadcrumb-item> -->
+              <!-- <el-breadcrumb-item :to="{ path: '/Home/Product' }" v-if="routeName">成品追溯</el-breadcrumb-item> -->
+              <!-- <el-breadcrumb-item :to="{ path: '/Home/Ministry' }" v-if="!routeName">部品追溯</el-breadcrumb-item> -->
               <!-- <el-breadcrumb-item>活动详情</el-breadcrumb-item> -->
           </el-breadcrumb>
-        </div>
-        <div class="content">
+        </div><div class="content">
            <router-view></router-view>
         </div>
       </el-main>
@@ -174,13 +170,19 @@
     min-height: 400px;
   }
   .title{
-    display: inline-block;
+    display: block;
     width: 200px;
-    line-height: 60px;
+    width: 100%;
+    height:40px;
+    line-height: 40px;
     color: #FFFFFF;
-    float: left;
-    clear: both;
-    border-right:1px solid #d1d1d1; 
+    // float: left;
+    // clear: both;
+    // border-right:1px solid #d1d1d1; 
+    background-color: #0268BD;
+    img{
+      vertical-align: middle;
+    }
   }
 
   .el-aside {
@@ -209,7 +211,8 @@
 
     }
     .content{
-      padding: 20px;
+      // padding: 20px;
+      height: 100%;
       .el-input--medium{
         width: 30%;
         margin-right: -50%;
