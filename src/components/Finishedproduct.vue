@@ -460,7 +460,6 @@
     
             }else{
                 this.obj.list_type=2;
-                console.log(this.obj.productInfo)
                 if(this.obj.productInfo.work_order_no==""&&this.obj.productInfo.pm_id==""&&this.obj.productInfo.pim_id==""&&this.obj.productInfo.cb_id==""&&this.obj.productInfo.trace_no==""&&this.obj.productInfo.product_serial_no==""&&this.obj.productInfo.product_batch_no==""&&this.obj.productInfo.date_time==null){
                     this.obj.productInfo=null;
                 }else{
@@ -626,6 +625,8 @@
              console.log(e);
              this.searchedProcuct=true;
              this.tableData3.splice(0);
+             this.total=0;
+             this.totalForCb=0;
              console.log(this.tableData3)
          }
         },
