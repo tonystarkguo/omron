@@ -381,12 +381,15 @@
           searchValue(){
               this.obj=ObjInit;
               
-                if((this.inputSearch==""||this.inputSearch.replace(/\s+/g, "").length<=0)&&!this.showSearchList){
+                // if((this.inputSearch==""||this.inputSearch.replace(/\s+/g, "").length<=0)&&!this.showSearchList){
                     // this.$message.error('输入搜索内容');
-                     this.obj.productInfo=null;
-                }else{
+                    //  this.obj.productInfo=null;
+                // }else{
                     // alert(this.inputSearch)
-                };
+                // };
+                if(this.sizeForm.gd==""&&this.sizeForm.pim==""&&this.sizeForm.cbid==""&&this.sizeForm.pimid==""&&this.sizeForm.trackNo==""&&this.sizeForm.no==""&&this.sizeForm.ph==""&&this.sizeForm.date1==""&&this.sizeForm.date2==""){
+                         this.obj.productInfo=null;
+                }else{}
                 this.obj.search_context=this.inputSearch;
                     this.getSearchValue()
           },
@@ -457,7 +460,8 @@
     
             }else{
                 this.obj.list_type=2;
-                if(this.obj.productInfo.work_order_no==""&&this.obj.productInfo.pim_id==""&&this.obj.productInfo.cb_id==""&&this.obj.productInfo.trace_no==""&&this.obj.productInfo.product_serial_no==""&&this.obj.productInfo.product_batch_no==""&&this.obj.productInfo.date_time==null){
+                console.log(this.obj.productInfo)
+                if(this.obj.productInfo.work_order_no==""&&this.obj.productInfo.pm_id==""&&this.obj.productInfo.pim_id==""&&this.obj.productInfo.cb_id==""&&this.obj.productInfo.trace_no==""&&this.obj.productInfo.product_serial_no==""&&this.obj.productInfo.product_batch_no==""&&this.obj.productInfo.date_time==null){
                     this.obj.productInfo=null;
                 }else{
 
