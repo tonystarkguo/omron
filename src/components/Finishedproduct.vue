@@ -272,7 +272,8 @@
           },
           /* 清空当前排序的 */
           clearSort(){
-              this.$refs.multipleTable.clearSort()
+              this.$refs.multipleTable.clearSort();
+              this.sortObj={"order":null,"order_column":null};
           },
           handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
