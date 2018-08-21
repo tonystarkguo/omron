@@ -226,7 +226,6 @@
           },
           /* 清空当前排序的 */
           clearSort(){
-              this.$refs.multipleTable.clearSort();
               this.sortObj={"order":null,"order_column":null};
           },
           handleCurrentChange(val) {
@@ -397,6 +396,7 @@
                 const obj={"productInfo":row,"detail_type":"1","pagingParamEnyity":{"page_no":0,"order":"","order_column":""}}
                 const self=this;
                 delete obj.productInfo.date_time_T;
+                this.$refs.multipleTable.clearSort();
                 api.showModuleDetailForFin(obj).then(function(res){
                     self.totalForCb=res.count_row;
                     self.tableData4=res.componenteEmployInfo;
@@ -436,16 +436,17 @@
             },
           backUppag(){
             // this.searchedProcuct=!this.searchedProcuct;
+            this.clearSort();
             this.showSearchList=true;
              this.searchedProcuct=true;
-             this.clearSort();
+             
          },
           handleClickCard(tab, event){
              console.log(tab.name,this.activeName2);
              /* 请求pm cb cover */
               this.sortObjT={"order":"","order_column":""};
             //   this.currentPageForCb
-            this.$refs.multipleTableCM.clearSort();
+            this.$refs.multipleTableFishPrduct.clearSort();
              this.getCBPM(0)
          },
          handleCurrentChangeForCb(val){
