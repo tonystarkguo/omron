@@ -365,7 +365,8 @@
                     }
                     if(0==val){
                         this.currentPage=1;
-                          this.obj.pagingParamEnyity.page_no=0;
+                        this.obj.pagingParamEnyity.page_no=0;
+                        this.sortObj={"order":null,"order_column":null};
                     }
                     this.getSearchListValue();
                 // }
