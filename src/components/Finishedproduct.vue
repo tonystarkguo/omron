@@ -335,6 +335,7 @@
                 if((this.multipleSelection.length<=0&&this.searchedProcuct)||(this.multipleTableFishPrduct.length<=0&&!this.searchedProcuct) ){
                     // self.$message.error({message:'至少选择一个',duration:2000});
                     fileObj.export_all=true;
+                    fileObj.productInfo=null;
                     this.$confirm('是否导出全部文件?', '提示', {
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',
@@ -344,7 +345,7 @@
                                      const obj={uuid:res.uuid}
                                     api.exportFile_F_p_Ajax(obj)
                                 }).catch(function(erro){
-                                    self.$message.error(erro);
+                                    self.$message.error({message:"导出失败"});
                                 })
                                 this.$message({
                                     type: 'success',
@@ -407,6 +408,7 @@
                 console.log(this.radio2)
                 if(val==0){
                     this.moreDate=true;
+                    this.obj.pagingParamEnyity.page_no=0;
                 }
                this.obj.search_context="";
                if(!this.obj.productInfo){
@@ -497,7 +499,7 @@
                     // val.date_time_T=formatDate(new Date(val.date_time.replace(/-/g, "/")) ,"yyyy-MM-dd");
                     // console.log(new Date(parseInt(val.date_time)))
                 })
-
+                this.activeName2="CB";
             }).catch(function(erro){
                 self.$message.error(erro);
             })
@@ -581,6 +583,10 @@
               if(this.productInfo_row){
                  delete  this.productInfo_row["date_time_T"];
              }
+             if(val==0){
+                 this.currentPageForCb=1;
+             }
+             
              api.showModuleDetailForFin(obj).then(function(res){
                   self.totalForCb=res.count_row;//总页数
                 self.tableData4=res.componenteEmployInfo;

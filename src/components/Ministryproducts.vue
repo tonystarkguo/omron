@@ -224,6 +224,10 @@
            handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
           },
+          /* 清空当前排序的 */
+          clearSort(){
+              this.$refs.multipleTable.clearSort();
+          },
           handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
             if(val%2==0){
@@ -272,6 +276,7 @@
                 if((this.multipleSelection.length<=0&&this.searchedProcuct)||(this.multipleTableFishPrduct.length<=0&&!this.searchedProcuct) ){
                     // self.$message.error({message:'至少选择一个',duration:2000});
                   fileObj.export_all=true;
+                   fileObj.productInfo=null;
                     this.$confirm('是否导出全部文件?', '提示', {
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',
@@ -281,7 +286,7 @@
                                    const obj={uuid:res.uuid}
                                     api.exportFile_F_p_Ajax(obj)
                                 }).catch(function(erro){
-                                    self.$message.error(erro);
+                                    self.$message.error({message:"导出失败"});
                                 })
                                 console.log($)
                                 
@@ -390,6 +395,7 @@
                 api.showModuleDetailForFin(obj).then(function(res){
                     self.totalForCb=res.count_row;
                     self.tableData4=res.componenteEmployInfo;
+                    this.activeName2="CB";
                 }).catch(function(erro){
                     self.$message.error(erro);
                 })
@@ -427,6 +433,7 @@
             // this.searchedProcuct=!this.searchedProcuct;
             this.showSearchList=true;
              this.searchedProcuct=true;
+             this.clearSort();
          },
           handleClickCard(tab, event){
              console.log(tab.name,this.activeName2);
@@ -481,6 +488,9 @@
               if(this.productInfo_row){
                  delete  this.productInfo_row["date_time_T"];
              }
+             if(val==0){
+                 this.currentPageForCb=1;
+             }
              api.showModuleDetailForFin(obj).then(function(res){
                   self.totalForCb=res.count_row;//总页数
                 self.tableData4=res.componenteEmployInfo;
@@ -504,6 +514,7 @@
             }
              this.sortObj={"order":orderC,"order_column":prop};
                this.obj.pagingParamEnyity.page_no=0;
+               this.currentPage=1;
             this.getSearchListValue()
          },
          sortChangeT({ column, prop, order }){
