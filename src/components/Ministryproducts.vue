@@ -276,7 +276,7 @@
                 if((this.multipleSelection.length<=0&&this.searchedProcuct)||(this.multipleTableFishPrduct.length<=0&&!this.searchedProcuct) ){
                     // self.$message.error({message:'至少选择一个',duration:2000});
                   fileObj.export_all=true;
-                   fileObj.productInfo=null;
+                   fileObj.componenteEmployInfo= self.obj.componenteEmployInfo;
                     this.$confirm('是否导出全部文件?', '提示', {
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',

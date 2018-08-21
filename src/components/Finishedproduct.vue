@@ -323,7 +323,7 @@
                     }else{
                         fileObj.type=3;
                         // fileObj.headList=["部品工序","部品品番","部品位置","部品批号"]
-                        ileObj.headList=["生产工序","部品品番","部品位置","部品批号"];
+                        fileObj.headList=["生产工序","部品品番","部品位置","部品批号"];
                         if(this.activeName2=="CB"){
                             fileObj.detail_type=1;
                         }else if(this.activeName2=="PM"){
@@ -335,7 +335,7 @@
                 if((this.multipleSelection.length<=0&&this.searchedProcuct)||(this.multipleTableFishPrduct.length<=0&&!this.searchedProcuct) ){
                     // self.$message.error({message:'至少选择一个',duration:2000});
                     fileObj.export_all=true;
-                    fileObj.productInfo=null;
+                    fileObj.productInfo= self.obj.productInfo;
                     this.$confirm('是否导出全部文件?', '提示', {
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',
