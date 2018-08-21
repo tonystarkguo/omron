@@ -105,7 +105,7 @@
                         <el-tab-pane label="FAT组装" name="COVER"></el-tab-pane>
                 </el-tabs>
 
-              <el-table v-if="!searchedProcuct" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :min-height="200"  :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChange">
+              <el-table v-if="!searchedProcuct" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :min-height="200"  :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
                     <el-table-column  prop="date" type="selection" width="55" align="center" fixed> </el-table-column>
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
@@ -498,7 +498,7 @@
               if(this.productInfo_row){
                  delete  this.productInfo_row["date_time_T"];
              }
-             if(val==0){
+             if(val==0&& (this.sortObjT.order==null||this.sortObjT.order=="")){
                  this.currentPageForCb=1;
                  this.$refs.multipleTableFishPrduct.clearSort();
              }
