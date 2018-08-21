@@ -525,8 +525,7 @@
              this.sortObj={"order":orderC,"order_column":prop};
                this.obj.pagingParamEnyity.page_no=0;
                this.currentPage=1;
-                 this.currentPageForCb=1;
-                 this.$refs.multipleTableFishPrduct.clearSort();
+                this.currentPageForCb=1;
             this.getSearchListValue()
          },
          sortChangeT({ column, prop, order }){
