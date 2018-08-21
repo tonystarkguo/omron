@@ -134,7 +134,7 @@
                         <el-tab-pane label="FAT组装" name="COVER"></el-tab-pane>
                 </el-tabs>
 
-              <el-table v-if="!searchedProcuct" :border='true' ref="multipleTable" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+              <el-table v-if="!searchedProcuct" :border='true' ref="multipleTableCM" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
                     <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号" sortable> </el-table-column> -->
@@ -409,6 +409,7 @@
                 if(val==0){
                     this.moreDate=true;
                     this.obj.pagingParamEnyity.page_no=0;
+                    this.currentPage=1;
                 }
                this.obj.search_context="";
                if(!this.obj.productInfo){
@@ -485,6 +486,7 @@
           },
           handleClick(row){
                 console.log(row);
+                this.activeName2="CB";
                 this.searchedProcuct=false;
                 this.showSearchList=false;
                 this.productInfo_row=row;
@@ -499,7 +501,7 @@
                     // val.date_time_T=formatDate(new Date(val.date_time.replace(/-/g, "/")) ,"yyyy-MM-dd");
                     // console.log(new Date(parseInt(val.date_time)))
                 })
-                this.activeName2="CB";
+               
             }).catch(function(erro){
                 self.$message.error(erro);
             })
@@ -557,6 +559,7 @@
              console.log(tab.name,this.activeName2);
              /* 请求pm cb cover */
              this.sortObjT={"order":"","order_column":""};
+              this.$refs.multipleTableCM.clearSort();
               this.getCBPM(0)
          },
          handleCurrentChangeForCb(val){
@@ -573,6 +576,7 @@
          getCBPM(val){
              const obj={"productInfo":this.productInfo_row,"detail_type":null,"pagingParamEnyity":{"page_no":val,"order":this.sortObjT.order,"order_column": this.sortObjT.order_column}}
             const self=this;
+            
               if(this.activeName2=="CB"){
                   obj.detail_type=1;
              }else if(this.activeName2=="PM"){

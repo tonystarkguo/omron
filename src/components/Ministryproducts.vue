@@ -7,7 +7,7 @@
               <el-button size="mini" style="float: left;" @click="exportFile">导出</el-button>
               <!-- <el-input v-if="!showSearchList&&searchedProcuct" placeholder="请输入内容" v-model="inputSearch" size="medium" prefix-icon="el-icon-search"  @keyup.enter.native="searchValue">              </el-input> -->
               <!-- <el-button v-if="!showSearchList&&searchedProcuct" @click="showSearchList=!showSearchList" size="medium" style="float: right;">高级搜索</el-button> -->
-                <el-button v-if="showSearchList" size="mini" style="float: right;" @click="searchList">搜索</el-button>
+                <el-button v-if="showSearchList" size="mini" style="float: right;" @click="searchList(0)">搜索</el-button>
                  <div v-if="searchedProcuct" class="tital-search"><span>合计:</span><span>{{totalAll}}</span></div>
               <!-- <el-button v-if="showSearchList" size="medium" style="float: right;" @click="showSearchList=!showSearchList">收起</el-button> -->
             <span style="clear: both;"></span>
@@ -336,7 +336,7 @@
                 this.obj.search_context=this.inputSearch;
                 this.getSearchListValue()
             },
-            searchList(){
+            searchList(val){
                 // this.searchedProcuct=false;
                 /* 部品品番【and】部品批次【or】成品品番【or】结束时间 */
                 const self=this;
@@ -363,13 +363,17 @@
                     }else{
 
                     }
+                    if(0==val){
+                        this.currentPage=1;
+                          this.obj.pagingParamEnyity.page_no=0;
+                    }
                     this.getSearchListValue();
                 // }
                
             },
             handleClick(row){
                 console.log(row)
-
+                this.activeName2="CB";
                 // this.searchedProcuct=false;
                 // this.showSearchList=false;
                 // this.sortObj={"order":null,"order_column":null}
@@ -395,7 +399,7 @@
                 api.showModuleDetailForFin(obj).then(function(res){
                     self.totalForCb=res.count_row;
                     self.tableData4=res.componenteEmployInfo;
-                    this.activeName2="CB";
+                  
                 }).catch(function(erro){
                     self.$message.error(erro);
                 })
@@ -440,6 +444,7 @@
              /* 请求pm cb cover */
               this.sortObjT={"order":"","order_column":""};
             //   this.currentPageForCb
+            this.$refs.multipleTableCM.clearSort();
              this.getCBPM(0)
          },
          handleCurrentChangeForCb(val){
@@ -478,6 +483,7 @@
             // })
              const obj={"productInfo":this.productInfo_row,"detail_type":null,"pagingParamEnyity":{"page_no":val,"order":this.sortObjT.order,"order_column": this.sortObjT.order_column}}
             const self=this;
+            
               if(this.activeName2=="CB"){
                   obj.detail_type=1;
              }else if(this.activeName2=="PM"){
@@ -490,6 +496,7 @@
              }
              if(val==0){
                  this.currentPageForCb=1;
+                 this.$refs.multipleTableFishPrduct.clearSort();
              }
              api.showModuleDetailForFin(obj).then(function(res){
                   self.totalForCb=res.count_row;//总页数
