@@ -186,7 +186,8 @@
                 delivery: false,
                 type: [],
                 resource: '',
-                desc: ''
+                desc: '',
+                pimid:"",
               },
                 radio2:1,
                 showSearchList:true,
@@ -351,7 +352,12 @@
                     if(this.obj.componenteEmployInfo.date_time=="@"){
                         this.obj.componenteEmployInfo.date_time=null
                     }
-                
+                    console.log(this.sizeForm.minsPro,"11",this.sizeForm.ph,"333",this.sizeForm.pimid,"444",this.sizeForm.date1,"2222",this.sizeForm.date2)
+                    if(this.sizeForm.minsPro==""&&this.sizeForm.ph==""&&this.sizeForm.pimid==""&&this.sizeForm.date1==""&&this.sizeForm.date2==""){
+                        this.obj.componenteEmployInfo=null;
+                    }else{
+
+                    }
                     this.getSearchListValue();
                 // }
                
@@ -494,7 +500,7 @@
                   orderC="desc";
              };
             if(prop=="date_time_T"){
-                prop=="date_time"
+                prop="date_time"
             }
              this.sortObj={"order":orderC,"order_column":prop};
                this.obj.pagingParamEnyity.page_no=0;

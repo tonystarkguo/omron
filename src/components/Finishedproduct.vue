@@ -270,6 +270,10 @@
            handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
           },
+          /* 清空当前排序的 */
+          clearSort(){
+              this.$refs.multipleTable.clearSort()
+          },
           handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
             let lel=this.multipleSelection;
@@ -454,12 +458,20 @@
                         });          
                     });
                 }else{
+                    const {productInfo:{cb_id,date_time,ib_id,pim_id,pm_id,product_batch_no,product_serial_no,trace_no,work_order_no}}=this.obj;
+                    console.log(cb_id=="",date_time==null,ib_id=="",pim_id=="",pm_id=="",product_batch_no=="",product_serial_no=="",trace_no=="",work_order_no=="")
+                    if(cb_id==""&&date_time==null&&ib_id==""&&pim_id==""&&pm_id==""&&product_batch_no==""&&product_serial_no==""&&trace_no==""&&work_order_no==""){
+                        this.obj.productInfo=null;
+                    }else{
+
+                    }
                     this.getSearchValue();
                 }
                     
     
             }else{
                 this.obj.list_type=2;
+                console.log(this.obj.productInfo)
                 if(this.obj.productInfo.work_order_no==""&&this.obj.productInfo.pm_id==""&&this.obj.productInfo.pim_id==""&&this.obj.productInfo.cb_id==""&&this.obj.productInfo.trace_no==""&&this.obj.productInfo.product_serial_no==""&&this.obj.productInfo.product_batch_no==""&&this.obj.productInfo.date_time==null){
                     this.obj.productInfo=null;
                 }else{
@@ -592,11 +604,13 @@
                   orderC="desc";
              };
             if(prop=="date_time_T"){
-                prop=="date_time"
+                prop="date_time"
             }
              this.sortObj={"order":orderC,"order_column":prop};
                this.obj.pagingParamEnyity.page_no=0;
                this.currentPage=1;
+               this.currentPageForCb=1;
+               this.tableData3.splice(0);
             this.getSearchValue()
          },
          sortChangeT({ column, prop, order }){
@@ -627,6 +641,7 @@
              this.tableData3.splice(0);
              this.total=0;
              this.totalForCb=0;
+             this.clearSort();
              console.log(this.tableData3)
          }
         },
