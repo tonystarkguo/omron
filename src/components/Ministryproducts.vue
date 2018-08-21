@@ -397,6 +397,7 @@
                 const self=this;
                 delete obj.productInfo.date_time_T;
                 this.$refs.multipleTable.clearSort();
+                this.currentPageForCb=1;
                 api.showModuleDetailForFin(obj).then(function(res){
                     self.totalForCb=res.count_row;
                     self.tableData4=res.componenteEmployInfo;
@@ -524,6 +525,8 @@
              this.sortObj={"order":orderC,"order_column":prop};
                this.obj.pagingParamEnyity.page_no=0;
                this.currentPage=1;
+                 this.currentPageForCb=1;
+                 this.$refs.multipleTableFishPrduct.clearSort();
             this.getSearchListValue()
          },
          sortChangeT({ column, prop, order }){
