@@ -77,15 +77,15 @@
                 <el-table-column prop="product_batch_no" align="left" label="成品批号" width="120" sortable></el-table-column>
                 <el-table-column prop="date_time_T" align="left" label="生产时间" width="120" sortable></el-table-column> -->
                <!-- 8月7号修改 -->
+                <el-table-column prop="date_time_T" align="left" label="生产时间" min-width="100" sortable></el-table-column>
+                <el-table-column prop="product_batch_no" align="left" label="成品批号" min-width="100" sortable></el-table-column>                            
                 <el-table-column prop="work_order_no" align="left" label="工单号" min-width="100" sortable show-overflow-tooltip></el-table-column>                                   
                 <!-- <el-table-column prop="item_id" align="left" label="机种名" min-width="120" sortable></el-table-column> -->
-                <el-table-column prop="product_batch_no" align="left" label="成品批号" min-width="100" sortable></el-table-column>               
                 <el-table-column prop="pim_id" align="left" label="PIM品番" min-width="100" sortable></el-table-column>
-                <el-table-column prop="cb_id" align="left" label="CBID" min-width="100" sortable></el-table-column>
-                <el-table-column prop="pm_id" align="left" label="PMID" min-width="100" sortable></el-table-column>
+                <el-table-column prop="cb_id" align="left" label="CB_ID" min-width="100" sortable></el-table-column>
+                <el-table-column prop="pm_id" align="left" label="PM_ID" min-width="100" sortable></el-table-column>
                 <el-table-column prop="trace_no" align="left" label="TRACE NO" min-width="120" sortable></el-table-column>
                 <el-table-column prop="product_serial_no" align="left" label="成品序列号" min-width="120" sortable></el-table-column>
-                <el-table-column prop="date_time_T" align="left" label="生产时间" min-width="100" sortable></el-table-column>
 
                 <!-- <el-table-column prop="" align="left" label="成品批号" width="120" sortable></el-table-column>
                 <el-table-column prop="" align="left" label="生产工序" width="120" sortable></el-table-column>
@@ -262,7 +262,7 @@
                     if(this.searchedProcuct){
                          fileObj.type=1;
                         //  fileObj.headList=["成品序列号","CB ID","PM ID","TRACE NO","工单号","成品批号","生产时间"]
-                        fileObj.headList=["工单号","成品批号","PIM 品番","CB ID ","PM ID","TRACE NO","成品序列号","生产时间"]
+                        fileObj.headList=["生产时间","成品批号","工单号","PIM品番","CB_ID","PM_ID","TRACE NO","成品序列号"]
                    }else{
                         fileObj.type=3;
                         fileObj.headList=["生产工序","部品品番","部品位置","部品批号"];

@@ -18,28 +18,30 @@
             <div class="search-list" v-if="showSearchList">
                 <el-form ref="form" :model="sizeForm" label-width="90px" size="small" label-position="left">
                     <el-row>
-                         <!-- <el-col :span="5">
-                            <el-form-item label="机种名">
-                                <el-input v-model="sizeForm.name" :disabled="true"></el-input>
+                         <el-col :span="5">
+                             <el-form-item label="成品批号">
+                                <el-input v-model="sizeForm.ph"></el-input>
                             </el-form-item>
-                        </el-col> -->
-                        <el-col :span="5" >
+                            <!-- <el-form-item label="机种名">
+                                <el-input v-model="sizeForm.name" :disabled="true"></el-input>
+                            </el-form-item> -->
+                        </el-col>
+                        <el-col :span="5" :offset="1">
+                            <el-form-item label="工单号">
+                                <el-input v-model="sizeForm.gd"></el-input>
+                            </el-form-item>
+                            
+                        </el-col>
+                        <el-col :span="5"  :offset="1">
                             <el-form-item label="PIM品番">
                                 <el-input v-model="sizeForm.pim"></el-input>
                             </el-form-item>
-                        </el-col>
-                        <el-col :span="5"  :offset="1">
-                            <el-form-item label="成品序列号">
-                                <el-input v-model="sizeForm.no"></el-input>
-                            </el-form-item>
+                            
                         </el-col>
                         <el-col :span="5" :offset="1">
                             <el-form-item label="CB ID">
                                 <el-input v-model="sizeForm.cbid"></el-input>
                             </el-form-item>
-                        </el-col>
-                        <el-col :span="5" :offset="1">
-                           
                         </el-col>
                     </el-row>
 
@@ -55,14 +57,17 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="5" :offset="1">
-                            <el-form-item label="工单号">
+                            <!-- <el-form-item label="工单号">
                                 <el-input v-model="sizeForm.gd"></el-input>
+                            </el-form-item> -->
+                            <el-form-item label="成品序列号">
+                                <el-input v-model="sizeForm.no"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="5" :offset="1">
-                            <el-form-item label="成品批号">
+                            <!-- <el-form-item label="成品批号">
                                 <el-input v-model="sizeForm.ph"></el-input>
-                            </el-form-item>
+                            </el-form-item> -->
                         </el-col>
                     </el-row>
                     
@@ -113,16 +118,16 @@
                 </el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
+                    <el-table-column prop="date_time_T" align="left" label="生产时间" min-width="100" sortable></el-table-column>
+                    <el-table-column prop="product_batch_no" align="left" label="成品批号" min-width="100" sortable></el-table-column>                                        
                     <el-table-column prop="work_order_no" align="left" label="工单号" min-width="100" sortable show-overflow-tooltip></el-table-column>                                   
                     <!-- <el-table-column prop="item_id" align="left" label="机种名" min-width="120" sortable></el-table-column> -->
-                    <el-table-column prop="product_batch_no" align="left" label="成品批号" min-width="100" sortable></el-table-column>                    
                     <el-table-column prop="pim_id" align="left" label="PIM品番" min-width="100" sortable></el-table-column>
-                    <el-table-column prop="cb_id" align="left" label="CBID" min-width="100" sortable></el-table-column>
-                    <el-table-column prop="pm_id" align="left" label="PMID" min-width="100" sortable></el-table-column>
+                    <el-table-column prop="cb_id" align="left" label="CB_ID" min-width="100" sortable></el-table-column>
+                    <el-table-column prop="pm_id" align="left" label="PM_ID" min-width="100" sortable></el-table-column>
                     <el-table-column prop="trace_no" align="left" label="TRACE NO" min-width="120" sortable></el-table-column>
                     <el-table-column prop="product_serial_no" align="left" label="成品序列号" min-width="120" sortable></el-table-column>
-                    <el-table-column prop="date_time_T" align="left" label="生产时间" min-width="100" sortable></el-table-column>
-
+                    
                  <el-table-column fixed="right" label="操作" width="100">
                         <template slot-scope="scope">
                             <el-button @click="handleClick(scope.row)" type="text" size="small">展开详情</el-button>
