@@ -8,6 +8,7 @@
               <el-button size="mini" style="float: left;" @click="exportFile">导出</el-button>
               <!-- <el-input v-if="!showSearchList&&searchedProcuct" placeholder="请输入内容" v-model="inputSearch" size="medium" prefix-icon="el-icon-search"  @keyup.enter.native="searchValue">              </el-input> -->
               <el-button v-if="!showSearchList&&searchedProcuct" @click="showSearchList=!showSearchList" size="medium" style="float: right;">高级搜索</el-button>
+                <el-button v-if="showSearchList" size="mini" style="float: right;" @click="clearSearchValue">清除</el-button>
                 <el-button v-if="showSearchList" size="mini" style="float: right;" @click="searchList(0)">搜索</el-button>
                 <div v-if="searchedProcuct" class="tital-search"><span>合计:</span><span>{{totalAll}}</span></div>
                 
@@ -17,12 +18,12 @@
             <div class="search-list" v-if="showSearchList">
                 <el-form ref="form" :model="sizeForm" label-width="90px" size="small" label-position="left">
                     <el-row>
-                         <el-col :span="5">
+                         <!-- <el-col :span="5">
                             <el-form-item label="机种名">
                                 <el-input v-model="sizeForm.name" :disabled="true"></el-input>
                             </el-form-item>
-                        </el-col>
-                        <el-col :span="5" :offset="1">
+                        </el-col> -->
+                        <el-col :span="5" >
                             <el-form-item label="PIM品番">
                                 <el-input v-model="sizeForm.pim"></el-input>
                             </el-form-item>
@@ -36,6 +37,9 @@
                             <el-form-item label="CB ID">
                                 <el-input v-model="sizeForm.cbid"></el-input>
                             </el-form-item>
+                        </el-col>
+                        <el-col :span="5" :offset="1">
+                           
                         </el-col>
                     </el-row>
 
@@ -109,15 +113,15 @@
                 </el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
-                    <el-table-column prop="work_order_no" align="left" label="工单号" min-width="120" sortable show-overflow-tooltip></el-table-column>                                   
-                    <el-table-column prop="item_id" align="left" label="机种名" min-width="120" sortable></el-table-column>
-                    <el-table-column prop="pim_id" align="left" label="PIM品番" min-width="120" sortable></el-table-column>
-                    <el-table-column prop="cb_id" align="left" label="CBID" min-width="120" sortable></el-table-column>
-                    <el-table-column prop="pm_id" align="left" label="PMID" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="work_order_no" align="left" label="工单号" min-width="100" sortable show-overflow-tooltip></el-table-column>                                   
+                    <!-- <el-table-column prop="item_id" align="left" label="机种名" min-width="120" sortable></el-table-column> -->
+                    <el-table-column prop="product_batch_no" align="left" label="成品批号" min-width="100" sortable></el-table-column>                    
+                    <el-table-column prop="pim_id" align="left" label="PIM品番" min-width="100" sortable></el-table-column>
+                    <el-table-column prop="cb_id" align="left" label="CBID" min-width="100" sortable></el-table-column>
+                    <el-table-column prop="pm_id" align="left" label="PMID" min-width="100" sortable></el-table-column>
                     <el-table-column prop="trace_no" align="left" label="TRACE NO" min-width="120" sortable></el-table-column>
                     <el-table-column prop="product_serial_no" align="left" label="成品序列号" min-width="120" sortable></el-table-column>
-                    <el-table-column prop="product_batch_no" align="left" label="成品批号" min-width="120" sortable></el-table-column>
-                    <el-table-column prop="date_time_T" align="left" label="生产时间" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="date_time_T" align="left" label="生产时间" min-width="100" sortable></el-table-column>
 
                  <el-table-column fixed="right" label="操作" width="100">
                         <template slot-scope="scope">
@@ -315,7 +319,7 @@
                     };
                     if(this.searchedProcuct){
                          fileObj.type=1;
-                         fileObj.headList=["工单号","机种名","PIM 品番","CB ID ","PM ID","TRACE NO","成品序列号","成品批号","生产时间"]
+                         fileObj.headList=["工单号","成品批号","PIM 品番","CB ID ","PM ID","TRACE NO","成品序列号","生产时间"]
                          if(this.radio2==2){
                             fileObj.type=2;
                             fileObj.headList=["成品序列号","生产工序","部品位置","部品品番","部品批号"];
@@ -654,7 +658,26 @@
              this.totalForCb=0;
              this.clearSort();
              console.log(this.tableData3)
-         }
+         },
+         /* 清空搜索条件 */
+         clearSearchValue(){
+             this.sizeForm={
+                    name: '3.5G',
+                    pim: '',
+                    no:"",
+                    cbid:"",
+                    pimid:"",
+                    trackNo:"",
+                    gd:"",
+                    ph:"",
+                    date1: '',
+                    date2: '',
+                    delivery: false,
+                    type: [],
+                    resource: '',
+                    desc: ''
+                }
+         },
         },
         mounted(){
 
