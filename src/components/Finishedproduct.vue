@@ -39,15 +39,20 @@
                             
                         </el-col>
                         <el-col :span="5" :offset="1">
-                            <el-form-item label="CB ID">
+                            <!-- <el-form-item label="CB_ID">
                                 <el-input v-model="sizeForm.cbid"></el-input>
-                            </el-form-item>
+                            </el-form-item> -->
                         </el-col>
                     </el-row>
 
                    <el-row>
-                        <el-col :span="5" >
-                            <el-form-item label="PM ID">
+                       <el-col :span="5" >
+                            <el-form-item label="CB_ID">
+                                <el-input v-model="sizeForm.cbid"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="5" :offset="1">
+                            <el-form-item label="PM_ID">
                                 <el-input v-model="sizeForm.pimid"></el-input>
                             </el-form-item>
                         </el-col>
@@ -119,7 +124,7 @@
                     <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
                     <el-table-column prop="date_time_T" align="left" label="生产时间" min-width="100" sortable></el-table-column>
-                    <el-table-column prop="product_batch_no" align="left" label="成品批号" min-width="100" sortable></el-table-column>                                        
+                    <el-table-column prop="product_batch_no" align="left" label="成品批号" min-width="120" sortable></el-table-column>                                        
                     <el-table-column prop="work_order_no" align="left" label="工单号" min-width="100" sortable show-overflow-tooltip></el-table-column>                                   
                     <!-- <el-table-column prop="item_id" align="left" label="机种名" min-width="120" sortable></el-table-column> -->
                     <el-table-column prop="pim_id" align="left" label="PIM品番" min-width="100" sortable></el-table-column>
@@ -324,7 +329,7 @@
                     };
                     if(this.searchedProcuct){
                          fileObj.type=1;
-                         fileObj.headList=["工单号","成品批号","PIM 品番","CB ID ","PM ID","TRACE NO","成品序列号","生产时间"]
+                         fileObj.headList=["生产时间","成品批号","工单号","PIM品番","CB_ID","PM_ID","TRACE NO","成品序列号"]
                          if(this.radio2==2){
                             fileObj.type=2;
                             fileObj.headList=["成品序列号","生产工序","部品位置","部品品番","部品批号"];
