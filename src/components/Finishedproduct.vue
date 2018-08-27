@@ -120,7 +120,7 @@
                 </el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
-                    <el-table-column prop="date_time_T" align="left" label="生产时间" min-width="100" sortable></el-table-column>
+                    <el-table-column prop="date_time" align="left" label="生产时间" min-width="140" sortable></el-table-column>
                     <el-table-column prop="product_batch_no" align="left" label="成品批号" min-width="120" sortable></el-table-column>                                        
                     <el-table-column prop="work_order_no" align="left" label="工单号" min-width="100" sortable show-overflow-tooltip></el-table-column>                                   
                     <!-- <el-table-column prop="item_id" align="left" label="机种名" min-width="120" sortable></el-table-column> -->
@@ -325,6 +325,7 @@
                     "detail_type":null,
                     };
                     if(this.searchedProcuct){
+                        this.obj.productInfo=null;
                          fileObj.type=1;
                          fileObj.headList=["生产时间","成品批号","工单号","PIM品番","CB_ID","PM_ID","TRACE NO","成品序列号"]
                          if(this.radio2==2){
@@ -335,6 +336,7 @@
                     }else{
                         fileObj.type=3;
                         // fileObj.headList=["部品工序","部品品番","部品位置","部品批号"]
+                       self.obj.productInfo=this.productInfo_row;
                         fileObj.headList=["生产工序","部品品番","部品位置","部品批号"];
                         if(this.activeName2=="CB"){
                             fileObj.detail_type=1;
@@ -344,6 +346,18 @@
                             fileObj.detail_type=3;
                         }
                     }
+                /* 没数据时的提示 */
+                if(this.searchedProcuct){
+                    if(this.tableData3.length<=0){
+                        self.$message.error({message:"没有数据不可导出！"});
+                        return 
+                    }
+                }else{
+                    if(this.tableData4.length<=0){
+                        self.$message.error({message:"没有数据不可导出！"});
+                        return 
+                    }
+                }
                 if((this.multipleSelection.length<=0&&this.searchedProcuct)||(this.multipleTableFishPrduct.length<=0&&!this.searchedProcuct) ){
                     // self.$message.error({message:'至少选择一个',duration:2000});
                     fileObj.export_all=true;
@@ -353,8 +367,10 @@
                             cancelButtonText: '取消',
                             type: 'warning'
                             }).then(() => {
+                                fileObj.item_type="3.5G";
                                  api.exportFile_F_p(fileObj).then(function(res){
                                      const obj={uuid:res.uuid}
+                                     obj.item_type="3.5G";
                                     api.exportFile_F_p_Ajax(obj)
                                 }).catch(function(erro){
                                     self.$message.error({message:"导出失败"});
@@ -384,9 +400,10 @@
                          delete val["date_time_T"];
                      });
                     }
-                    
+                    fileObj.item_type="3.5G";
                     api.exportFile_F_p(fileObj).then(function(res){
                           const obj={uuid:res.uuid}
+                          obj.item_type="3.5G";
                          api.exportFile_F_p_Ajax(obj)
                     }).catch(function(erro){
                          self.$message.error(erro);
@@ -478,7 +495,7 @@
                     if(cb_id==""&&date_time==null&&ib_id==""&&pim_id==""&&pm_id==""&&product_batch_no==""&&product_serial_no==""&&trace_no==""&&work_order_no==""){
                         this.obj.productInfo=null;
                     }else{
-
+                         
                     }
                     this.getSearchValue();
                 }
@@ -506,6 +523,7 @@
                 const obj={"productInfo":row,"detail_type":"1","pagingParamEnyity":{"page_no":0,"order":"","order_column":""}}
                 const self=this;
                 delete obj.productInfo.date_time_T;
+                 obj.item_type="3.5G";
             api.showModuleDetailForFin(obj).then(function(res){
                   self.totalForCb=res.count_row;
                 self.tableData4=res.componenteEmployInfo;
@@ -525,6 +543,7 @@
              const self=this;
              this.obj.pagingParamEnyity.order=this.sortObj.order;
              this.obj.pagingParamEnyity.order_column=this.sortObj.order_column;
+             this.obj.item_type="3.5G";
                 api.postContentTest(this.obj).then(function(res){
                 console.log(res)
                 self.total=res.count_row;
@@ -566,6 +585,7 @@
             // this.searchedProcuct=!this.searchedProcuct;
             this.showSearchList=true;
                 this.searchedProcuct=true;
+                this.productInfo_row=null;
          },
          handleClickCard(tab, event){
              console.log(tab.name,this.activeName2);
@@ -602,7 +622,7 @@
              if(val==0){
                  this.currentPageForCb=1;
              }
-             
+             obj.item_type="3.5G";
              api.showModuleDetailForFin(obj).then(function(res){
                   self.totalForCb=res.count_row;//总页数
                 self.tableData4=res.componenteEmployInfo;
@@ -650,6 +670,7 @@
          firstComin(){
             const obj={"list_type":1}; 
             const self=this;
+            obj.item_type="3.5G";
             api.postContentAndFin(obj).then(function(res){
                 console.log(res)
                 self.totalAll=res.count;

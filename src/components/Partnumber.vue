@@ -54,7 +54,7 @@
             <div class="text-item">
               <el-table  v-if="searchedProcuct" :cell-style="{'padding':'3px 0'}" :border='true' ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" :min-height="200" :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChange" @sort-change="sortChange">
                 <el-table-column  type="selection" width="55" align="center" fixed> </el-table-column>
-                <el-table-column prop="item_id" align="left" label="机种名" min-width="120" sortable></el-table-column>
+                <el-table-column prop="item" align="left" label="机种名" min-width="120" sortable></el-table-column>
 
                 <!-- <el-table-column prop="date_time_T" align="left" label="生产时间" min-width="100" sortable></el-table-column> -->
                 <!-- <el-table-column prop="work_order_no" align="left" label="工单号" min-width="100" sortable show-overflow-tooltip></el-table-column>                                    -->
@@ -231,6 +231,18 @@
                             fileObj.detail_type=4;
                         }
                     }
+                /* 没数据时的提示 */
+                if(this.searchedProcuct){
+                    if(this.tableData3.length<=0){
+                        self.$message.error({message:"没有数据不可导出！"});
+                        return 
+                    }
+                }else{
+                    if(this.tableData4.length<=0){
+                        self.$message.error({message:"没有数据不可导出！"});
+                        return 
+                    }
+                }
                 if((this.multipleSelection.length<=0&&this.searchedProcuct)||(this.multipleTableFishPrduct.length<=0&&!this.searchedProcuct) ){
                     // self.$message.error({message:'至少选择一个',duration:2000});
                   fileObj.export_all=true;

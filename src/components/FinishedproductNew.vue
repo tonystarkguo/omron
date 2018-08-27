@@ -116,7 +116,7 @@
                 </el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
-                    <el-table-column prop="date_time_T" align="left" label="生产时间" min-width="100" sortable></el-table-column>
+                    <el-table-column prop="date_time" align="left" label="生产时间" min-width="140" sortable></el-table-column>
                     <el-table-column prop="product_batch_no" align="left" label="成品批号" min-width="120" sortable></el-table-column>                                        
                     <el-table-column prop="work_order_no" align="left" label="工单号" min-width="100" sortable show-overflow-tooltip></el-table-column>                                   
                     <!-- <el-table-column prop="item_id" align="left" label="机种名" min-width="120" sortable></el-table-column> -->
@@ -137,7 +137,7 @@
                 <!-- 标签切换 -->
                 <el-tabs v-show="!searchedProcuct" v-model="activeName2" type="card" @tab-click="handleClickCard">
                         <el-tab-pane label="CB" name="CB"></el-tab-pane>
-                        <el-tab-pane label="PM" name="PM"></el-tab-pane>
+                        <!-- <el-tab-pane label="PM" name="PM"></el-tab-pane> -->
                         <el-tab-pane label="FAT组装" name="COVER"></el-tab-pane>
                         <el-tab-pane label="工序检查履历" name="CHECKED"></el-tab-pane>
                 </el-tabs>
@@ -349,6 +349,19 @@
                             fileObj.detail_type=3;
                         }
                     }
+
+                /* 没数据时的提示 */
+                if(this.searchedProcuct){
+                    if(this.tableData3.length<=0){
+                        self.$message.error({message:"没有数据不可导出！"});
+                        return 
+                    }
+                }else{
+                    if(this.tableData4.length<=0){
+                        self.$message.error({message:"没有数据不可导出！"});
+                        return 
+                    }
+                }
                 if((this.multipleSelection.length<=0&&this.searchedProcuct)||(this.multipleTableFishPrduct.length<=0&&!this.searchedProcuct) ){
                     // self.$message.error({message:'至少选择一个',duration:2000});
                     fileObj.export_all=true;
@@ -358,8 +371,10 @@
                             cancelButtonText: '取消',
                             type: 'warning'
                             }).then(() => {
+                                fileObj.item_type="4G";
                                  api.exportFile_F_p(fileObj).then(function(res){
                                      const obj={uuid:res.uuid}
+                                     obj.item_type="4G";
                                     api.exportFile_F_p_Ajax(obj)
                                 }).catch(function(erro){
                                     self.$message.error({message:"导出失败"});
@@ -389,9 +404,10 @@
                          delete val["date_time_T"];
                      });
                     }
-                    
+                    fileObj.item_type="4G";
                     api.exportFile_F_p(fileObj).then(function(res){
                           const obj={uuid:res.uuid}
+                          obj.item_type="4G";
                          api.exportFile_F_p_Ajax(obj)
                     }).catch(function(erro){
                          self.$message.error(erro);
@@ -511,6 +527,7 @@
                 const obj={"productInfo":row,"detail_type":"1","pagingParamEnyity":{"page_no":0,"order":"","order_column":""}}
                 const self=this;
                 delete obj.productInfo.date_time_T;
+                obj.item_type="4G";
             api.showModuleDetailForFin(obj).then(function(res){
                   self.totalForCb=res.count_row;
                 self.tableData4=res.componenteEmployInfo;
@@ -530,6 +547,7 @@
              const self=this;
              this.obj.pagingParamEnyity.order=this.sortObj.order;
              this.obj.pagingParamEnyity.order_column=this.sortObj.order_column;
+             obj.item_type="4G";
                 api.postContentTest(this.obj).then(function(res){
                 console.log(res)
                 self.total=res.count_row;
@@ -571,6 +589,7 @@
             // this.searchedProcuct=!this.searchedProcuct;
             this.showSearchList=true;
                 this.searchedProcuct=true;
+            this.productInfo_row=null;
          },
          handleClickCard(tab, event){
              console.log(tab.name,this.activeName2);
@@ -609,7 +628,7 @@
              if(val==0){
                  this.currentPageForCb=1;
              }
-             
+             obj.item_type="4G";
              api.showModuleDetailForFin(obj).then(function(res){
                   self.totalForCb=res.count_row;//总页数
                
@@ -662,6 +681,7 @@
          firstComin(){
             const obj={"list_type":1}; 
             const self=this;
+            obj.item_type="4G";
             api.postContentAndFin(obj).then(function(res){
                 console.log(res)
                 self.totalAll=res.count;

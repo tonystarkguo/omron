@@ -77,7 +77,7 @@
                 <el-table-column prop="product_batch_no" align="left" label="成品批号" width="120" sortable></el-table-column>
                 <el-table-column prop="date_time_T" align="left" label="生产时间" width="120" sortable></el-table-column> -->
                <!-- 8月7号修改 -->
-                <el-table-column prop="date_time_T" align="left" label="生产时间" min-width="100" sortable></el-table-column>
+                <el-table-column prop="date_time" align="left" label="生产时间" min-width="140" sortable></el-table-column>
                 <el-table-column prop="product_batch_no" align="left" label="成品批号" min-width="100" sortable></el-table-column>                            
                 <el-table-column prop="work_order_no" align="left" label="工单号" min-width="100" sortable show-overflow-tooltip></el-table-column>                                   
                 <!-- <el-table-column prop="item_id" align="left" label="机种名" min-width="120" sortable></el-table-column> -->
@@ -274,6 +274,18 @@
                             fileObj.detail_type=3;
                         }
                     }
+                /* 没数据时的提示 */
+                if(this.searchedProcuct){
+                    if(this.tableData3.length<=0){
+                        self.$message.error({message:"没有数据不可导出！"});
+                        return 
+                    }
+                }else{
+                    if(this.tableData4.length<=0){
+                        self.$message.error({message:"没有数据不可导出！"});
+                        return 
+                    }
+                }
                 if((this.multipleSelection.length<=0&&this.searchedProcuct)||(this.multipleTableFishPrduct.length<=0&&!this.searchedProcuct) ){
                     // self.$message.error({message:'至少选择一个',duration:2000});
                   fileObj.export_all=true;
@@ -283,8 +295,10 @@
                             cancelButtonText: '取消',
                             type: 'warning'
                             }).then(() => {
+                                 fileObj.item_type="3.5G";
                                  api.exportFile_F_p(fileObj).then(function(res){
                                    const obj={uuid:res.uuid}
+                                   obj.item_type="3.5G";
                                     api.exportFile_F_p_Ajax(obj)
                                 }).catch(function(erro){
                                     self.$message.error({message:"导出失败"});
@@ -315,9 +329,10 @@
                          delete val["date_time_T"];
                      });
                     }
-                    
+                    fileObj.item_type="3.5G";
                     api.exportFile_F_p(fileObj).then(function(res){
                        const obj={uuid:res.uuid}
+                       obj.item_type="3.5G";
                          api.exportFile_F_p_Ajax(obj)
                     }).catch(function(erro){
                          self.$message.error(erro);
@@ -400,6 +415,7 @@
                 delete obj.productInfo.date_time_T;
                 this.$refs.multipleTable.clearSort();
                 this.currentPageForCb=1;
+                obj.item_type="3.5G";
                 api.showModuleDetailForFin(obj).then(function(res){
                     self.totalForCb=res.count_row;
                     self.tableData4=res.componenteEmployInfo;
@@ -416,6 +432,7 @@
               const self=this;
                 this.obj.pagingParamEnyity.order=this.sortObj.order;
              this.obj.pagingParamEnyity.order_column=this.sortObj.order_column;
+             self.obj.item_type="3.5G";
               api.postMinistry(self.obj).then(function(res){
                 console.log(res)
                 self.total=res.count_row;
@@ -503,6 +520,7 @@
                  this.currentPageForCb=1;
                  this.$refs.multipleTableFishPrduct.clearSort();
              }
+             obj.item_type="3.5G";
              api.showModuleDetailForFin(obj).then(function(res){
                   self.totalForCb=res.count_row;//总页数
                 self.tableData4=res.componenteEmployInfo;
@@ -545,6 +563,7 @@
          firstComin(){
             const obj={"list_type":1}; 
             const self=this;
+            obj.item_type="3.5G";
             api.postContentAndFin(obj).then(function(res){
                 console.log(res)
                 self.totalAll=res.count;
