@@ -8,7 +8,7 @@
               <el-button size="mini" style="float: left;" @click="exportFile">导出</el-button>
                <el-button v-if="showSearchList" size="mini" style="float: right;"  @click="clearSearchValue">清除</el-button>
                 <el-button v-if="showSearchList" size="mini" style="float: right;" @click="searchList(0)">搜索</el-button>
-                 <div v-if="searchedProcuct" class="tital-search"><span>合计:</span><span>{{totalAll}}</span></div>
+                 <!-- <div v-if="searchedProcuct" class="tital-search"><span>合计:</span><span>{{totalAll}}</span></div> -->
             <span style="clear: both;"></span>
             </div>
             <div class="search-list" v-if="showSearchList">
@@ -215,21 +215,21 @@
                     "detail_type":null,
                     };
                     if(this.searchedProcuct){
-                         fileObj.type=1;
+                         fileObj.type=4;
                         //  fileObj.headList=["成品序列号","CB ID","PM ID","TRACE NO","工单号","成品批号","生产时间"]
                         fileObj.headList=["生产时间","成品批号","工单号","PIM品番","CB_ID","TRACE NO","成品序列号"]
                    }else{
-                        fileObj.type=3;
-                        fileObj.headList=["生产工序","部品品番","部品位置","部品批号"];
-                         if(this.activeName2=="CB"){
-                            fileObj.detail_type=1;
-                        }else if(this.activeName2=="PM"){
-                            fileObj.detail_type=2;
-                        }if(this.activeName2=="COVER"){
-                            fileObj.detail_type=3;
-                        }else{
-                            fileObj.detail_type=4;
-                        }
+                        // fileObj.type=3;
+                        // fileObj.headList=["生产工序","部品品番","部品位置","部品批号"];
+                        //  if(this.activeName2=="CB"){
+                        //     fileObj.detail_type=1;
+                        // }else if(this.activeName2=="PM"){
+                        //     fileObj.detail_type=2;
+                        // }if(this.activeName2=="COVER"){
+                        //     fileObj.detail_type=3;
+                        // }else{
+                        //     fileObj.detail_type=4;
+                        // }
                     }
                 /* 没数据时的提示 */
                 if(this.searchedProcuct){
@@ -516,7 +516,7 @@
         created(){
             this.obj.search_context=null;
            this.obj.componenteEmployInfo=null;
-            this.firstComin();
+            // this.firstComin();
       }
 
     }
