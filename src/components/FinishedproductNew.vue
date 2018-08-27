@@ -1,5 +1,7 @@
 <template>
 <div>
+    <!-- <div>{{msg}}</div> -->
+    <!--<someComponent></someComponent>-->
      <el-card class="box-card">
             <div slot="header" class="clearfix" style="min-height:30px;">
                 <el-button  size="mini" style="float: left;clear: both;" v-if="!searchedProcuct" @click="backUppag">返回</el-button>
@@ -10,6 +12,7 @@
                 <el-button v-if="showSearchList" size="mini" style="float: right;" @click="searchList(0)">搜索</el-button>
                 <div v-if="searchedProcuct" class="tital-search"><span>合计:</span><span>{{totalAll}}</span></div>
                 
+              <!-- <el-button v-if="showSearchList" size="medium" style="float: right;" @click="showSearchList=!showSearchList">收起</el-button> -->
             <span style="clear: both;"></span>
             </div>
             <div class="search-list" v-if="showSearchList">
@@ -48,29 +51,22 @@
                                 <el-input v-model="sizeForm.cbid"></el-input>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="5" :offset="1">
-                            <el-form-item label="PM_ID">
-                                <el-input v-model="sizeForm.pimid"></el-input>
-                            </el-form-item>
-                        </el-col>
+                        
                         <el-col :span="5" :offset="1">
                             <el-form-item label="TRACE NO">
                                 <el-input v-model="sizeForm.trackNo"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="5" :offset="1">
-                            <!-- <el-form-item label="工单号">
-                                <el-input v-model="sizeForm.gd"></el-input>
-                            </el-form-item> -->
                             <el-form-item label="成品序列号">
                                 <el-input v-model="sizeForm.no"></el-input>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="5" :offset="1">
-                            <!-- <el-form-item label="成品批号">
-                                <el-input v-model="sizeForm.ph"></el-input>
-                            </el-form-item> -->
-                        </el-col>
+                        <!-- <el-col :span="5" :offset="1">
+                            <el-form-item label="PM_ID">
+                                <el-input v-model="sizeForm.pimid"></el-input>
+                            </el-form-item>
+                        </el-col> -->
                     </el-row>
                     
                     <el-row>
@@ -126,7 +122,7 @@
                     <!-- <el-table-column prop="item_id" align="left" label="机种名" min-width="120" sortable></el-table-column> -->
                     <el-table-column prop="pim_id" align="left" label="PIM品番" min-width="100" sortable></el-table-column>
                     <el-table-column prop="cb_id" align="left" label="CB_ID" min-width="100" sortable></el-table-column>
-                    <el-table-column prop="pm_id" align="left" label="PM_ID" min-width="100" sortable></el-table-column>
+                    <!-- <el-table-column prop="pm_id" align="left" label="PM_ID" min-width="100" sortable></el-table-column> -->
                     <el-table-column prop="trace_no" align="left" label="TRACE NO" min-width="120" sortable></el-table-column>
                     <el-table-column prop="product_serial_no" align="left" label="成品序列号" min-width="120" sortable></el-table-column>
                     
@@ -143,17 +139,24 @@
                         <el-tab-pane label="CB" name="CB"></el-tab-pane>
                         <el-tab-pane label="PM" name="PM"></el-tab-pane>
                         <el-tab-pane label="FAT组装" name="COVER"></el-tab-pane>
+                        <el-tab-pane label="工序检查履历" name="CHECKED"></el-tab-pane>
                 </el-tabs>
 
               <el-table v-if="!searchedProcuct" :border='true' ref="multipleTableCM" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
                     <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号" sortable> </el-table-column> -->
-                    <el-table-column prop="process_name" align="left" label="生产工序" min-width="120" sortable></el-table-column>
-                    <el-table-column prop="component_no" align="left" label="部品品番" min-width="120" sortable></el-table-column>
-                    <el-table-column prop="component_location" align="left" label="部品位置" min-width="120" sortable></el-table-column>
-                    <el-table-column prop="component_batch_no" align="left" label="部品批号" min-width="120" sortable></el-table-column>
-                    
+                    <el-table-column v-if="activeName2!='CHECKED' " prop="process_name" align="left" label="生产工序" min-width="120" sortable></el-table-column>
+                    <el-table-column v-if="activeName2!='CHECKED' " prop="component_no" align="left" label="部品品番" min-width="120" sortable></el-table-column>
+                    <el-table-column v-if="activeName2!='CHECKED' " prop="component_location" align="left" label="部品位置" min-width="120" sortable></el-table-column>
+                    <el-table-column v-if="activeName2!='CHECKED' " prop="component_batch_no" align="left" label="部品批号" min-width="120" sortable></el-table-column>
+                     
+                    <el-table-column v-if="activeName2=='CHECKED' " prop="production_process" align="left" label="生产工序" min-width="120" sortable></el-table-column>        
+                    <el-table-column v-if="activeName2=='CHECKED' " prop="is_pass" align="left" label="检查结果" min-width="120" sortable></el-table-column>        
+                    <el-table-column v-if="activeName2=='CHECKED' " prop="start_time" align="left" label="开始时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column v-if="activeName2=='CHECKED' " prop="date_time" align="left" label="结束时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column v-if="activeName2=='CHECKED' " prop="time_difference" align="left" label="耗时(分)" min-width="120" sortable></el-table-column>                         
+              
                    
                </el-table>
                <!-- 成品追术- 成品列表 -->
@@ -164,8 +167,8 @@
                     <el-table-column prop="component_location" align="left" label="部品位置" min-width="120" sortable></el-table-column>
                     <el-table-column prop="component_no" align="left" label="部品品番" min-width="120" sortable></el-table-column>        
                     <el-table-column prop="component_batch_no" align="left" label="部品批号" min-width="120" sortable></el-table-column>        
-                    
-               </el-table>
+                </el-table>
+
               <!-- <div style="margin-top: 20px" v-if="searchedProcuct">
                   <el-button @click="toggleSelection([tableData3[1], tableData3[2]])">切换第二、第三行的选中状态</el-button>
                     <el-button @click="toggleSelection()">取消选择</el-button>
@@ -221,7 +224,7 @@
               multipleTableFishPrduct:[],
               multipleSelectionListValuePrduct:[],
               sizeForm: {
-                    name: '3.5G',
+                    name: '4G',
                     pim: '',
                     no:"",
                     cbid:"",
@@ -319,14 +322,14 @@
           exportFile(){
                 const self=this;
                  //type;//1.成品导出  2.部品导出  3.查看详情导出
-                // detail_type 1 是 CB 2是PM 3是组装
+                // detail_type 1 是 CB 2是PM 3是组装 4 工序检查履历
                 const fileObj={"headList":[],"componenteEmployInfoList":null,"productInfoList":null,"export_all":true,
                     "type":"1","productInfo":this.productInfo_row,"search_context":this.obj.search_context,"componenteEmployInfo":null,
                     "detail_type":null,
                     };
                     if(this.searchedProcuct){
                          fileObj.type=1;
-                         fileObj.headList=["生产时间","成品批号","工单号","PIM品番","CB_ID","PM_ID","TRACE NO","成品序列号"]
+                         fileObj.headList=["生产时间","成品批号","工单号","PIM品番","CB_ID","TRACE NO","成品序列号"]
                          if(this.radio2==2){
                             fileObj.type=2;
                             fileObj.headList=["成品序列号","生产工序","部品位置","部品品番","部品批号"];
@@ -340,7 +343,9 @@
                             fileObj.detail_type=1;
                         }else if(this.activeName2=="PM"){
                             fileObj.detail_type=2;
-                        }else{
+                        }else if(this.activeName2=="CHECKED"){
+                            fileObj.detail_type=4;
+                        }else if(this.activeName2=="COVER"){
                             fileObj.detail_type=3;
                         }
                     }
@@ -593,8 +598,10 @@
                   obj.detail_type=1;
              }else if(this.activeName2=="PM"){
                   obj.detail_type=2;
-             }else{
+             }else if(this.activeName2=="COVER"){
                   obj.detail_type=3;
+             }else{
+                 obj.detail_type=4;
              }
               if(this.productInfo_row){
                  delete  this.productInfo_row["date_time_T"];
@@ -605,7 +612,12 @@
              
              api.showModuleDetailForFin(obj).then(function(res){
                   self.totalForCb=res.count_row;//总页数
-                self.tableData4=res.componenteEmployInfo;
+               
+                if(obj.detail_type==4){
+                     self.tableData4=res.componentBatchNoInfo;
+                }else{
+                     self.tableData4=res.componenteEmployInfo;
+                }
                 res.productInfo.map((val)=>{
                 // console.log(formatDate(new Date((val.date_time.replace(/-/g, "/"))) ,"yyyy-MM-dd"))
                     // val.date_time_T=formatDate(new Date((val.date_time.replace(/-/g, "/"))) ,"yyyy-MM-dd");

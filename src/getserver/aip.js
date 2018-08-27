@@ -85,4 +85,7 @@ export default {
     postContentAndFin(params) {
         return fetch('/productInfo/productInfo.view', params,"post")
     },
+    postContentBatchNoInfo(params) {
+        return fetch('/componentBatchNoInfo/componentBatchNoInfo.view', params,"post")
+    },
 }

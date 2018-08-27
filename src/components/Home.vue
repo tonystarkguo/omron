@@ -31,33 +31,37 @@
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-location"></i>
-            <span slot="title">导航一</span>
+            <span slot="title">成品追溯</span>
           </template>
           <el-menu-item-group >
             <!-- <span slot="title">分组一</span> -->
-            <el-menu-item index="1-1" :route="{path:'/Home/Product'}">成品追溯</el-menu-item>
-            <el-menu-item index="1-2" :route="{path:'/Home/Ministry'}">部品追溯</el-menu-item>
+            <el-menu-item index="1-1" :route="{path:'/Home/Product'}">成品追溯-3.5G</el-menu-item>
+            <el-menu-item index="1-2" :route="{path:'/Home/ProductNew'}">成品追溯-4G</el-menu-item>
           </el-menu-item-group>
-          <!-- <el-menu-item-group title="分组2">
-            <el-menu-item index="1-3">选项3</el-menu-item>
-          </el-menu-item-group> -->
-          <!-- <el-submenu index="1-4">
-            <span slot="title">选项4</span>
-            <el-menu-item index="1-4-1">选项1</el-menu-item>
-          </el-submenu> -->
         </el-submenu>
-        <!-- <el-menu-item index="2" disabled>
-          <i class="el-icon-menu"></i>
-          <span slot="title">导航二</span>
-        </el-menu-item>
-        <el-menu-item index="3" disabled>
-          <i class="el-icon-document"></i>
-          <span slot="title">导航三</span>
-        </el-menu-item>
-        <el-menu-item index="4" disabled>
-          <i class="el-icon-setting" ></i>
-          <span slot="title">导航四</span>
-        </el-menu-item> -->
+        <el-submenu index="2">
+          <template slot="title">
+            <i class="el-icon-location"></i>
+            <span slot="title">部品追溯</span>
+          </template>
+          <el-menu-item-group >
+            <!-- <span slot="title">分组一</span> -->
+            <el-menu-item index="2-1" :route="{path:'/Home/Ministry'}">部品追溯-3.5G</el-menu-item>
+            <el-menu-item index="2-2" :route="{path:'/Home/MinistryNew'}">部品追溯-4G</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="3">
+          <template slot="title">
+            <i class="el-icon-location"></i>
+            <span slot="title">全机种追溯</span>
+          </template>
+          <el-menu-item-group >
+            <!-- <span slot="title">分组一</span> -->
+            <el-menu-item index="3-1" :route="{path:'/Home/Partnumber'}">部品批号追溯</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        
+       
       </el-menu>
       </el-aside>
       <el-main>
@@ -133,25 +137,54 @@
             // 对路由变化作出响应...
             const self=this;
             console.log(self.$route.path)
-            console.log(to, from)
-            if(this.$route.name=='Ministry'){
-             this.defaultActive="1-2",
-             this.routeName=false;
-           }else{
-             this.defaultActive="1-1",
-              this.routeName=true;
-           }
+            console.log(to, from);
+            switch (this.$route.name) {
+              case 'Ministry':
+                this.defaultActive="2-1";
+                break;
+              case 'Product':
+                this.defaultActive="1-1";
+          
+                break;
+              case 'ProductNew':
+                this.defaultActive="1-2";
+             
+                break;
+              case 'MinistryNew':
+                this.defaultActive="2-2";
+                break;
+              case 'Partnumber':
+                this.defaultActive="3-1";
+                break;
+              default:
+                this.defaultActive="2-1";
+                break;
+            }
+            
           }
         },
         created() {
            console.log(this.$route);
-           if(this.$route.name=='Ministry'){
-             this.defaultActive="1-2",
-             this.routeName=false;
-           }else{
-             this.defaultActive="1-1",
-              this.routeName=true;
-           }
+           switch (this.$route.name) {
+              case 'Ministry':
+                this.defaultActive="2-1";
+                break;
+              case 'Product':
+                this.defaultActive="1-1";
+                break;
+              case 'ProductNew':
+                this.defaultActive="1-2";
+                break;
+              case 'MinistryNew':
+                this.defaultActive="2-2";
+                break;
+              case 'Partnumber':
+                this.defaultActive="3-1";
+                break;
+              default:
+                this.defaultActive="2-1";
+                break;
+            }
         },
     }
 </script>
