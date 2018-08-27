@@ -107,7 +107,7 @@
                         <el-tab-pane label="工序检查履历" name="CHECKED"></el-tab-pane>
                 </el-tabs>
 
-              <el-table v-if="!searchedProcuct" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :min-height="200"  :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+              <el-table v-if="!searchedProcuct&&activeName2!='CHECKED'" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :min-height="200"  :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
                     <el-table-column  prop="date" type="selection" width="55" align="center" fixed> </el-table-column>
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
@@ -116,23 +116,24 @@
                     <el-table-column v-if="activeName2!='CHECKED' " prop="component_location" align="left" label="部品位置" min-width="120" sortable></el-table-column>
                     <el-table-column v-if="activeName2!='CHECKED' " prop="component_batch_no" align="left" label="部品批号" min-width="120" sortable></el-table-column>
                     
-                    <el-table-column v-if="activeName2=='CHECKED' " prop="production_process"  label="生产工序" min-width="120" sortable></el-table-column>        
-                    <el-table-column v-if="activeName2=='CHECKED' " prop="is_pass"  label="检查结果" min-width="120" sortable></el-table-column>        
-                    <el-table-column v-if="activeName2=='CHECKED' " prop="start_time"  label="开始时间" min-width="120" sortable></el-table-column>        
-                    <el-table-column v-if="activeName2=='CHECKED' " prop="date_time" label="结束时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column v-if="activeName2=='CHECKED' " prop="production_process"  align="left" label="生产工序" min-width="120" sortable></el-table-column>        
+                    <el-table-column v-if="activeName2=='CHECKED' " prop="is_pass" align="left" label="检查结果" min-width="120" sortable></el-table-column>        
+                    <el-table-column v-if="activeName2=='CHECKED' " prop="start_time" align="left" label="开始时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column v-if="activeName2=='CHECKED' " prop="date_time" align="left" label="结束时间" min-width="120" sortable></el-table-column>        
                     <el-table-column v-if="activeName2=='CHECKED' " prop="time_difference" label="耗时(分)" min-width="120" sortable></el-table-column>                         
-              
-                    <!-- <el-table-column prop="work_order_no" align="left" label="工单号"  show-overflow-tooltip></el-table-column>                
-                    <el-table-column prop="item_id" align="left" label="机种名" width="120" sortable></el-table-column>
-                    <el-table-column prop="pim_id" align="left" label="PIM品番" width="120" sortable></el-table-column>
-                    <el-table-column prop="cb_id" align="left" label="CBID" width="120" sortable></el-table-column>
-                    <el-table-column prop="pm_id" align="left" label="PMID" width="120" sortable></el-table-column>
-                    <el-table-column prop="trace_no" align="left" label="TRACE NO" width="120" sortable></el-table-column>
-                    <el-table-column prop="product_serial_no" align="left" label="序列号" width="120" sortable></el-table-column>
-                    <el-table-column prop="product_batch_no" align="left" label="批号" width="120" sortable></el-table-column>
-                    <el-table-column prop="start_time" align="left" label="生产时间" width="120" sortable></el-table-column> -->
-
                 </el-table>
+
+                <el-table v-if="!searchedProcuct&&activeName2=='CHECKED'" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :min-height="200"  :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+                    <el-table-column  prop="date" type="selection" width="55" align="center" fixed> </el-table-column>
+                    <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
+                    <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
+                    <el-table-column  prop="production_process"  align="left" label="生产工序" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="is_pass" align="left" label="检查结果" min-width="120" sortable></el-table-column>        
+                    <el-table-column prop="start_time" align="left" label="开始时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column prop="date_time" align="left" label="结束时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="time_difference" label="耗时(分)" min-width="120" sortable></el-table-column>                         
+                </el-table>
+
               <!-- <div style="margin-top: 20px">
                   <el-button @click="toggleSelection([tableData3[1], tableData3[2]])">切换第二、第三行的选中状态</el-button>
                     <el-button @click="toggleSelection()">取消选择</el-button>
