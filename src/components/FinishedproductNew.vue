@@ -547,7 +547,7 @@
              const self=this;
              this.obj.pagingParamEnyity.order=this.sortObj.order;
              this.obj.pagingParamEnyity.order_column=this.sortObj.order_column;
-             obj.item_type="4G";
+             this.obj.item_type="4G";
                 api.postContentTest(this.obj).then(function(res){
                 console.log(res)
                 self.total=res.count_row;
