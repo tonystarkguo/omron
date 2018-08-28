@@ -113,7 +113,9 @@
                     <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
                     <el-table-column v-if="activeName2!='CHECKED' " prop="process_name" align="left" label="生产工序" min-width="120" sortable></el-table-column>
                     <el-table-column v-if="activeName2!='CHECKED' " prop="component_no" align="left" label="部品品番" min-width="120" sortable></el-table-column>
-                    <el-table-column v-if="activeName2!='CHECKED' " prop="component_location" align="left" label="部品位置" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="component_location" v-if="activeName2=='COVER'" align="left" label="部品名称" min-width="120" sortable></el-table-column>                                        
+                    
+                    <el-table-column v-if="activeName2!='CHECKED' " v-else prop="component_location" align="left" label="部品位置" min-width="120" sortable></el-table-column>
                     <el-table-column v-if="activeName2!='CHECKED' " prop="component_batch_no" align="left" label="部品批号" min-width="120" sortable></el-table-column>
                     <el-table-column prop="date_time" align="left" label="实装时间" min-width="120" sortable></el-table-column>
                     
