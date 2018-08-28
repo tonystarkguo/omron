@@ -167,7 +167,7 @@
                     <el-table-column v-if="activeName2=='CHECKED' " prop="is_pass" align="left" label="检查结果" min-width="120" sortable></el-table-column>        
                     <el-table-column v-if="activeName2=='CHECKED' " prop="start_time" align="left" label="开始时间" min-width="120" sortable></el-table-column>        
                     <el-table-column v-if="activeName2=='CHECKED' " prop="date_time" align="left" label="结束时间" min-width="120" sortable></el-table-column>        
-                    <el-table-column v-if="activeName2=='CHECKED' " prop="time_difference" align="left" label="耗时(分)" min-width="120" sortable></el-table-column>                         
+                    <el-table-column v-if="activeName2=='CHECKED' " prop="time_difference" align="left" label="耗时" min-width="120" sortable></el-table-column>                         
               
                    
                </el-table>

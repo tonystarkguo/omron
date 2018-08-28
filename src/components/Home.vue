@@ -35,8 +35,8 @@
           </template>
           <el-menu-item-group >
             <!-- <span slot="title">分组一</span> -->
-            <el-menu-item index="1-1" :route="{path:'/Home/Product'}">成品追溯-3.5G</el-menu-item>
-            <el-menu-item index="1-2" :route="{path:'/Home/ProductNew'}">成品追溯-4G</el-menu-item>
+            <el-menu-item index="1-1" :route="{path:'/Home/Product'}">3.5G</el-menu-item>
+            <el-menu-item index="1-2" :route="{path:'/Home/ProductNew'}">4G</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
@@ -46,8 +46,8 @@
           </template>
           <el-menu-item-group >
             <!-- <span slot="title">分组一</span> -->
-            <el-menu-item index="2-1" :route="{path:'/Home/Ministry'}">部品追溯-3.5G</el-menu-item>
-            <el-menu-item index="2-2" :route="{path:'/Home/MinistryNew'}">部品追溯-4G</el-menu-item>
+            <el-menu-item index="2-1" :route="{path:'/Home/Ministry'}">3.5G</el-menu-item>
+            <el-menu-item index="2-2" :route="{path:'/Home/MinistryNew'}">4G</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="3">

@@ -132,7 +132,7 @@
                     <el-table-column  prop="is_pass" align="left" label="检查结果" min-width="120" sortable></el-table-column>        
                     <el-table-column prop="start_time" align="left" label="开始时间" min-width="120" sortable></el-table-column>        
                     <el-table-column prop="date_time" align="left" label="结束时间" min-width="120" sortable></el-table-column>        
-                    <el-table-column  prop="time_difference" label="耗时(分)" min-width="120" sortable></el-table-column>                         
+                    <el-table-column  prop="time_difference" label="耗时" min-width="120" sortable></el-table-column>                         
                 </el-table>
 
               <!-- <div style="margin-top: 20px">
