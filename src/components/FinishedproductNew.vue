@@ -142,15 +142,27 @@
                         <el-tab-pane label="工序检查履历" name="CHECKED"></el-tab-pane>
                 </el-tabs>
 
-              <el-table v-if="!searchedProcuct" :border='true' ref="multipleTableCM" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+              <el-table v-if="!searchedProcuct&&activeName2!='CHECKED' " :border='true' ref="multipleTableCM" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
                     <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号" sortable> </el-table-column> -->
-                    <el-table-column v-if="activeName2!='CHECKED' " prop="process_name" align="left" label="生产工序" min-width="120" sortable></el-table-column>
-                    <el-table-column v-if="activeName2!='CHECKED' " prop="component_no" align="left" label="部品品番" min-width="120" sortable></el-table-column>
-                    <el-table-column v-if="activeName2!='CHECKED' " prop="component_location" align="left" label="部品位置" min-width="120" sortable></el-table-column>
-                    <el-table-column v-if="activeName2!='CHECKED' " prop="component_batch_no" align="left" label="部品批号" min-width="120" sortable></el-table-column>
-                     
+                    <el-table-column  prop="process_name" align="left" label="生产工序" min-width="120" sortable></el-table-column>
+                    <el-table-column  prop="component_no" align="left" label="部品品番" min-width="120" sortable></el-table-column>
+                    <el-table-column  prop="component_location" align="left" label="部品位置" min-width="120" sortable></el-table-column>
+                    <el-table-column  prop="component_batch_no" align="left" label="部品批号" min-width="120" sortable></el-table-column>
+                     <el-table-column prop="date_time" align="left" label="实装时间" min-width="120" sortable></el-table-column>
+                    
+                    <!-- <el-table-column v-if="activeName2=='CHECKED' " prop="production_process" align="left" label="生产工序" min-width="120" sortable></el-table-column>        
+                    <el-table-column v-if="activeName2=='CHECKED' " prop="is_pass" align="left" label="检查结果" min-width="120" sortable></el-table-column>        
+                    <el-table-column v-if="activeName2=='CHECKED' " prop="start_time" align="left" label="开始时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column v-if="activeName2=='CHECKED' " prop="date_time" align="left" label="结束时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column v-if="activeName2=='CHECKED' " prop="time_difference" align="left" label="耗时(分)" min-width="120" sortable></el-table-column>                         
+               -->
+                   
+               </el-table>
+
+               <el-table v-if="!searchedProcuct&&activeName2=='CHECKED' " :border='true' ref="multipleTableCM" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+                    <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
                     <el-table-column v-if="activeName2=='CHECKED' " prop="production_process" align="left" label="生产工序" min-width="120" sortable></el-table-column>        
                     <el-table-column v-if="activeName2=='CHECKED' " prop="is_pass" align="left" label="检查结果" min-width="120" sortable></el-table-column>        
                     <el-table-column v-if="activeName2=='CHECKED' " prop="start_time" align="left" label="开始时间" min-width="120" sortable></el-table-column>        

@@ -114,8 +114,8 @@
                     <el-table-column prop="component_no" align="left" label="部品品番" min-width="120" sortable></el-table-column>
                     <el-table-column prop="component_location" align="left" label="部品位置" min-width="120" sortable></el-table-column>
                     <el-table-column prop="component_batch_no" align="left" label="部品批号" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="date_time" align="left" label="实装时间" min-width="120" sortable></el-table-column>
                     
-                   
                     <!-- <el-table-column prop="work_order_no" align="left" label="工单号"  show-overflow-tooltip></el-table-column>                
                     <el-table-column prop="item_id" align="left" label="机种名" width="120" sortable></el-table-column>
                     <el-table-column prop="pim_id" align="left" label="PIM品番" width="120" sortable></el-table-column>
