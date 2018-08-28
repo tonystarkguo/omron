@@ -14,7 +14,12 @@
             <div class="search-list" v-if="showSearchList">
                 <el-form ref="form" :model="sizeForm" :rules="rules" label-width="90px" size="small" label-position="left">
                     <el-row>
-                         <el-col :span="6">
+                        <el-col :span="6">
+                            <el-form-item label="机种名">
+                                <el-input v-model="valput"  :disabled="true"></el-input>
+                            </el-form-item>
+                        </el-col>
+                         <el-col :span="6" :offset="3">
                             <el-form-item label="部品品番">
                                 <el-input v-model="sizeForm.minsPro"></el-input>
                             </el-form-item>
@@ -48,6 +53,19 @@
                                     <el-input v-model="totalAll"  :disabled="true"></el-input>
                                 </el-form-item> -->
                         </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-radio-group v-model="radio2" style="width:100%;">
+                                 <el-col :span="4" :pull="1">
+                                        <el-radio :label="1" >已生成成品</el-radio>
+                                 </el-col>
+                                 <el-col :span="4">
+                                         <el-radio :label="2">未生成成品</el-radio>
+                                 </el-col>
+                                 <el-col :span="6">
+                         
+                                </el-col>
+                            </el-radio-group>
                     </el-row>
             </el-form>
             </div>
@@ -168,6 +186,7 @@
                 sortObj:{"order":null,"order_column":null},
                 sortObjT:{"order":null,"order_column":null},
                 totalAll:0,
+                valput:"3.5G",
             }
         },
         component: {
@@ -310,6 +329,10 @@
                 const self=this;
                     this.obj.search_context="";
                     
+                    if(this.sizeForm.minsPro==""){
+                         this.$message.error("请输入部品品番！");
+                        return 
+                    }
                    
                     if(this.sizeForm.minsPro==""&&this.sizeForm.ph==""&&this.sizeForm.date1==""&&this.sizeForm.date2==""){
                          this.obj.componenteEmployInfo=null;

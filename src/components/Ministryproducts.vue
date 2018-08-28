@@ -144,7 +144,7 @@
               </el-pagination>
             </div>
             <!-- 部品信息 cb mb cover -->
-             <div class="block" v-show="!searchedProcuct">
+             <div class="block" v-show="!searchedProcuct&&false">
               <el-pagination
                 @current-change="handleCurrentChangeForCb"
                 :current-page.sync="currentPageForCb"
