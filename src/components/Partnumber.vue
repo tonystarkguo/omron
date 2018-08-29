@@ -55,7 +55,7 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <el-radio-group v-model="radio2" style="width:100%;">
+                        <el-radio-group v-model="radio2" @change="radioChange" style="width:100%;">
                                  <el-col :span="4" :pull="1">
                                         <el-radio :label="1" >已生成成品</el-radio>
                                  </el-col>
@@ -385,8 +385,10 @@
             },
             getSearchListValue(){
               const self=this;
-                this.obj.pagingParamEnyity.order=this.sortObj.order;
-             this.obj.pagingParamEnyity.order_column=this.sortObj.order_column;
+              this.obj.pagingParamEnyity.order=this.sortObj.order;
+              this.obj.pagingParamEnyity.order_column=this.sortObj.order_column;
+             /* 当前radio的 */
+              self.obj.type=this.radio2;
               api.postContentBatchNoInfo(self.obj).then(function(res){
                 console.log(res)
                 self.total=res.count_row;
@@ -512,7 +514,12 @@
                 desc: '',
                 pimid:"",
               }
-         }
+         },
+         /* radio更改 */
+         radioChange(e){
+             this.tableData3.splice(0);
+             this.total=0;
+         },
         },
         mounted(){
 
@@ -531,9 +538,9 @@
         computed:{
             elTableBodyWrapperMaxHeight:function(){
                 console.log( this.screenHeight,this.screenHeight-60-50-40-72-40-60)
-                const height=this.screenHeight-41-102-33-20;
+                const height=this.screenHeight-41-102-33-20-20;
                 $(".el-table__empty-block").css({"min-height":height})
-                return this.screenHeight-41-102-33-20;
+                return this.screenHeight-41-102-33-20-20;
             }
         },
         created(){
