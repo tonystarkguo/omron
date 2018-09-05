@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <div>
-    <el-card class="box-card">
+    <el-card class="box-card startPag">
       <div class="search-list" v-show="showTime">
         <el-row >
           <el-col :span="8">
@@ -49,14 +49,14 @@
             <el-col :span="12"><el-col :span="10"><span class="numberCount">实际合计数：</span></el-col> <el-col :span="6"><el-input placeholder="请输入内容" v-model="input2" :disabled="true" ></el-input></el-col></el-col>
         </el-row>
         <el-row class="setCountValue">
-            <el-col :span="8" :offset="16"><el-button plain @click="setNumberofTargets" size="medium">设置目标数</el-button></el-col>
+            <el-col :span="5" :offset="19"><el-button plain @click="setNumberofTargets" size="medium">设置目标数</el-button></el-col>
         </el-row>
       </div>
 
       <!-- 设置 -->
       <div v-if="!showTime">
-        <el-row>
-          <el-col :span="12"><p>设置{{valueSelect}}日生产目标数</p></el-col>
+        <el-row class="valueSelectedHeader">
+          <el-col :span="6"><p>设置{{valueSelect}}日生产目标数</p></el-col>
         </el-row>
         <div class="zero"></div>
         <el-table :data="tableData3"  style="width: 100%;"> 
@@ -128,7 +128,7 @@
         </el-table>
          <div class="zero"></div>
         <el-row class="setNumberFooter">
-          <el-col :span="12" :offset="12"><el-button size="medium" @click="sure">确定</el-button><el-button size="medium" @click="cancel">取消</el-button></el-col>
+          <el-col :span="6" :offset="18"><el-button size="medium" @click="sure">确定</el-button><el-button size="medium" @click="cancel">取消</el-button></el-col>
         </el-row>
       </div>
     </el-card>
@@ -379,9 +379,12 @@ export default {
   margin-bottom: 20px;
 }
 .setCountValue{
-
+  margin-top: 5%;
 }
 .setNumberFooter{
-
+  padding: 20px 0;
+}
+.valueSelectedHeader{
+  padding: 10px 0px;
 }
 </style>

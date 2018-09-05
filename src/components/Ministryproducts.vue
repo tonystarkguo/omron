@@ -604,10 +604,10 @@
         },
         computed:{
             elTableBodyWrapperMaxHeight:function(){
-                console.log( this.screenHeight,this.screenHeight-60-50-40-72-40-60)
-                const height=this.screenHeight-41-102-33-20;
+                console.log( this.screenHeight,this.screenHeight-60-50-40-72-40-60-50)
+                const height=this.screenHeight-41-102-33-20-50;
                 $(".el-table__empty-block").css({"min-height":height})
-                return this.screenHeight-41-102-33-20;
+                return this.screenHeight-41-102-33-20-50;
             }
         },
         created(){

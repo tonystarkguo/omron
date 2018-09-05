@@ -286,9 +286,9 @@
         computed:{
             elTableBodyWrapperMaxHeight:function(){
                 // return this.screenHeight-60-50-40-72-40-60;
-                  const height=this.screenHeight-42-160-20-32;
+                  const height=this.screenHeight-42-160-20-32-50;
                  $(".el-table__empty-block").css({"min-height":height})
-                 return this.screenHeight-42-160-20-32;
+                 return this.screenHeight-42-160-20-32-50;
             }
         },
         methods: {
