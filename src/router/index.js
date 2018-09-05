@@ -9,6 +9,7 @@ import Ministryproducts from '@/components/Ministryproducts.vue'
 import FinishedproductNew from '@/components/FinishedproductNew.vue'
 import MinistryproductsNew from '@/components/MinistryproductsNew.vue'
 import Partnumber from '@/components/Partnumber.vue'
+import StartPag from '@/components/StartPag.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -29,7 +30,7 @@ export default new Router({
       name: 'Home',
       component: Home,
       children:[
-        { path: "", component: Finishedproduct, name: "Product"},
+        { path: "", component: StartPag, name: "StartPag"},
         { path: '/Home/Product', component: Finishedproduct,name:"Product" },
         { path: '/Home/Ministry', component: Ministryproducts, name: "Ministry" },
         { path: '/Home/ProductNew', component: FinishedproductNew, name: "ProductNew" },

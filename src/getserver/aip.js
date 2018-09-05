@@ -88,4 +88,13 @@ export default {
     postContentBatchNoInfo(params) {
         return fetch('/componentBatchNoInfo/componentBatchNoInfo.view', params,"post")
     },
+    getLoginValue(params){
+        return fetch('/index/login.do', params, "post")
+    },
+    getIndexValue(params){
+        return fetch('/index/index.do', params, "post")
+    },
+    setIndexValue(params){
+        return fetch('/index/index.do', params, "post")
+    }
 }

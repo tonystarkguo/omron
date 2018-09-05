@@ -33,7 +33,7 @@
             <i class="el-icon-location"></i>
             <span slot="title">成品追溯</span>
           </template>
-          <el-menu-item-group >
+          <el-menu-item-group>
             <!-- <span slot="title">分组一</span> -->
             <el-menu-item index="1-1" :route="{path:'/Home/Product'}">3.5G</el-menu-item>
             <el-menu-item index="1-2" :route="{path:'/Home/ProductNew'}">4G</el-menu-item>
@@ -67,7 +67,9 @@
       <el-main>
         <div class="main-header">
           <el-breadcrumb separator="/">
-              <!-- <el-breadcrumb-item :to="{ path: '/Home/Product' }" >首页</el-breadcrumb-item> -->
+            <el-breadcrumb-item :to="{ path: '/Home' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item v-for="(item,index)  in realList" :to="item.path" :key="index">{{item.cnName}}</el-breadcrumb-item>
+              
               <!-- <el-breadcrumb-item :to="{ path: '/Home/Product' }" v-if="routeName">成品追溯</el-breadcrumb-item> -->
               <!-- <el-breadcrumb-item :to="{ path: '/Home/Ministry' }" v-if="!routeName">部品追溯</el-breadcrumb-item> -->
               <!-- <el-breadcrumb-item>活动详情</el-breadcrumb-item> -->
@@ -84,6 +86,7 @@
 <script>
     //import someComponent from './someComponent'
     import whiteLogo from '../assets/logo_white.png'
+    import api from '../getserver/aip.js'
     export default {
         name: "",
         data() {
@@ -98,9 +101,12 @@
               currentPage2: 5,
               currentPage3: 5,
               currentPage4: 4,
-              defaultActive:"1-1",
+              defaultActive:"",
               routeName:true,
               ormeHea:whiteLogo,
+              /* 路由list */
+              realList:[],
+              
             }
         },
         component: {
@@ -129,8 +135,35 @@
           logout(){
             console.log(22)
             this.$router.push({name:"Login"})
-          }
-
+          },
+          createdRouterList(to){
+             let routeList=this.realList;
+             let index=-1;
+             const navNameList=[{name:"StartPag",cnName:"首页"},{name:"Product",cnName:"成品追溯-3.5G"},{name:"Ministry",cnName:"部品追溯-3.5G"},{name:"ProductNew",cnName:"成品追溯-4G"},{name:"MinistryNew",cnName:"部品追溯-4G"},{name:"Partnumber",cnName:"全机种追溯"},]
+              for(var i = 0; i < routeList.length; i++) {
+                if(routeList[i].name == to.name) {
+                  index = i;
+                  break;
+                }
+              }
+              if(to.name=="StartPag"){
+                 routeList.splice(0)
+              }
+              if (index !== -1) {
+                  //如果存在路由列表，则把之后的路由都删掉
+                 routeList.splice(index + 1, routeList.length - index - 1);
+              } else if(to.name != 'StartPag'){
+                navNameList.map(val=>{
+                  if(val.name==to.name){
+                      routeList.push({"name":to.name,"path":to.fullPath,"cnName":val.cnName});
+                      return 
+                  }
+                })
+                
+              }
+              this.realList=routeList;
+          },
+          
         },
         watch: {
           '$route' (to, from) {
@@ -138,6 +171,7 @@
             const self=this;
             console.log(self.$route.path)
             console.log(to, from);
+           this.createdRouterList(to)
             switch (this.$route.name) {
               case 'Ministry':
                 this.defaultActive="2-1";
@@ -157,14 +191,16 @@
                 this.defaultActive="3-1";
                 break;
               default:
-                this.defaultActive="2-1";
+                this.defaultActive="";
                 break;
             }
             
+
           }
         },
         created() {
            console.log(this.$route);
+           this.createdRouterList(this.$route)
            switch (this.$route.name) {
               case 'Ministry':
                 this.defaultActive="2-1";
@@ -182,10 +218,11 @@
                 this.defaultActive="3-1";
                 break;
               default:
-                this.defaultActive="2-1";
+                this.defaultActive="";
                 break;
             }
         },
+        
     }
 </script>
 
@@ -245,7 +282,7 @@
     }
     .content{
       // padding: 20px;
-      height: 100%;
+      // height: 100%;
       .el-input--medium{
         width: 30%;
         margin-right: -50%;
