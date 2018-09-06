@@ -71,7 +71,7 @@ export default {
           { validator: validateAccount, trigger: 'blur' }
         ]
       },
-      loginValueText:["1","2","3"],
+      loginValueText:[],
     }
   },
   component: {
