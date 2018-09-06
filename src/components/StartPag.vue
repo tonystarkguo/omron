@@ -252,7 +252,8 @@ export default {
       api.getIndexValue(obj).then(function(res){
           console.log(res.realTimeProduction);
           console.log(res.targetTimeProduction);
-          const {targetTimeProduction={},realTimeProduction={}}=res;
+          const {targetTimeProduction={}}=res;
+          let realTimeProduction=res.realTimeProduction
           self.targetTimeProductionCop=targetTimeProduction;
           self.tableData.splice(0);
           self.tableData1.splice(0);
@@ -263,12 +264,17 @@ export default {
               self.input1=product_count;
               self.initTableData();
           }
+          if(realTimeProduction==null){
+             realTimeProduction={date_point_8:0,date_point_10:0,date_point_12:0, date_point_14:0, date_point_16:0, date_point_18:0, date_point_20:0, date_point_22:0,date_point_24:0,date_point_2:0, date_point_4:0,date_point_6:0,product_count:0,date_time:0}
+          }
           const {date_point_8=0,date_point_10=0,date_point_12=0, date_point_14=0, date_point_16=0, date_point_18=0, date_point_20=0, date_point_22=0,date_point_24=0,date_point_2=0, date_point_4=0,date_point_6=0,product_count=0,date_time=0}=realTimeProduction;
-          self.tableData.push({date_point_8,date_point_10,date_point_12,date_point_14,date_point_16,date_point_18,dateText:"实际数"});
-          self.tableData1.push({date_point_20,date_point_22,date_point_24,date_point_2,date_point_4,date_point_6,dateText:"实际数"});
-          self.input2=product_count;
-          // self.nowTime = formatDate(date_time, "yyyy/MM/dd")
-          self.nowTime =date_time;
+          console.log(date_point_8)
+              self.tableData.push({date_point_8,date_point_10,date_point_12,date_point_14,date_point_16,date_point_18,dateText:"实际数"});
+              self.tableData1.push({date_point_20,date_point_22,date_point_24,date_point_2,date_point_4,date_point_6,dateText:"实际数"});
+              self.input2=product_count;
+              // self.nowTime = formatDate(date_time, "yyyy/MM/dd")
+              self.nowTime =date_time;
+         
           
            console.log(self.input2)
       }).catch(function(error){
