@@ -2,7 +2,7 @@ export function formatDate(date, fmt) {
   // data = date.replace(new RegExp(/-/gm), "/")
   // data = new Date(date);
   // console.log(new Date(date.replace(/-/g, "/")))
-  console.log(date)
+  // console.log(date)
   if (date==""||date==undefined){
     return "";
   }
@@ -26,7 +26,7 @@ export function formatDate(date, fmt) {
         padLeftZero(str));
     }
   }
-  console.log(fmt)
+  // console.log(fmt)
   return fmt;
 };
 

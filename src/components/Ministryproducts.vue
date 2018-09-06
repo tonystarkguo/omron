@@ -10,6 +10,8 @@
                <el-button v-if="showSearchList" size="mini" style="float: right;"  @click="clearSearchValue">清除</el-button>
                 <el-button v-if="showSearchList" size="mini" style="float: right;" @click="searchList(0)">搜索</el-button>
                  <div v-if="searchedProcuct" class="tital-search"><span>合计:</span><span>{{totalAll}}</span></div>
+                <div v-if="!searchedProcuct" class="tital-search"><span>合计:</span><span>{{totalForCb}}</span></div>
+
               <!-- <el-button v-if="showSearchList" size="medium" style="float: right;" @click="showSearchList=!showSearchList">收起</el-button> -->
             <span style="clear: both;"></span>
             </div>

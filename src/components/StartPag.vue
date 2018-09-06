@@ -4,14 +4,14 @@
     <el-card class="box-card startPag">
       <div class="search-list" v-show="showTime">
         <el-row >
-          <el-col :span="8">
-            <el-select size="mini"  placeholder="请选择" @change="selectChange" v-model="valueSelect">
+          <el-col :span="6">
+            <el-select size="medium"  placeholder="请选择" @change="selectChange" v-model="valueSelect">
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
           </el-col>
-          <el-col :span="4"><span>{{textLeft}}</span></el-col>
-          <el-col :span="6"><span>{{dataText}}</span></el-col>
-          <el-col :span="6"><span>{{nowTime}}</span></el-col>
+          <el-col :span="5" :pull="1"><span class="headerText">{{textLeft}}</span></el-col>
+          <el-col :span="6"><span  class="headerText">{{dataText}}</span></el-col>
+          <el-col :span="6"><span  class="headerText">{{nowTime}}</span></el-col>
         </el-row>
       </div>
     <!-- <el-row>
@@ -25,9 +25,9 @@
     </el-row> -->
       <div v-show="showTime">
         <el-table :data="tableData"  style="width: 100%"> 
-            <el-table-column  prop="dateText"      label="时间"  width="180"  align="center"> </el-table-column>
-            <el-table-column  prop="date_point_8"  label="8时"   width="180"  align="center"> </el-table-column>
-            <el-table-column  prop="date_point_10" label="10时"  width="180"  align="center"></el-table-column>
+            <el-table-column  prop="dateText"      label="时间"   align="center"> </el-table-column>
+            <el-table-column  prop="date_point_8"  label="8时"   align="center"> </el-table-column>
+            <el-table-column  prop="date_point_10" label="10时"   align="center"></el-table-column>
             <el-table-column  prop="date_point_12" label="12时"  align="center"></el-table-column>
             <el-table-column  prop="date_point_14" label="14时"  align="center"></el-table-column>
             <el-table-column  prop="date_point_16" label="16时"  align="center"></el-table-column>
@@ -35,10 +35,10 @@
         </el-table>
         <div class="zero"></div>
         <el-table :data="tableData1"  style="width: 100%;"> 
-            <el-table-column  prop="dateText"       label="时间" width="180"  align="center"> </el-table-column>
-            <el-table-column  prop="date_point_20"  label="20时" width="180"  align="center"> </el-table-column>
-            <el-table-column  prop="date_point_22"  label="22时" width="180"  align="center"> </el-table-column>
-            <el-table-column  prop="date_point_24"  label="24时" width="180"  align="center"></el-table-column>
+            <el-table-column  prop="dateText"       label="时间"  align="center"> </el-table-column>
+            <el-table-column  prop="date_point_20"  label="20时"  align="center"> </el-table-column>
+            <el-table-column  prop="date_point_22"  label="22时" align="center"> </el-table-column>
+            <el-table-column  prop="date_point_24"  label="24时" align="center"></el-table-column>
             <el-table-column  prop="date_point_2"   label="2时"  align="center"></el-table-column>
             <el-table-column  prop="date_point_4"   label="4时"  align="center"></el-table-column>
             <el-table-column  prop="date_point_6"   label="6时"  align="center"></el-table-column>
@@ -227,7 +227,8 @@ export default {
       multipleSelection: [],
       valueSelect:"3.5G",
       targetTimeProductionCop:[],
-
+      isNeedGet:false,
+      dataTime:"",
     };
   },
 
@@ -273,11 +274,12 @@ export default {
               self.tableData1.push({date_point_20,date_point_22,date_point_24,date_point_2,date_point_4,date_point_6,dateText:"实际数"});
               self.input2=product_count;
               // self.nowTime = formatDate(date_time, "yyyy/MM/dd")
-              self.nowTime =date_time;
-         
+              // self.nowTime =date_time;
+         self.isNeedGet=true;
           
            console.log(self.input2)
       }).catch(function(error){
+          self.isNeedGet=true;
           console.log(error)
           self.$message({
           message: error,
@@ -287,6 +289,7 @@ export default {
     },
     setHomeValueForProduce(){
       const numberTest=/^[0-9]\d*$/;
+      const trim="/\s/"
       const obj={"item_id":this.valueSelect,"targetTimeProduction":{"item_id":this.valueSelect,"date_time":"","date_point_8":"","date_point_10":"","date_point_12":"","date_point_14":"","date_point_16":"","date_point_18":"","date_point_20":"","date_point_22":"","date_point_24":"","date_point_2":"","date_point_4":"","date_point_6":"","product_count":""}}
       const list=this.tableData3Cop;
       const listKey=Object.keys(list);
@@ -294,23 +297,36 @@ export default {
       
        listKey.forEach(element => {
          if(!numberTest.test(list[element])){
-           isOkNum=false;
-           console.log(list[element])
+           if(list[element]==""){
+           }else{
+                isOkNum=false;
+           }
            return;
          }else{
-            obj.targetTimeProduction[element]=list[element];
+           if(list[element]==""){
+              obj.targetTimeProduction[element]=0;
+           }else{
+             obj.targetTimeProduction[element]=list[element];
+           }
+            
          }
-        
         });
       const listCp=this.tableData4Cop;
       const listKeyCp=Object.keys(listCp);
         listKeyCp.forEach(element => {
           if(!numberTest.test(listCp[element])){
-            console.log(listCp[element])
-           isOkNum=false;
+            if(listCp[element]==""){
+            }else{
+                isOkNum=false;
+            }
            return;
          }else{
-           obj.targetTimeProduction[element]=listCp[element];
+           if(listCp[element]==""){
+             obj.targetTimeProduction[element]=0;
+           }else{
+              obj.targetTimeProduction[element]=listCp[element];
+           }
+          
          }
           
         });
@@ -371,8 +387,30 @@ export default {
     },
   },
   created() {
-    const time = new Date();
+    
     // this.nowTime = formatDate(time, "yyyy/MM/dd")
+    const self=this;
+   clearInterval(this.dataTime);
+    let isNeedGet=this.isNeedGet;
+     let isNeed=true;
+    this.dataTime=setInterval(() => {
+      const time = new Date();
+      this.nowTime=formatDate(time, "yyyy/MM/dd hh:mm:ss");
+      // console.log(time.getMinutes(),isNeedGet,this.isNeedGet)
+      if(time.getMinutes()>59){
+          if(this.isNeedGet&&isNeed){
+             this.isNeedGet=false;
+             isNeed=false;
+            //  console.log("走几次")
+             this.getHomeValueForProduce();
+          }else{
+            // console.log("没走？",this.isNeedGet,isNeed)
+          }
+      }else{
+        //  console.log("走不走？",this.isNeedGet,isNeed)
+        isNeed=true;
+      }
+    }, 1000);
     this.selectChange();
   }
 }
@@ -382,6 +420,12 @@ export default {
 .search-list {
   background: rgba(246, 248, 250, 1);
   padding: 10px;
+  vertical-align: middle;
+  .headerText{
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+  }
 }
 .zero {
   height: 30px;
