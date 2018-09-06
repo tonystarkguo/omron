@@ -252,7 +252,7 @@ export default {
       api.getIndexValue(obj).then(function(res){
           console.log(res.realTimeProduction);
           console.log(res.targetTimeProduction);
-          const {targetTimeProduction,realTimeProduction}=res;
+          const {targetTimeProduction={},realTimeProduction={}}=res;
           self.targetTimeProductionCop=targetTimeProduction;
           self.tableData.splice(0);
           self.tableData1.splice(0);
