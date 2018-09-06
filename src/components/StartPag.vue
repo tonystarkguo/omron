@@ -225,7 +225,8 @@ export default {
         date_point_6: 0,
         },
       multipleSelection: [],
-      valueSelect:"",
+      valueSelect:"3.5G",
+      targetTimeProductionCop:[],
 
     };
   },
@@ -252,20 +253,23 @@ export default {
           console.log(res.realTimeProduction);
           console.log(res.targetTimeProduction);
           const {targetTimeProduction,realTimeProduction}=res;
+          self.targetTimeProductionCop=targetTimeProduction;
           self.tableData.splice(0);
           self.tableData1.splice(0);
           if(true){
-              const {date_point_8,date_point_10,date_point_12, date_point_14, date_point_16, date_point_18, date_point_20, date_point_22,date_point_24,date_point_2, date_point_4,date_point_6,product_count}=targetTimeProduction;
+              const {date_point_8=0,date_point_10=0,date_point_12=0, date_point_14=0, date_point_16=0, date_point_18=0, date_point_20=0, date_point_22=0,date_point_24=0,date_point_2=0, date_point_4=0,date_point_6=0,product_count=0}=targetTimeProduction;
               self.tableData.push({date_point_8,date_point_10,date_point_12,date_point_14,date_point_16,date_point_18,dateText:"目标数"});
               self.tableData1.push({date_point_20,date_point_22,date_point_24,date_point_2,date_point_4,date_point_6,dateText:"目标数"});
               self.input1=product_count;
+              self.initTableData();
           }
-          const {date_point_8,date_point_10,date_point_12, date_point_14, date_point_16, date_point_18, date_point_20, date_point_22,date_point_24,date_point_2, date_point_4,date_point_6,product_count,date_time}=realTimeProduction;
+          const {date_point_8=0,date_point_10=0,date_point_12=0, date_point_14=0, date_point_16=0, date_point_18=0, date_point_20=0, date_point_22=0,date_point_24=0,date_point_2=0, date_point_4=0,date_point_6=0,product_count=0,date_time=0}=realTimeProduction;
           self.tableData.push({date_point_8,date_point_10,date_point_12,date_point_14,date_point_16,date_point_18,dateText:"实际数"});
           self.tableData1.push({date_point_20,date_point_22,date_point_24,date_point_2,date_point_4,date_point_6,dateText:"实际数"});
           self.input2=product_count;
           // self.nowTime = formatDate(date_time, "yyyy/MM/dd")
-          self.nowTime =date_time
+          self.nowTime =date_time;
+          
            console.log(self.input2)
       }).catch(function(error){
           console.log(error)
@@ -319,7 +323,8 @@ export default {
           message: '设置成功',
           type: 'success'
         });
-          self.cancel();
+          self.cancel(false);
+          self.getHomeValueForProduce();
       }).catch(function(error){
         self.$message({
           message: '设置失败',
@@ -327,33 +332,42 @@ export default {
         });
       });
     },
-    selectChange(val){
+    selectChange(val="3.5G"){
       this.valueSelect=val;
       this.getHomeValueForProduce();
     },
     sure(){
       this.setHomeValueForProduce();
     },
-    cancel(){
+    cancel(bool=true){
        this.showTime=!this.showTime;
-       const list=this.tableData3Cop;
-       const listKey=Object.keys(list);
-       listKey.forEach(element => {
-         list[element]=0;
-       });
-      this.tableData3Cop=list;
-      const listCp=this.tableData4Cop;
-      const listKeyCp=Object.keys(listCp);
-      listKeyCp.forEach(element => {
-         listCp[element]=0;
-      });
-      this.tableData4Cop=listCp;
+      //  const list=this.tableData3Cop;
+      //  const listKey=Object.keys(list);
+      //  listKey.forEach(element => {
+      //    list[element]=0;
+      //  });
+      // this.tableData3Cop=list;
+      // const listCp=this.tableData4Cop;
+      // const listKeyCp=Object.keys(listCp);
+      // listKeyCp.forEach(element => {
+      //    listCp[element]=0;
+      // });
+      // this.tableData4Cop=listCp;
+      bool==true?this.initTableData():"";
+      
        
-    }
+    },
+    /* 初始化设定值 */
+    initTableData(){
+       const {date_point_8=0,date_point_10=0,date_point_12=0, date_point_14=0, date_point_16=0, date_point_18=0, date_point_20=0, date_point_22=0,date_point_24=0,date_point_2=0, date_point_4=0,date_point_6=0,product_count=0}=this.targetTimeProductionCop;
+       this.tableData3Cop={date_point_8,date_point_10,date_point_12,date_point_14,date_point_16,date_point_18};
+       this.tableData4Cop={date_point_20,date_point_22,date_point_24,date_point_2,date_point_4,date_point_6};      
+    },
   },
   created() {
     const time = new Date();
     // this.nowTime = formatDate(time, "yyyy/MM/dd")
+    this.selectChange();
   }
 }
 

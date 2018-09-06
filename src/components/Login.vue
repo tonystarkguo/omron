@@ -187,5 +187,6 @@ export default {
 }
 .loginValueStyle{
   margin-top: 90px;
+  color: red;
 }
 </style>
