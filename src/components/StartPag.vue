@@ -401,7 +401,7 @@ export default {
       const time = new Date();
       this.nowTime=formatDate(time, "yyyy/MM/dd hh:mm:ss");
       // console.log(time.getMinutes(),isNeedGet,this.isNeedGet)
-      if(time.getMinutes()>59){
+      if(time.getMinutes()%5){
           if(this.isNeedGet&&isNeed){
              this.isNeedGet=false;
              isNeed=false;
