@@ -569,7 +569,7 @@
                 if(self.radio2==1){
                      self.tableData3=res.productInfo;
                     res.productInfo.map((val)=>{
-                            val.date_time_T=formatDate(new Date(val.date_time.replace(/-/g, "/")) ,"yyyy-MM-dd");
+                        val.date_time==null?val.date_time_T="":val.date_time_T=formatDate(new Date(val.date_time.replace(/-/g, "/")) ,"yyyy-MM-dd");
                             // console.log(new Date(parseInt(val.date_time)))
                         })
                     let set1=new Set(res.productInfo);

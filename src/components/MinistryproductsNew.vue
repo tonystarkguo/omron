@@ -455,7 +455,7 @@
                 self.total=res.count_row;
                 res.productInfo.map((val)=>{
                     // val.item_id="3.5G";
-                    val.date_time_T=formatDate(new Date(val.date_time.replace(/-/g, "/")) ,"yyyy-MM-dd");
+                   val.date_time==null?val.date_time_T="": val.date_time_T=formatDate(new Date(val.date_time.replace(/-/g, "/")) ,"yyyy-MM-dd");
                     // console.log(new Date(parseInt(val.date_time)))
                 })
                 let set1=new Set(res.productInfo);
