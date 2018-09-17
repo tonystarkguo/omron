@@ -392,12 +392,21 @@
                     fileObj.export_all=false;
                     /* 例子 {"headList":["客户姓名", "证件类型", "日期"],"rowList":["张三","证件a","sss"]} */
                    console.log(this.radio2)
+                   /* 成品列表或部品列表 */
                    if(this.radio2==1){
                     fileObj.productInfoList=this.multipleSelection;
                          fileObj.productInfoList.map((val)=>{
                          delete val["date_time_T"];
                      });
                     }else{
+                        fileObj.componenteEmployInfoList=this.multipleSelection;
+                        fileObj.componenteEmployInfoList.map((val)=>{
+                         delete val["date_time_T"];
+                     });
+                     /* 成品列表下的查看详情选中 */
+                    }
+                    if(!this.searchedProcuct){
+                        fileObj.productInfoList=null
                         fileObj.componenteEmployInfoList=this.multipleSelection;
                         fileObj.componenteEmployInfoList.map((val)=>{
                          delete val["date_time_T"];

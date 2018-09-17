@@ -321,8 +321,9 @@
                 }else{
                     /* 例子 {"headList":["客户姓名", "证件类型", "日期"],"rowList":["张三","证件a","sss"]} */
                     fileObj.export_all=false;
+                    // console.log(this.searchedProcuct,this.multipleTableFishPrduct)
                     if(!this.searchedProcuct){
-                        fileObj.componenteEmployInfoList=this.multipleSelection;
+                        fileObj.componenteEmployInfoList=this.multipleTableFishPrduct;
                          fileObj.componenteEmployInfoList.map((val)=>{
                          delete val["date_time_T"];
                      });
