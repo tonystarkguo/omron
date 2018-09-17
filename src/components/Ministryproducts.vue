@@ -327,8 +327,8 @@
                          delete val["date_time_T"];
                      });
                     }else{
-                        fileObj.productInfo=this.multipleSelection;
-                        fileObj.productInfo.map((val)=>{
+                        fileObj.productInfoList=this.multipleSelection;
+                        fileObj.productInfoList.map((val)=>{
                          delete val["date_time_T"];
                      });
                     }
