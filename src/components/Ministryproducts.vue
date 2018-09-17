@@ -279,12 +279,12 @@
                     }
                 /* 没数据时的提示 */
                 if(this.searchedProcuct){
-                    if(this.tableData3.length<=0){
+                    if(this.tableData3.length<=0||this.tableData3==null){
                         self.$message.error({message:"没有数据不可导出！"});
                         return 
                     }
                 }else{
-                    if(this.tableData4.length<=0){
+                    if(this.tableData4.length<=0||this.tableData4==null){
                         self.$message.error({message:"没有数据不可导出！"});
                         return 
                     }
@@ -321,13 +321,13 @@
                 }else{
                     /* 例子 {"headList":["客户姓名", "证件类型", "日期"],"rowList":["张三","证件a","sss"]} */
                     fileObj.export_all=false;
-                    if(this.searchedProcuct){
+                    if(!this.searchedProcuct){
                         fileObj.componenteEmployInfoList=this.multipleSelection;
                          fileObj.componenteEmployInfoList.map((val)=>{
                          delete val["date_time_T"];
                      });
                     }else{
-                        fileObj.productInfo=this.multipleTableFishPrduct;
+                        fileObj.productInfo=this.multipleSelection;
                         fileObj.productInfo.map((val)=>{
                          delete val["date_time_T"];
                      });

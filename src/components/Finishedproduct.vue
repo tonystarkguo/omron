@@ -351,7 +351,7 @@
                     }
                 /* 没数据时的提示 */
                 if(this.searchedProcuct){
-                    if(this.tableData3.length<=0){
+                    if(this.tableData3.length<=0||this.tableData3==null){
                         self.$message.error({message:"没有数据不可导出！"});
                         return 
                     }
@@ -391,14 +391,14 @@
                 }else{
                     fileObj.export_all=false;
                     /* 例子 {"headList":["客户姓名", "证件类型", "日期"],"rowList":["张三","证件a","sss"]} */
-                   console.log(this.searchedProcuct)
-                   if(this.searchedProcuct){
+                   console.log(this.radio2)
+                   if(this.radio2==1){
                     fileObj.productInfoList=this.multipleSelection;
                          fileObj.productInfoList.map((val)=>{
                          delete val["date_time_T"];
                      });
                     }else{
-                        fileObj.componenteEmployInfoList=this.multipleTableFishPrduct;
+                        fileObj.componenteEmployInfoList=this.multipleSelection;
                         fileObj.componenteEmployInfoList.map((val)=>{
                          delete val["date_time_T"];
                      });
