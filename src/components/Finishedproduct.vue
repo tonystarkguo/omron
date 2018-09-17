@@ -223,6 +223,7 @@
               multipleSelectionListValue:[],
               multipleTableFishPrduct:[],
               multipleSelectionListValuePrduct:[],
+              multipleTableCM:[],
               sizeForm: {
                     name: '3.5G',
                     pim: '',
@@ -406,8 +407,9 @@
                      /* 成品列表下的查看详情选中 */
                     }
                     if(!this.searchedProcuct){
-                        fileObj.productInfoList=null
-                        fileObj.componenteEmployInfoList=this.multipleSelection;
+                        fileObj.productInfoList=null;
+                        console.log(this.multipleTableCM)
+                        fileObj.componenteEmployInfoList=this.multipleTableFishPrduct;
                         fileObj.componenteEmployInfoList.map((val)=>{
                          delete val["date_time_T"];
                      });
