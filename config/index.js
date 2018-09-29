@@ -12,11 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/apis' : {
-<<<<<<< Updated upstream
-        target: 'http://192.168.1.27:3000',
-=======
-        target: 'http://192.168.1.138:3000',
->>>>>>> Stashed changes
+        target: 'http://192.168.217.1:3000',
         changeOrigin: true,
         pathRewrite: {
           '^/apis': ''

@@ -144,9 +144,11 @@
                         <el-tab-pane label="CB" name="CB"></el-tab-pane>
                         <el-tab-pane label="PM" name="PM"></el-tab-pane>
                         <el-tab-pane label="FAT组装" name="COVER"></el-tab-pane>
+                        <el-tab-pane label="工序检查履历" name="CHECKED"></el-tab-pane>
+                        <el-tab-pane label="变化点及载具信息" name="CHTIMINFO"></el-tab-pane>
                 </el-tabs>
 
-              <el-table v-if="!searchedProcuct" :border='true' ref="multipleTableCM" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+              <el-table v-if="!searchedProcuct&&(activeName2=='CB'||activeName2=='PM'||activeName2=='COVER')" :border='true' ref="multipleTableCM" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
                     <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号" sortable> </el-table-column> -->
@@ -159,6 +161,22 @@
                     
                    
                </el-table>
+               <!-- 工序检查履历 变化点及载具信息 TAB -->
+                <el-table v-if="!searchedProcuct&&activeName2=='CHECKED'" :border='true' ref="multipleTableCM" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+                    <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
+                    <el-table-column  prop="production_process" align="left" label="生产工序" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="is_pass" align="left" label="检查结果" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="start_time" align="left" label="开始时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="date_time" align="left" label="结束时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="time_difference" align="left" label="耗时" min-width="120" sortable></el-table-column>                         
+                </el-table>
+                <el-table v-if="!searchedProcuct&&activeName2=='CHTIMINFO'" :border='true' ref="multipleTableCM" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+                    <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
+                    <el-table-column  prop="" align="left" label="DIP载具" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="" align="left" label="开始时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="" align="left" label="结束时间" min-width="120" sortable></el-table-column>        
+
+                </el-table>
                <!-- 成品追术- 成品列表 -->
                <el-table v-if="searchedProcuct&&radio2==2" :border='true' ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" :min-height="200" :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChange" @sort-change="sortChange">
                     <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
@@ -323,7 +341,7 @@
           exportFile(){
                 const self=this;
                  //type;//1.成品导出  2.部品导出  3.查看详情导出
-                // detail_type 1 是 CB 2是PM 3是组装
+                // detail_type 1 是 CB 2是PM 3是组装  
                 const fileObj={"headList":[],"componenteEmployInfoList":null,"productInfoList":null,"export_all":true,
                     "type":"1","productInfo":this.productInfo_row,"search_context":this.obj.search_context,"componenteEmployInfo":null,
                     "detail_type":null,
@@ -341,23 +359,31 @@
                         fileObj.type=3;
                         // fileObj.headList=["部品工序","部品品番","部品位置","部品批号"]
                        self.obj.productInfo=this.productInfo_row;
-                        fileObj.headList=["生产工序","部品品番","部品位置","部品批号"];
-                        if(this.activeName2=="CB"){
-                            fileObj.detail_type=1;
-                        }else if(this.activeName2=="PM"){
-                            fileObj.detail_type=2;
-                        }else{
-                            fileObj.detail_type=3;
-                        }
+                        // fileObj.headList=["生产工序","部品品番","部品位置","部品批号"];
+                        const TAB_HEADER_CB=["生产工序","部品品番","部品位置","部品批号"];
+                        const TAB_HEADER_CK=["生产工序","检查结果","开始时间","结束时间","耗时"];
+                        const TAB_HEADER_CT=["DIP载具","开始时间","结束时间"];
+                        const tebleList=["","CB","PM","COVER","CHECKED","CHTIMINFO"];
+                        const tebleText=this.activeName2;
+                        const headerList={"CB":TAB_HEADER_CB,"PM":TAB_HEADER_CB,"COVER":TAB_HEADER_CB,"CHECKED":TAB_HEADER_CK,"CHTIMINFO":TAB_HEADER_CT}
+                        fileObj.detail_type=tebleList.indexOf(tebleText);
+                         fileObj.headList=headerList[tebleText];
+                        // if(this.activeName2=="CB"){
+                        //     fileObj.detail_type=1;
+                        // }else if(this.activeName2=="PM"){
+                        //     fileObj.detail_type=2;
+                        // }else{
+                        //     fileObj.detail_type=3;
+                        // }
                     }
                 /* 没数据时的提示 */
                 if(this.searchedProcuct){
-                    if(this.tableData3.length<=0||this.tableData3==null){
+                    if(this.tableData3==null||this.tableData3.length<=0){
                         self.$message.error({message:"没有数据不可导出！"});
                         return 
                     }
                 }else{
-                    if(this.tableData4.length<=0){
+                    if(this.tableData4==null||this.tableData4.length<=0){
                         self.$message.error({message:"没有数据不可导出！"});
                         return 
                     }
@@ -622,14 +648,16 @@
          getCBPM(val){
              const obj={"productInfo":this.productInfo_row,"detail_type":null,"pagingParamEnyity":{"page_no":val,"order":this.sortObjT.order,"order_column": this.sortObjT.order_column}}
             const self=this;
-            
-              if(this.activeName2=="CB"){
-                  obj.detail_type=1;
-             }else if(this.activeName2=="PM"){
-                  obj.detail_type=2;
-             }else{
-                  obj.detail_type=3;
-             }
+
+            const tebleList=["","CB","PM","COVER","CHECKED","CHTIMINFO"];
+            obj.detail_type=tebleList.indexOf(this.activeName2);
+            //   if(this.activeName2=="CB"){
+            //       obj.detail_type=1;
+            //  }else if(this.activeName2=="PM"){
+            //       obj.detail_type=2;
+            //  }else{
+            //       obj.detail_type=3;
+            //  }
               if(this.productInfo_row){
                  delete  this.productInfo_row["date_time_T"];
              }

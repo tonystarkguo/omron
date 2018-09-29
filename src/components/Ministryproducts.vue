@@ -106,9 +106,11 @@
                         <el-tab-pane label="CB" name="CB"></el-tab-pane>
                         <el-tab-pane label="PM" name="PM"></el-tab-pane>
                         <el-tab-pane label="FAT组装" name="COVER"></el-tab-pane>
+                        <el-tab-pane label="工序检查履历" name="CHECKED"></el-tab-pane>
+                        <el-tab-pane label="变化点及载具信息" name="CHTIMINFO"></el-tab-pane>
                 </el-tabs>
 
-              <el-table v-if="!searchedProcuct" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :min-height="200"  :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+              <el-table v-if="!searchedProcuct&&(activeName2=='CB'||activeName2=='PM'||activeName2=='COVER')" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :min-height="200"  :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
                     <el-table-column  prop="date" type="selection" width="55" align="center" fixed> </el-table-column>
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
@@ -128,6 +130,22 @@
                     <el-table-column prop="product_serial_no" align="left" label="序列号" width="120" sortable></el-table-column>
                     <el-table-column prop="product_batch_no" align="left" label="批号" width="120" sortable></el-table-column>
                     <el-table-column prop="start_time" align="left" label="生产时间" width="120" sortable></el-table-column> -->
+
+                </el-table>
+                <!-- 工序检查履历 变化点及载具信息 TAB -->
+                <el-table v-if="!searchedProcuct&&activeName2=='CHECKED'" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :min-height="200"  :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+                    <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
+                    <el-table-column  prop="production_process" align="left" label="生产工序" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="is_pass" align="left" label="检查结果" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="start_time" align="left" label="开始时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="date_time" align="left" label="结束时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="time_difference" align="left" label="耗时" min-width="120" sortable></el-table-column>                         
+                </el-table>
+                <el-table v-if="!searchedProcuct&&activeName2=='CHTIMINFO'" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :min-height="200"  :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+                    <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
+                    <el-table-column  prop="" align="left" label="DIP载具" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="" align="left" label="开始时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="" align="left" label="结束时间" min-width="120" sortable></el-table-column>        
 
                 </el-table>
               <!-- <div style="margin-top: 20px">
@@ -268,14 +286,22 @@
                         fileObj.headList=["生产时间","成品批号","工单号","PIM品番","CB_ID","PM_ID","TRACE NO","成品序列号"]
                    }else{
                         fileObj.type=3;
-                        fileObj.headList=["生产工序","部品品番","部品位置","部品批号"];
-                         if(this.activeName2=="CB"){
-                            fileObj.detail_type=1;
-                        }else if(this.activeName2=="PM"){
-                            fileObj.detail_type=2;
-                        }else{
-                            fileObj.detail_type=3;
-                        }
+                        // fileObj.headList=["生产工序","部品品番","部品位置","部品批号"];
+                        const TAB_HEADER_CB=["生产工序","部品品番","部品位置","部品批号"];
+                        const TAB_HEADER_CK=["生产工序","检查结果","开始时间","结束时间","耗时"];
+                        const TAB_HEADER_CT=["DIP载具","开始时间","结束时间"];
+                        const tebleList=["","CB","PM","COVER","CHECKED","CHTIMINFO"];
+                        const headerList={"CB":TAB_HEADER_CB,"PM":TAB_HEADER_CB,"COVER":TAB_HEADER_CB,"CHECKED":TAB_HEADER_CK,"CHTIMINFO":TAB_HEADER_CT}
+                        const tebleText=this.activeName2;
+                        fileObj.detail_type=tebleList.indexOf(tebleText);
+                        fileObj.headList=headerList[tebleText];
+                        //  if(this.activeName2=="CB"){
+                        //     fileObj.detail_type=1;
+                        // }else if(this.activeName2=="PM"){
+                        //     fileObj.detail_type=2;
+                        // }else{
+                        //     fileObj.detail_type=3;
+                        // }
                     }
                 /* 没数据时的提示 */
                 if(this.searchedProcuct){
@@ -284,7 +310,8 @@
                         return 
                     }
                 }else{
-                    if(this.tableData4.length<=0||this.tableData4==null){
+                    console.log(this.tableData4)
+                    if(this.tableData4==null||this.tableData4.length<=0){
                         self.$message.error({message:"没有数据不可导出！"});
                         return 
                     }
@@ -306,7 +333,7 @@
                                 }).catch(function(erro){
                                     self.$message.error({message:"导出失败"});
                                 })
-                                console.log($)
+                                // console.log($)
                                 
                                 this.$message({
                                     type: 'success',
@@ -509,14 +536,15 @@
             // })
              const obj={"productInfo":this.productInfo_row,"detail_type":null,"pagingParamEnyity":{"page_no":val,"order":this.sortObjT.order,"order_column": this.sortObjT.order_column}}
             const self=this;
-            
-              if(this.activeName2=="CB"){
-                  obj.detail_type=1;
-             }else if(this.activeName2=="PM"){
-                  obj.detail_type=2;
-             }else{
-                  obj.detail_type=3;
-             }
+            const tebleList=["","CB","PM","COVER","CHECKED","CHTIMINFO"];
+            obj.detail_type=tebleList.indexOf(this.activeName2);
+            //   if(this.activeName2=="CB"){
+            //       obj.detail_type=1;
+            //  }else if(this.activeName2=="PM"){
+            //       obj.detail_type=2;
+            //  }else{
+            //       obj.detail_type=3;
+            //  }
               if(this.productInfo_row){
                  delete  this.productInfo_row["date_time_T"];
              }
