@@ -172,9 +172,9 @@
                 </el-table>
                 <el-table v-if="!searchedProcuct&&activeName2=='CHTIMINFO'" :border='true' ref="multipleTableCM" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
                     <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
-                    <el-table-column  prop="" align="left" label="DIP载具" min-width="120" sortable></el-table-column>        
-                    <el-table-column  prop="" align="left" label="开始时间" min-width="120" sortable></el-table-column>        
-                    <el-table-column  prop="" align="left" label="结束时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="dip_id" align="left" label="DIP载具" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="start_time" align="left" label="开始时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="date_time" align="left" label="结束时间" min-width="120" sortable></el-table-column>        
 
                 </el-table>
                <!-- 成品追术- 成品列表 -->

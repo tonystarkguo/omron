@@ -5,7 +5,7 @@
       <el-col :xs="24" :sm="9" :md="9" :lg="9" :xl="9">
         <div class="logo-right"><div class="header"><img :src="LoginImgTopImg" alt=""><span>登陆</span></div>
           <el-row>
-            <el-col :span="24" class="loginValueStyle">
+            <el-col :span="18" :push="3" class="loginValueStyle">
                 <p v-for="value in  loginValueText">{{value}}</p>
             </el-col>
           </el-row>
