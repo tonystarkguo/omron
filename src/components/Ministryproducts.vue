@@ -555,7 +555,11 @@
              obj.item_type="3.5G";
              api.showModuleDetailForFin(obj).then(function(res){
                   self.totalForCb=res.count_row;//总页数
-                self.tableData4=res.componenteEmployInfo;
+                if(obj.detail_type==4){
+                    self.tableData4=res.componentBatchNoInfo;
+                }else{
+                    self.tableData4=res.componenteEmployInfo;
+                }
                 res.productInfo.map((val)=>{
                 });
 

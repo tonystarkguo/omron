@@ -667,7 +667,12 @@
              obj.item_type="3.5G";
              api.showModuleDetailForFin(obj).then(function(res){
                   self.totalForCb=res.count_row;//总页数
-                self.tableData4=res.componenteEmployInfo;
+                if(fileObj.detail_type==4){
+                    /* 工序检查履历 */
+                    self.tableData4=res.componentBatchNoInfo;
+                }else{
+                    self.tableData4=res.componenteEmployInfo;
+                }
                 res.productInfo.map((val)=>{
                 // console.log(formatDate(new Date((val.date_time.replace(/-/g, "/"))) ,"yyyy-MM-dd"))
                     // val.date_time_T=formatDate(new Date((val.date_time.replace(/-/g, "/"))) ,"yyyy-MM-dd");
