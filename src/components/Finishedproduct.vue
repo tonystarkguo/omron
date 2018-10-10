@@ -667,7 +667,7 @@
              obj.item_type="3.5G";
              api.showModuleDetailForFin(obj).then(function(res){
                   self.totalForCb=res.count_row;//总页数
-                if(fileObj.detail_type==4){
+                if(obj.detail_type==4){
                     /* 工序检查履历 */
                     self.tableData4=res.componentBatchNoInfo;
                 }else{
