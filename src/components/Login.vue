@@ -4,7 +4,7 @@
       <el-col :xs="8" :sm="15" :md="15" :lg="15" :xl="15" class="hidden-xs-only logo-left" :style="{backgroundImage:LoginLeftImg}"><img :src="LoginLeftImg" alt="登陆" class="logonLeft"></el-col>
       <el-col :xs="24" :sm="9" :md="9" :lg="9" :xl="9">
         <div class="logo-right"><div class="header"><img :src="LoginImgTopImg" alt=""><span>登陆</span></div>
-          <el-row>
+          <el-row class="loginValueStyleFa">
             <el-col :span="18" :push="3" class="loginValueStyle">
                 <p v-for="value in  loginValueText">{{value}}</p>
             </el-col>
@@ -185,9 +185,14 @@ export default {
 .passWordSmall {
   background-image: url("../assets/password.png");
 }
+
 .loginValueStyle{
   margin-top: 90px;
+  height: 180px;
   color: red;
   font-size: 12px;
+  white-space:nowrap; 
+  overflow: auto;
+  text-align: left;
 }
 </style>
