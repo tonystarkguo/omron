@@ -187,8 +187,9 @@ export default {
 }
 
 .loginValueStyle{
-  margin-top: 90px;
-  height: 180px;
+  margin-top: 30px;
+  height: 130px;
+  margin-bottom: -60px;
   color: red;
   font-size: 12px;
   white-space:nowrap; 
