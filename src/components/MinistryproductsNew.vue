@@ -111,39 +111,42 @@
                 </el-tabs>
 
               <el-table v-if="!searchedProcuct&&(activeName2=='CB'||activeName2=='PM'||activeName2=='COVER')" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :min-height="200"  :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
-                    <el-table-column  prop="date" type="selection" width="55" align="center" fixed> </el-table-column>
-                    <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
-                    <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
-                    <el-table-column v-if="activeName2!='CHECKED' " prop="process_name" align="left" label="生产工序" min-width="120" sortable></el-table-column>
-                    <el-table-column v-if="activeName2!='CHECKED' " prop="component_no" align="left" label="部品品番" min-width="120" sortable></el-table-column>
+                    <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
+                    <el-table-column  prop="process_name" align="left" label="生产工序" min-width="120" sortable></el-table-column>
+                    <el-table-column  prop="component_no" align="left" label="部品品番" min-width="120" sortable></el-table-column>
                     <el-table-column prop="component_name" v-if="activeName2=='COVER'" align="left" label="部品名称" min-width="120" sortable></el-table-column>                                        
                     
-                    <el-table-column v-if="activeName2!='CHECKED' " v-else prop="component_location" align="left" label="部品位置" min-width="120" sortable></el-table-column>
-                    <el-table-column v-if="activeName2!='CHECKED' " prop="component_batch_no" align="left" label="部品批号" min-width="120" sortable></el-table-column>
-                    <el-table-column prop="date_time" align="left" label="实装时间" min-width="120" sortable></el-table-column>
-                    
-                  <!--   <el-table-column v-if="activeName2=='CHECKED' " prop="production_process"  align="left" label="生产工序" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="component_location" v-else align="left" label="部品位置" min-width="120" sortable></el-table-column>
+                    <el-table-column  prop="component_batch_no" align="left" label="部品批号" min-width="120" sortable></el-table-column>
+                     <el-table-column prop="date_time" align="left" label="实装时间" min-width="120" sortable></el-table-column>
+                 </el-table>
+
+                <el-table v-if="!searchedProcuct&&activeName2=='CHECKED'" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :min-height="200"  :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+                    <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
+                    <el-table-column v-if="activeName2=='CHECKED' " prop="production_process" align="left" label="生产工序" min-width="120" sortable></el-table-column>        
                     <el-table-column v-if="activeName2=='CHECKED' " prop="is_pass" align="left" label="检查结果" min-width="120" sortable></el-table-column>        
                     <el-table-column v-if="activeName2=='CHECKED' " prop="start_time" align="left" label="开始时间" min-width="120" sortable></el-table-column>        
                     <el-table-column v-if="activeName2=='CHECKED' " prop="date_time" align="left" label="结束时间" min-width="120" sortable></el-table-column>        
-                    <el-table-column v-if="activeName2=='CHECKED' " prop="time_difference" label="耗时(分)" min-width="120" sortable></el-table-column>                         
-                --> </el-table>
-
-                <el-table v-if="!searchedProcuct&&activeName2=='CHECKED'" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :min-height="200"  :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
-                    <el-table-column  prop="date" type="selection" width="55" align="center" fixed> </el-table-column>
-                    <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
-                    <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
-                    <el-table-column  prop="production_process"  align="left" label="生产工序" min-width="120" sortable></el-table-column>        
-                    <el-table-column  prop="is_pass" align="left" label="检查结果" min-width="120" sortable></el-table-column>        
-                    <el-table-column prop="start_time" align="left" label="开始时间" min-width="120" sortable></el-table-column>        
-                    <el-table-column prop="date_time" align="left" label="结束时间" min-width="120" sortable></el-table-column>        
-                    <el-table-column  prop="time_difference" label="耗时" min-width="120" sortable></el-table-column>                         
+                    <el-table-column v-if="activeName2=='CHECKED' " prop="time_difference" align="left" label="耗时" min-width="120" sortable></el-table-column>                       
                 </el-table>
+                <!-- 变化点及载具信息 -->
+               <el-table v-if="!searchedProcuct&&activeName2=='CHTIMINFO'" :border='true' ref="multipleTableCM" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+                    <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
+                    <el-table-column  prop="output_type" align="left" label="变化点及载具" min-width="120" sortable></el-table-column>    
+                    <el-table-column  prop="output_info" align="left" label="治具及单号" min-width="120" sortable></el-table-column>      
+                    <el-table-column  prop="start_time" align="left" label="开始时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="date_time" align="left" label="结束时间" min-width="120" sortable></el-table-column>        
 
-              <!-- <div style="margin-top: 20px">
-                  <el-button @click="toggleSelection([tableData3[1], tableData3[2]])">切换第二、第三行的选中状态</el-button>
-                    <el-button @click="toggleSelection()">取消选择</el-button>
-              </div> -->
+                </el-table>
+               <!-- 成品追术- 成品列表 -->
+               <el-table v-if="searchedProcuct&&radio2==2" :border='true' ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" :min-height="200" :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChange" @sort-change="sortChange">
+                    <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
+                    <el-table-column prop="product_serial_no" align="left" label="成品序列号" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="process_name" align="left" label="生产工序" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="component_location" align="left" label="部品位置" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="component_no" align="left" label="部品品番" min-width="120" sortable></el-table-column>        
+                    <el-table-column prop="component_batch_no" align="left" label="部品批号" min-width="120" sortable></el-table-column>        
+                </el-table>
             </div>
             <div class="block"  v-show="searchedProcuct">
               <!-- <span class="demonstration">直接前往</span> -->
