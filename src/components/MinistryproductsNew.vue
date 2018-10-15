@@ -130,7 +130,7 @@
                     <el-table-column v-if="activeName2=='CHECKED' " prop="time_difference" align="left" label="耗时" min-width="120" sortable></el-table-column>                       
                 </el-table>
                 <!-- 变化点及载具信息 -->
-               <el-table v-if="!searchedProcuct&&activeName2=='CHTIMINFO'" :border='true' ref="multipleTableCM" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+               <el-table v-if="!searchedProcuct&&activeName2=='CHTIMINFO'" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
                     <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
                     <el-table-column  prop="output_type" align="left" label="变化点及载具" min-width="120" sortable></el-table-column>    
                     <el-table-column  prop="output_info" align="left" label="治具及单号" min-width="120" sortable></el-table-column>      
@@ -139,7 +139,7 @@
 
                 </el-table>
                <!-- 成品追术- 成品列表 -->
-               <el-table v-if="searchedProcuct&&radio2==2" :border='true' ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" :min-height="200" :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChange" @sort-change="sortChange">
+               <el-table v-if="searchedProcuct&&radio2==2" :border='true' ref="multipleTableFishPrduct" :data="tableData3" tooltip-effect="dark" style="width: 100%" :min-height="200" :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChange" @sort-change="sortChange">
                     <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
                     <el-table-column prop="product_serial_no" align="left" label="成品序列号" min-width="120" sortable></el-table-column>
                     <el-table-column prop="process_name" align="left" label="生产工序" min-width="120" sortable></el-table-column>
