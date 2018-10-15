@@ -10,7 +10,7 @@
                <el-button v-if="showSearchList" size="mini" style="float: right;"  @click="clearSearchValue">清除</el-button>
                 <el-button v-if="showSearchList" size="mini" style="float: right;" @click="searchList(0)">搜索</el-button>
                  <div v-if="searchedProcuct" class="tital-search"><span>合计:</span><span>{{totalAll}}</span></div>
-                 <div v-if="!searchedProcuct" class="tital-search"><span>合计:</span><span>{{totalForCb}}</span></div>
+                 <!-- <div v-if="!searchedProcuct" class="tital-search"><span>合计:</span><span>{{totalForCb}}</span></div> -->
 
               <!-- <el-button v-if="showSearchList" size="medium" style="float: right;" @click="showSearchList=!showSearchList">收起</el-button> -->
             <span style="clear: both;"></span>
@@ -167,6 +167,8 @@
               </el-pagination>
             </div>
       </el-card>
+      <!--  -->
+    <div v-if="!searchedProcuct" class="tital-search"><span>共</span><span>{{totalForCb}}</span>行</div>
   </div>
 </template>
 
@@ -288,17 +290,19 @@
                         // }else{
                         //     fileObj.detail_type=4;
                         // }
-                        const TAB_HEADER_CB=["生产工序","部品品番","部品位置","部品批号"];
+                        const TAB_HEADER_CB=["生产工序","部品品番","部品位置","部品批号","安装时间"];
+                        const TAB_HEADER_CO=["生产工序","部品品番","部品名称","部品批号","安装时间"];
                         const TAB_HEADER_CK=["生产工序","检查结果","开始时间","结束时间","耗时"];
                         const TAB_HEADER_CT=["变化点及载具","治具及单号","开始时间","结束时间"];
                         const tebleList=["","CB","PM","COVER","CHECKED","CHTIMINFO"];
                         const tebleText=this.activeName2;
-                        const headerList={"CB":TAB_HEADER_CB,"PM":TAB_HEADER_CB,"COVER":TAB_HEADER_CB,"CHECKED":TAB_HEADER_CK,"CHTIMINFO":TAB_HEADER_CT}
+                        const headerList={"CB":TAB_HEADER_CB,"PM":TAB_HEADER_CB,"COVER":TAB_HEADER_CO,"CHECKED":TAB_HEADER_CK,"CHTIMINFO":TAB_HEADER_CT}
                         fileObj.detail_type=tebleList.indexOf(tebleText);
                         fileObj.headList=headerList[tebleText];
                     }
                 
                  /* 没数据时的提示 */
+                 console.log(this.tableData3)
                 if(this.searchedProcuct){
                     if(this.tableData3==null||this.tableData3.length<=0){
                         self.$message.error({message:"没有数据不可导出！"});
@@ -651,9 +655,12 @@
         computed:{
             elTableBodyWrapperMaxHeight:function(){
                 console.log( this.screenHeight,this.screenHeight-60-50-40-72-40-60)
-                const height=this.screenHeight-41-102-33-20-50;
+                let height=this.screenHeight-41-102-33-20-50;
                 $(".el-table__empty-block").css({"min-height":height})
-                return this.screenHeight-41-102-33-20-50;
+                if(!this.searchedProcuct){
+                    height=height+48+50;
+                }
+                return height;
             }
         },
         created(){

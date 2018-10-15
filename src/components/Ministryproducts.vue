@@ -290,12 +290,13 @@
                    }else{
                         fileObj.type=3;
                         // fileObj.headList=["生产工序","部品品番","部品位置","部品批号"];
-                        const TAB_HEADER_CB=["生产工序","部品品番","部品位置","部品批号"];
+                        const TAB_HEADER_CB=["生产工序","部品品番","部品位置","部品批号","安装时间"];
+                        const TAB_HEADER_CO=["生产工序","部品品番","部品名称","部品批号","安装时间"];
                         const TAB_HEADER_CK=["生产工序","检查结果","开始时间","结束时间","耗时"];
                         const TAB_HEADER_CT=["变化点及载具","治具及单号","开始时间","结束时间"];
                         const tebleList=["","CB","PM","COVER","CHECKED","CHTIMINFO"];
-                        const headerList={"CB":TAB_HEADER_CB,"PM":TAB_HEADER_CB,"COVER":TAB_HEADER_CB,"CHECKED":TAB_HEADER_CK,"CHTIMINFO":TAB_HEADER_CT}
                         const tebleText=this.activeName2;
+                        const headerList={"CB":TAB_HEADER_CB,"PM":TAB_HEADER_CB,"COVER":TAB_HEADER_CO,"CHECKED":TAB_HEADER_CK,"CHTIMINFO":TAB_HEADER_CT}
                         fileObj.detail_type=tebleList.indexOf(tebleText);
                         fileObj.headList=headerList[tebleText];
                         //  if(this.activeName2=="CB"){
