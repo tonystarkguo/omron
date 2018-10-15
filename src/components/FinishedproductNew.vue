@@ -144,7 +144,7 @@
                         <el-tab-pane label="变化点及载具信息" name="CHTIMINFO"></el-tab-pane>
                 </el-tabs>
 
-              <el-table v-if="!searchedProcuct&&activeName2!='CHECKED' " :border='true' ref="multipleTableCM" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+              <el-table v-if="!searchedProcuct&&(activeName2=='CB'||activeName2=='PM'||activeName2=='COVER')" :border='true' ref="multipleTableCM" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
                     <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
                     <el-table-column  prop="process_name" align="left" label="生产工序" min-width="120" sortable></el-table-column>
                     <el-table-column  prop="component_no" align="left" label="部品品番" min-width="120" sortable></el-table-column>
@@ -376,19 +376,21 @@
                         const TAB_HEADER_CT=["变化点及载具","治具及单号","开始时间","结束时间"];
                         const tebleList=["","CB","PM","COVER","CHECKED","CHTIMINFO"];
                         const tebleText=this.activeName2;
+                     
                         const headerList={"CB":TAB_HEADER_CB,"PM":TAB_HEADER_CB,"COVER":TAB_HEADER_CB,"CHECKED":TAB_HEADER_CK,"CHTIMINFO":TAB_HEADER_CT}
                         fileObj.detail_type=tebleList.indexOf(tebleText);
                         fileObj.headList=headerList[tebleText];
+                           console.log(tebleText,tebleList.indexOf(tebleText),fileObj.headList)
                     }
 
                 /* 没数据时的提示 */
                 if(this.searchedProcuct){
-                    if(this.tableData3.length<=0){
+                    if(this.tableData3==null||this.tableData3.length<=0){
                         self.$message.error({message:"没有数据不可导出！"});
                         return 
                     }
                 }else{
-                    if(this.tableData4.length<=0){
+                    if(this.tableData3==null||this.tableData4.length<=0){
                         self.$message.error({message:"没有数据不可导出！"});
                         return 
                     }
@@ -679,6 +681,8 @@
                
                 if(obj.detail_type==4){
                      self.tableData4=res.componentBatchNoInfo;
+                }else if(obj.detail_type==5){
+                   self.tableData4=res.monthlyOutputInfo;
                 }else{
                      self.tableData4=res.componenteEmployInfo;
                 }

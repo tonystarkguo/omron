@@ -681,7 +681,9 @@
                 if(obj.detail_type==4){
                     /* 工序检查履历 */
                     self.tableData4=res.componentBatchNoInfo;
-                }else{
+                }else if(obj.detail_type==5){
+                   self.tableData4=res.monthlyOutputInfo;
+                } else{
                     self.tableData4=res.componenteEmployInfo;
                 }
                 res.productInfo.map((val)=>{

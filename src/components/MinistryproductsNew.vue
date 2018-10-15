@@ -110,7 +110,7 @@
                         <el-tab-pane label="变化点及载具信息" name="CHTIMINFO"></el-tab-pane>
                 </el-tabs>
 
-              <el-table v-if="!searchedProcuct&&activeName2!='CHECKED'" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :min-height="200"  :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+              <el-table v-if="!searchedProcuct&&(activeName2=='CB'||activeName2=='PM'||activeName2=='COVER')" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :min-height="200"  :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
                     <el-table-column  prop="date" type="selection" width="55" align="center" fixed> </el-table-column>
                     <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
                     <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
@@ -300,12 +300,12 @@
                 
                  /* 没数据时的提示 */
                 if(this.searchedProcuct){
-                    if(this.tableData3.length<=0){
+                    if(this.tableData3==null||this.tableData3.length<=0){
                         self.$message.error({message:"没有数据不可导出！"});
                         return 
                     }
                 }else{
-                    if(this.tableData4.length<=0){
+                    if(this.tableData3==null||this.tableData4.length<=0){
                         self.$message.error({message:"没有数据不可导出！"});
                         return 
                     }
@@ -566,6 +566,8 @@
                   self.totalForCb=res.count_row;//总页数
                    if(obj.detail_type==4){
                      self.tableData4=res.componentBatchNoInfo;
+                }else if(obj.detail_type==5){
+                   self.tableData4=res.monthlyOutputInfo;
                 }else{
                       self.tableData4=res.componenteEmployInfo;
                 }
