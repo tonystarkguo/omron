@@ -298,7 +298,7 @@
                  $(".el-table__empty-block").css({"min-height":height});
                  let HEIGHT=this.screenHeight-42-160-20-32-50
                  if(!this.searchedProcuct){
-                    HEIGHT=HEIGHT+50+32+42;
+                    HEIGHT=HEIGHT+50+32;
                  }
                  return HEIGHT;
             }
@@ -458,6 +458,7 @@
                     /* 变化点载具信息 */
                     if(fileObj.detail_type==5){
                         fileObj.monthlyOutputInfoList=this.multipleTableFishPrduct;
+                        fileObj.componenteEmployInfoList=null;
                     }
                     api.exportFile_F_p(fileObj).then(function(res){
                           const obj={uuid:res.uuid}

@@ -297,9 +297,12 @@
         computed:{
             elTableBodyWrapperMaxHeight:function(){
                 // return this.screenHeight-60-50-40-72-40-60;
-                  const height=this.screenHeight-42-160-20-32-50;
+                  let height=this.screenHeight-42-160-20-32-50;
                  $(".el-table__empty-block").css({"min-height":height})
-                 return this.screenHeight-42-160-20-32-50;
+                 if(!this.searchedProcuct){
+                     height=height+50;
+                 }
+                 return height;
             }
         },
         methods: {
@@ -450,6 +453,7 @@
                     /* 变化点载具信息 */
                     if(fileObj.detail_type==5){
                         fileObj.monthlyOutputInfoList=this.multipleTableFishPrduct;
+                         fileObj.componenteEmployInfoList=null;
                     }
                     api.exportFile_F_p(fileObj).then(function(res){
                           const obj={uuid:res.uuid}

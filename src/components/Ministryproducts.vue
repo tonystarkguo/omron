@@ -364,14 +364,16 @@
                          delete val["date_time_T"];
                      });
                     }
-                //工程履历检查
-                    // if(fileObj.detail_type==4){
-                    //     fileObj.componentBatchNoInfoList=fileObj.componenteEmployInfoList;
-                    //     fileObj.componenteEmployInfoList=null;
-                    // }
+                   //工程履历检查
+                    if(fileObj.detail_type==4){
+                        const componentBatchNoInfoList=fileObj.componenteEmployInfoList
+                        fileObj.componentBatchNoInfoList=componentBatchNoInfoList;
+                        fileObj.componenteEmployInfoList=null;
+                    }
                 /* 变化点载具信息 */
                     if(fileObj.detail_type==5){
                         fileObj.monthlyOutputInfoList=this.multipleTableFishPrduct;
+                         fileObj.componenteEmployInfoList=null;
                     }
                     fileObj.item_type="3.5G";
                     api.exportFile_F_p(fileObj).then(function(res){

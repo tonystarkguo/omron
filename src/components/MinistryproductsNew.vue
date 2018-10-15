@@ -368,6 +368,7 @@
                     /* 变化点载具信息 */
                     if(fileObj.detail_type==5){
                         fileObj.monthlyOutputInfoList=this.multipleTableFishPrduct;
+                         fileObj.componenteEmployInfoList=null;
                     }
                     api.exportFile_F_p(fileObj).then(function(res){
                        const obj={uuid:res.uuid}
@@ -658,7 +659,7 @@
                 let height=this.screenHeight-41-102-33-20-50;
                 $(".el-table__empty-block").css({"min-height":height})
                 if(!this.searchedProcuct){
-                    height=height+48+50;
+                    height=height+50;
                 }
                 return height;
             }
