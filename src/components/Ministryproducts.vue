@@ -10,7 +10,7 @@
                <el-button v-if="showSearchList" size="mini" style="float: right;"  @click="clearSearchValue">清除</el-button>
                 <el-button v-if="showSearchList" size="mini" style="float: right;" @click="searchList(0)">搜索</el-button>
                  <div v-if="searchedProcuct" class="tital-search"><span>合计:</span><span>{{totalAll}}</span></div>
-                <div v-if="!searchedProcuct" class="tital-search"><span>合计:</span><span>{{totalForCb}}</span></div>
+                <!-- <div v-if="!searchedProcuct" class="tital-search"><span>合计:</span><span>{{totalForCb}}</span></div> -->
 
               <!-- <el-button v-if="showSearchList" size="medium" style="float: right;" @click="showSearchList=!showSearchList">收起</el-button> -->
             <span style="clear: both;"></span>
@@ -174,6 +174,8 @@
                 :total="totalForCb">
               </el-pagination>
             </div>
+            <!--  -->
+            <div v-if="!searchedProcuct" class="tital-search"><span>共</span><span>{{totalForCb}}</span>行</div>
       </el-card>
   </div>
 </template>
@@ -360,6 +362,11 @@
                          delete val["date_time_T"];
                      });
                     }
+                //工程履历检查
+                    // if(fileObj.detail_type==4){
+                    //     fileObj.componentBatchNoInfoList=fileObj.componenteEmployInfoList;
+                    //     fileObj.componenteEmployInfoList=null;
+                    // }
                     fileObj.item_type="3.5G";
                     api.exportFile_F_p(fileObj).then(function(res){
                        const obj={uuid:res.uuid}
@@ -641,8 +648,13 @@
             elTableBodyWrapperMaxHeight:function(){
                 console.log( this.screenHeight,this.screenHeight-60-50-40-72-40-60-50)
                 const height=this.screenHeight-41-102-33-20-50;
-                $(".el-table__empty-block").css({"min-height":height})
-                return this.screenHeight-41-102-33-20-50;
+                $(".el-table__empty-block").css({"min-height":height});
+                let max_height=this.screenHeight-41-102-33-20-50;
+                // console.log(this.screenHeight,max_height,this.searchedProcuct)
+                if(!this.searchedProcuct){
+                    max_height=max_height+48;
+                }
+                return max_height;
             }
         },
         created(){

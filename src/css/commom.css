@@ -4,6 +4,7 @@
 .content .el-card__body{
       padding: 0;
       /* min-height: 628px; */
+      height: calc( 100vh - 52px - 41px)
   }
 
 
@@ -29,6 +30,6 @@
 
   .startPag .el-card__body{
     padding: 0;
-    min-height: 587px;
+    min-height: 567px;
     height: calc( 100vh - 52px )
   }

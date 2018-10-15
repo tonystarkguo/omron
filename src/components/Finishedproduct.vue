@@ -441,6 +441,12 @@
                      });
                     }
                     fileObj.item_type="3.5G";
+                    //工程履历检查
+                    if(fileObj.detail_type==4){
+                        const componentBatchNoInfoList=fileObj.componenteEmployInfoList
+                        fileObj.componentBatchNoInfoList=componentBatchNoInfoList;
+                        fileObj.componenteEmployInfoList=null;
+                    }
                     api.exportFile_F_p(fileObj).then(function(res){
                           const obj={uuid:res.uuid}
                           obj.item_type="3.5G";
