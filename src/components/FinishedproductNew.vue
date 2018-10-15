@@ -141,15 +141,14 @@
                         <!-- <el-tab-pane label="PM" name="PM"></el-tab-pane> -->
                         <el-tab-pane label="FAT组装" name="COVER"></el-tab-pane>
                         <el-tab-pane label="工序检查履历" name="CHECKED"></el-tab-pane>
+                        <el-tab-pane label="变化点及载具信息" name="CHTIMINFO"></el-tab-pane>
                 </el-tabs>
 
               <el-table v-if="!searchedProcuct&&activeName2!='CHECKED' " :border='true' ref="multipleTableCM" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
                     <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
-                    <!-- <el-table-column prop="date_time_T"  label="日期"  sortable width="180"></el-table-column> -->
-                    <!-- <el-table-column  type="index" width="50" label="序号" sortable> </el-table-column> -->
                     <el-table-column  prop="process_name" align="left" label="生产工序" min-width="120" sortable></el-table-column>
                     <el-table-column  prop="component_no" align="left" label="部品品番" min-width="120" sortable></el-table-column>
-                    <el-table-column prop="component_location" v-if="activeName2=='COVER'" align="left" label="部品名称" min-width="120" sortable></el-table-column>                                        
+                    <el-table-column prop="component_name" v-if="activeName2=='COVER'" align="left" label="部品名称" min-width="120" sortable></el-table-column>                                        
                     
                     <el-table-column  prop="component_location" v-else align="left" label="部品位置" min-width="120" sortable></el-table-column>
                     <el-table-column  prop="component_batch_no" align="left" label="部品批号" min-width="120" sortable></el-table-column>
@@ -174,6 +173,15 @@
               
                    
                </el-table>
+               <!-- 变化点及载具信息 -->
+               <el-table v-if="!searchedProcuct&&activeName2=='CHTIMINFO'" :border='true' ref="multipleTableCM" :data="tableData4" tooltip-effect="dark" style="width: 100%" :max-height="elTableBodyWrapperMaxHeight" :min-height="200" @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
+                    <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
+                    <el-table-column  prop="output_type" align="left" label="变化点及载具" min-width="120" sortable></el-table-column>    
+                    <el-table-column  prop="output_info" align="left" label="治具及单号" min-width="120" sortable></el-table-column>      
+                    <el-table-column  prop="start_time" align="left" label="开始时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="date_time" align="left" label="结束时间" min-width="120" sortable></el-table-column>        
+
+                </el-table>
                <!-- 成品追术- 成品列表 -->
                <el-table v-if="searchedProcuct&&radio2==2" :border='true' ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" :min-height="200" :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChange" @sort-change="sortChange">
                     <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
@@ -353,7 +361,7 @@
                     }else{
                         fileObj.type=3;
                         // fileObj.headList=["部品工序","部品品番","部品位置","部品批号"]
-                        fileObj.headList=["生产工序","部品品番","部品位置","部品批号"];
+                        /* fileObj.headList=["生产工序","部品品番","部品位置","部品批号"];
                         if(this.activeName2=="CB"){
                             fileObj.detail_type=1;
                         }else if(this.activeName2=="PM"){
@@ -362,7 +370,15 @@
                             fileObj.detail_type=4;
                         }else if(this.activeName2=="COVER"){
                             fileObj.detail_type=3;
-                        }
+                        } */
+                        const TAB_HEADER_CB=["生产工序","部品品番","部品位置","部品批号"];
+                        const TAB_HEADER_CK=["生产工序","检查结果","开始时间","结束时间","耗时"];
+                        const TAB_HEADER_CT=["变化点及载具","治具及单号","开始时间","结束时间"];
+                        const tebleList=["","CB","PM","COVER","CHECKED","CHTIMINFO"];
+                        const tebleText=this.activeName2;
+                        const headerList={"CB":TAB_HEADER_CB,"PM":TAB_HEADER_CB,"COVER":TAB_HEADER_CB,"CHECKED":TAB_HEADER_CK,"CHTIMINFO":TAB_HEADER_CT}
+                        fileObj.detail_type=tebleList.indexOf(tebleText);
+                        fileObj.headList=headerList[tebleText];
                     }
 
                 /* 没数据时的提示 */
@@ -420,6 +436,17 @@
                      });
                     }
                     fileObj.item_type="4G";
+
+                    //工程履历检查
+                    if(fileObj.detail_type==4){
+                        const componentBatchNoInfoList=fileObj.componenteEmployInfoList
+                        fileObj.componentBatchNoInfoList=componentBatchNoInfoList;
+                        fileObj.componenteEmployInfoList=null;
+                    }
+                    /* 变化点载具信息 */
+                    if(fileObj.detail_type==5){
+                        fileObj.monthlyOutputInfoList=this.multipleTableFishPrduct;
+                    }
                     api.exportFile_F_p(fileObj).then(function(res){
                           const obj={uuid:res.uuid}
                           obj.item_type="4G";
@@ -628,15 +655,18 @@
              const obj={"productInfo":this.productInfo_row,"detail_type":null,"pagingParamEnyity":{"page_no":val,"order":this.sortObjT.order,"order_column": this.sortObjT.order_column}}
             const self=this;
             
-              if(this.activeName2=="CB"){
-                  obj.detail_type=1;
-             }else if(this.activeName2=="PM"){
-                  obj.detail_type=2;
-             }else if(this.activeName2=="COVER"){
-                  obj.detail_type=3;
-             }else{
-                 obj.detail_type=4;
-             }
+            //   if(this.activeName2=="CB"){
+            //       obj.detail_type=1;
+            //  }else if(this.activeName2=="PM"){
+            //       obj.detail_type=2;
+            //  }else if(this.activeName2=="COVER"){
+            //       obj.detail_type=3;
+            //  }else{
+            //      obj.detail_type=4;
+            //  }
+             const tebleList=["","CB","PM","COVER","CHECKED","CHTIMINFO"];
+             obj.detail_type=tebleList.indexOf(this.activeName2);
+
               if(this.productInfo_row){
                  delete  this.productInfo_row["date_time_T"];
              }

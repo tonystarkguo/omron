@@ -116,7 +116,7 @@
                     <!-- <el-table-column  type="index" width="50" label="序号"> </el-table-column> -->
                     <el-table-column prop="process_name" align="left" label="生产工序" min-width="120" sortable></el-table-column>
                     <el-table-column prop="component_no" align="left" label="部品品番" min-width="120" sortable></el-table-column>
-                    <el-table-column prop="component_location" v-if="activeName2=='COVER'" align="left" label="部品名称" min-width="120" sortable></el-table-column>                                        
+                    <el-table-column prop="component_name" v-if="activeName2=='COVER'" align="left" label="部品名称" min-width="120" sortable></el-table-column>                                        
                     <el-table-column prop="component_location" v-else align="left" label="部品位置" min-width="120" sortable></el-table-column>
                     <el-table-column prop="component_batch_no" align="left" label="部品批号" min-width="120" sortable></el-table-column>
                     <el-table-column prop="date_time" align="left" label="实装时间" min-width="120" sortable></el-table-column>
@@ -143,9 +143,10 @@
                 </el-table>
                 <el-table v-if="!searchedProcuct&&activeName2=='CHTIMINFO'" :border='true' ref="multipleTableFishPrduct" :data="tableData4" tooltip-effect="dark" style="width: 100%" :min-height="200"  :max-height="elTableBodyWrapperMaxHeight"  @selection-change="handleSelectionChangeFishedProduct" @sort-change="sortChangeT">
                     <el-table-column   type="selection" width="55" align="center" fixed> </el-table-column>
-                    <el-table-column  prop="dip_id" align="left" label="DIP载具" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="output_type" align="left" label="变化点及载具" min-width="120" sortable></el-table-column>    
+                    <el-table-column  prop="output_info" align="left" label="治具及单号" min-width="120" sortable></el-table-column>      
                     <el-table-column  prop="start_time" align="left" label="开始时间" min-width="120" sortable></el-table-column>        
-                    <el-table-column  prop="date_time" align="left" label="结束时间" min-width="120" sortable></el-table-column>        
+                    <el-table-column  prop="date_time" align="left" label="结束时间" min-width="120" sortable></el-table-column>       
 
                 </el-table>
               <!-- <div style="margin-top: 20px">
@@ -291,7 +292,7 @@
                         // fileObj.headList=["生产工序","部品品番","部品位置","部品批号"];
                         const TAB_HEADER_CB=["生产工序","部品品番","部品位置","部品批号"];
                         const TAB_HEADER_CK=["生产工序","检查结果","开始时间","结束时间","耗时"];
-                        const TAB_HEADER_CT=["DIP载具","开始时间","结束时间"];
+                        const TAB_HEADER_CT=["变化点及载具","治具及单号","开始时间","结束时间"];
                         const tebleList=["","CB","PM","COVER","CHECKED","CHTIMINFO"];
                         const headerList={"CB":TAB_HEADER_CB,"PM":TAB_HEADER_CB,"COVER":TAB_HEADER_CB,"CHECKED":TAB_HEADER_CK,"CHTIMINFO":TAB_HEADER_CT}
                         const tebleText=this.activeName2;
@@ -367,6 +368,10 @@
                     //     fileObj.componentBatchNoInfoList=fileObj.componenteEmployInfoList;
                     //     fileObj.componenteEmployInfoList=null;
                     // }
+                /* 变化点载具信息 */
+                    if(fileObj.detail_type==5){
+                        fileObj.monthlyOutputInfoList=this.multipleTableFishPrduct;
+                    }
                     fileObj.item_type="3.5G";
                     api.exportFile_F_p(fileObj).then(function(res){
                        const obj={uuid:res.uuid}
